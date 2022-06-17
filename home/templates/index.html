@@ -13,14 +13,15 @@
         <link rel="stylesheet" href="{% static 'plugins/fontawesome/css/all.min.css' %}">
         <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
+
+
         <!-- new links -->
         <link rel="stylesheet" href="{% static 'plugins/icons/feather/feather.css' %}">
         <link rel="stylesheet" href="{% static 'plugins/select2/css/select2.min.css' %}">
         <link rel="stylesheet" href="{% static 'css/bootstrap-datetimepicker.min.css' %}">
+        <link rel="stylesheet" href="{% static 'plugins/datatables/datatables.min.css' %}">
 
-        <link rel="stylesheet" href="{% static 'plugins/datatables/datatables.min.css' %}">
-        <link rel="stylesheet" href="{% static 'plugins/datatables/datatables.min.css' %}">
-        <link rel="stylesheet" href="{% static 'plugins/datatables/datatables.min.css' %}">
+
     </head>
     <body class="nk-body bg-lighter npc-default has-sidebar no-touch nk-nio-theme">
         <div class="main-wrapper">
@@ -71,7 +72,7 @@
                                 <a href="{% url 'home:index' %}"><i data-feather="home"></i> <span>Dashboard</span></a>
                             </li>
                             <li>
-                                <a href=""><i data-feather="users"></i> <span>client</span></a>
+                                <a href="{% url 'home:client' %}"><i data-feather="users"></i> <span>client</span></a>
                             </li>
                             <li>
                                 <a href="estimates.html"><i data-feather="file-text"></i> <span>Estimates</span></a>

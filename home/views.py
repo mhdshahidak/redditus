@@ -14,7 +14,7 @@ def addclient(request):
     return render(request,'addclient.html')
 
 def Return(request):
-    return render(request,'return.html')
+    return render(request,'Return.html')
 
 def stock(request):
     return render(request, 'stock.html')

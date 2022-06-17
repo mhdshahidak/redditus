@@ -13,8 +13,8 @@ def client(request):
 def addclient(request):
     return render(request,'addclient.html')
 
-def Return(request):
-    return render(request,'Return.html')
+def itemreturn(request):
+    return render(request,'itemreturn.html')
 
 def stock(request):
     return render(request, 'stock.html')

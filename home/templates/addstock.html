@@ -1,0 +1,125 @@
+{% extends 'index.html' %}
+{% block content %}
+{% load static %}
+<div class="page-wrapper">
+    <div class="content container-fluid">
+
+        <!-- <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h3 class="page-title">Customers</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="customers.html">Customers</a></li>
+                        <li class="breadcrumb-item active">Edit Customers</li>
+                    </ul>
+                </div>
+            </div>
+        </div> -->
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Stock Add</h4>
+                        <form action="#">
+                            <div class="row text-capitalize">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>item code</label>
+                                        <input type="text" class="form-control" value="Brian Johnson">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>item name</label>
+                                        <input type="email" class="form-control" value="brianjohnson@example.com">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Missing price</label>
+                                        <input type="number" class="form-control" value="+1-252-444-7535">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>category</label>
+                                        <select class="select form-control">
+                                            <option selected>USD- US Dollar</option>
+                                            <option>EUR Euro</option>
+                                            <option>INR Indoan Rupee</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>quantity</label>
+                                        <input type="number" class="form-control" value="Brian Johnson">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>price</label>
+                                        <input type="number" class="form-control" value="+1-252-444-7535">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Damage price</label>
+                                        <input type="number" class="form-control" value="+1-252-444-7535">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>date</label>
+                                        <input type="date" class="form-control" value="06/02/2022">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+    $('body').append('<div class="sidebar-overlay"></div>');
+	$(document).on('click', '#mobile_btn', function () {
+		$wrapper.toggleClass('slide-nav');
+		$('.sidebar-overlay').toggleClass('opened');
+		$('html').toggleClass('menu-opened');
+		return false;
+	});
+</script>
+<script>
+    $(document).on('click', '#toggle_btn', function () {
+		if ($('body').hasClass('mini-sidebar')) {
+			$('body').removeClass('mini-sidebar');
+			$('.subdrop + ul').slideDown();
+		} else {
+			$('body').addClass('mini-sidebar');
+			$('.subdrop + ul').slideUp();
+		}
+		setTimeout(function () {
+			mA.redraw();
+			mL.redraw();
+		}, 300);
+		return false;
+	});
+	
+	$(document).on('mouseover', function (e) {
+		e.stopPropagation();
+		if ($('body').hasClass('mini-sidebar') && $('#toggle_btn').is(':visible')) {
+			var targ = $(e.target).closest('.sidebar').length;
+			if (targ) {
+				$('body').addClass('expand-menu');
+				$('.subdrop + ul').slideDown();
+			} else {
+				$('body').removeClass('expand-menu');
+				$('.subdrop + ul').slideUp();
+			}
+			return false;
+		}
+	});
+</script>
+
+
+{% endblock %}

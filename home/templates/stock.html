@@ -20,7 +20,7 @@
                     </ul> -->
                 </div>
                 <div class="col-auto">
-                    <a href="add-customer.html" class="btn btn-primary me-1">
+                    <a href="{% url 'home:addstock' %}" class="btn btn-primary me-1">
                         <i class="fas fa-plus"></i>
                     </a>
                     <a class="btn btn-primary filter-btn" href="javascript:void(0);" id="filter_search">
@@ -138,4 +138,52 @@
     </div>
 </div>
 </div>
+{% endblock %}
+
+{% block js %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+    $('body').append('<div class="sidebar-overlay"></div>');
+	$(document).on('click', '#mobile_btn', function () {
+		$wrapper.toggleClass('slide-nav');
+		$('.sidebar-overlay').toggleClass('opened');
+		$('html').toggleClass('menu-opened');
+		return false;
+	});
+</script>
+<script>
+    $(document).on('click', '#toggle_btn', function () {
+		if ($('body').hasClass('mini-sidebar')) {
+			$('body').removeClass('mini-sidebar');
+			$('.subdrop + ul').slideDown();
+		} else {
+			$('body').addClass('mini-sidebar');
+			$('.subdrop + ul').slideUp();
+		}
+		setTimeout(function () {
+			mA.redraw();
+			mL.redraw();
+		}, 300);
+		return false;
+	});
+	
+	$(document).on('mouseover', function (e) {
+		e.stopPropagation();
+		if ($('body').hasClass('mini-sidebar') && $('#toggle_btn').is(':visible')) {
+			var targ = $(e.target).closest('.sidebar').length;
+			if (targ) {
+				$('body').addClass('expand-menu');
+				$('.subdrop + ul').slideDown();
+			} else {
+				$('body').removeClass('expand-menu');
+				$('.subdrop + ul').slideUp();
+			}
+			return false;
+		}
+	});
+</script>
+
+
 {% endblock %}

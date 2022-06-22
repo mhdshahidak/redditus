@@ -1,5 +1,7 @@
 from django.shortcuts import render
 
+from home.models import Catagory, Stock
+
 # Create your views here.
 
 
@@ -77,8 +79,42 @@ def stock(request):
     
 
 def addstock(request):
+    catagory = Catagory.objects.all()
+    if request.method == 'POST':
+        name = request.POST['name']
+        category = request.POST['catagory']
+        qty = request.POST['qty']
+        missingPrice = request.POST['missing_price']
+        rentalPrice = request.POST['rental_price']
+        damagePrice = request.POST['damage_price']
+        price = request.POST['price']
+
+        category_exist=Catagory.objects.filter(cat_name=category).exists()
+        if not category_exist:
+            new_category=Catagory(cat_name=category)
+            new_category.save()
+            addStock = Stock(item_name=name,item_catagory=new_category,quantity=qty,buying_price=price,rental_price=rentalPrice,damage_price=damagePrice,missing_price=missingPrice)
+            addStock.save()
+            context = {
+            "is_stock":True,
+            "catagory":catagory,
+            "status":1
+            }
+            return render(request, 'addstock.html',context)
+        else:
+            catagory = Catagory.objects.get(cat_name=category)
+            addStock = Stock(item_name=name,item_catagory=catagory,quantity=qty,buying_price=price,rental_price=rentalPrice,damage_price=damagePrice,missing_price=missingPrice)
+            addStock.save()
+            context = {
+            "is_stock":True,
+            "catagory":catagory,
+            "status":1
+            }
+            return render(request, 'addstock.html',context)
+
     context = {
         "is_stock":True,
+        "catagory":catagory,
     }
     return render(request, 'addstock.html',context)
 

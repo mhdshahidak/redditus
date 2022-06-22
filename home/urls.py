@@ -13,7 +13,7 @@ urlpatterns = [
     # client
     path('client', views.client,name='client'),
     path('addclient', views.addclient,name='addclient'),
-    path('editclient', views.addclient,name='editclient'),
+    path('editclient', views.editclient,name='editclient'),
 
     # return
     path('itemreturn', views.itemreturnlist,name='itemreturn'),

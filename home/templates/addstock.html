@@ -3,7 +3,13 @@
 {% load static %}
 <div class="page-wrapper">
     <div class="content container-fluid">
-
+        {% if status == 1 %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Successfully</strong> add the Item.
+            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                aria-label="Close"></button>
+        </div>
+        {% endif %}
         <!-- <div class="page-header">
             <div class="row">
                 <div class="col-sm-12">
@@ -22,51 +28,68 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">Stock Add</h4>
-                        <form action="#">
+                        <form action="#" method="POST">
+                            {% csrf_token %}
                             <div class="row text-capitalize">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>item code</label>
-                                        <input type="text" class="form-control" value="Brian Johnson">
-                                    </div>
-                                    <div class="form-group">
                                         <label>item name</label>
-                                        <input type="email" class="form-control" value="brianjohnson@example.com">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Missing price</label>
-                                        <input type="number" class="form-control" value="+1-252-444-7535">
+                                        <input type="text" name="name" class="form-control">
                                     </div>
                                     <div class="form-group">
                                         <label>category</label>
-                                        <select class="select form-control">
-                                            <option selected>USD- US Dollar</option>
+                                        <!-- <select class="select form-control" name="category">
+                                            <option>USD- US Dollar</option>
                                             <option>EUR Euro</option>
                                             <option>INR Indoan Rupee</option>
-                                        </select>
+                                        </select> -->
+                                        <input type="text"
+                                            class="form-control"
+                                            name="catagory"
+                                            id="catagory"
+                                            list="catagory">
+                                        <datalist id="catagory">
+                                            {% for c in catagory  %}
+                                                <option value="{{ c.cat_name }}">
+                                                    {{ c.cat_name }}
+                                                </option>
+                                            {% endfor %}
+                                        </datalist>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Missing price</label>
+                                        <input type="number" name="missing_price" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Rental price</label>
+                                        <input type="number" name="rental_price"  class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>quantity</label>
-                                        <input type="number" class="form-control" value="Brian Johnson">
+                                        <input type="number" class="form-control" name="qty">
                                     </div>
                                     <div class="form-group">
                                         <label>price</label>
-                                        <input type="number" class="form-control" value="+1-252-444-7535">
+                                        <input type="number" name="price" class="form-control">
                                     </div>
                                     <div class="form-group">
                                         <label>Damage price</label>
-                                        <input type="number" class="form-control" value="+1-252-444-7535">
+                                        <input type="number" name="damage_price" class="form-control" >
                                     </div>
-                                    <div class="form-group">
-                                        <label>date</label>
-                                        <input type="date" class="form-control" value="06/02/2022">
-                                    </div>
+
+
+
+                                </div>
+                                <div class="text-end mt-4">
+                                    <button type="submit" class="btn btn-primary">
+                                        Add Stock
+                                    </button>
                                 </div>
                             </div>
                         </form>
-                       
+
                     </div>
                 </div>
             </div>
@@ -82,43 +105,43 @@
 
 <script>
     $('body').append('<div class="sidebar-overlay"></div>');
-	$(document).on('click', '#mobile_btn', function () {
-		$wrapper.toggleClass('slide-nav');
-		$('.sidebar-overlay').toggleClass('opened');
-		$('html').toggleClass('menu-opened');
-		return false;
-	});
+    $(document).on('click', '#mobile_btn', function () {
+        $wrapper.toggleClass('slide-nav');
+        $('.sidebar-overlay').toggleClass('opened');
+        $('html').toggleClass('menu-opened');
+        return false;
+    });
 </script>
 <script>
     $(document).on('click', '#toggle_btn', function () {
-		if ($('body').hasClass('mini-sidebar')) {
-			$('body').removeClass('mini-sidebar');
-			$('.subdrop + ul').slideDown();
-		} else {
-			$('body').addClass('mini-sidebar');
-			$('.subdrop + ul').slideUp();
-		}
-		setTimeout(function () {
-			mA.redraw();
-			mL.redraw();
-		}, 300);
-		return false;
-	});
-	
-	$(document).on('mouseover', function (e) {
-		e.stopPropagation();
-		if ($('body').hasClass('mini-sidebar') && $('#toggle_btn').is(':visible')) {
-			var targ = $(e.target).closest('.sidebar').length;
-			if (targ) {
-				$('body').addClass('expand-menu');
-				$('.subdrop + ul').slideDown();
-			} else {
-				$('body').removeClass('expand-menu');
-				$('.subdrop + ul').slideUp();
-			}
-			return false;
-		}
-	});
+        if ($('body').hasClass('mini-sidebar')) {
+            $('body').removeClass('mini-sidebar');
+            $('.subdrop + ul').slideDown();
+        } else {
+            $('body').addClass('mini-sidebar');
+            $('.subdrop + ul').slideUp();
+        }
+        setTimeout(function () {
+            mA.redraw();
+            mL.redraw();
+        }, 300);
+        return false;
+    });
+
+    $(document).on('mouseover', function (e) {
+        e.stopPropagation();
+        if ($('body').hasClass('mini-sidebar') && $('#toggle_btn').is(':visible')) {
+            var targ = $(e.target).closest('.sidebar').length;
+            if (targ) {
+                $('body').addClass('expand-menu');
+                $('.subdrop + ul').slideDown();
+            } else {
+                $('body').removeClass('expand-menu');
+                $('.subdrop + ul').slideUp();
+            }
+            return false;
+        }
+    });
 </script>
 
 

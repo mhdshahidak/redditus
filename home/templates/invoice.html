@@ -29,17 +29,16 @@
                                                 <div class="col-xl-4 col-md-6 col-sm-12 col-12">
                                                     <div class="form-group">
                                                         <label>
+                                                            Phone Number
+                                                        </label>
+                                                        <input class="form-control" type="text" placeholder="Enter Reference Number">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>
                                                             Customer Name
                                                         </label>
                                                     
                                                         <input class="form-control " type="text" placeholder="enter name">
-
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>
-                                                            Phone Number
-                                                        </label>
-                                                        <input class="form-control" type="text" placeholder="Enter Reference Number">
                                                     </div>
                                                 </div>
                                                 <div class="col-xl-5 col-md-6 col-sm-12 col-12">
@@ -52,82 +51,28 @@
                                                         </div>
                                                         <div class="invoice-inner-footer">
                                                             <div class="row align-items-center">
-                                                                <div class="col-lg-6 col-md-6">
+                                                                <div class="col-lg-12 col-md-12">
                                                                     <div class="invoice-inner-date">
                                                                         <span>
                                                                             Date
                                                                             <input class="form-control datetimepicker"
-                                                                                   type="text"
+                                                                                   type="date"
                                                                                    placeholder="15/02/2022">
                                                                         </span>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-lg-6 col-md-6">
-                                                                    <div class="invoice-inner-date invoice-inner-datepic">
-                                                                        <span>
-                                                                            Due Date
-                                                                            <input class="form-control datetimepicker" type="text" placeholder="Select">
-                                                                        </span>
-                                                                    </div>
-                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-xl-3 col-md-12 col-sm-12 col-12">
-                                                    <div class="inovices-month-info">
-                                                        <div class="form-group mb-0">
-                                                            <label class="custom_check w-100">
-                                                                <input type="checkbox" id="enableTax" name="invoice">
-                                                                <span class="checkmark"></span> Enable tax
-                                                            </label>
-                                                            <label class="custom_check w-100">
-                                                                <input type="checkbox" id="chkYes" name="invoice">
-                                                                <span class="checkmark"></span> Recurring Invoice
-                                                            </label>
-                                                        </div>
-                                                        <div id="show-invoices">
-                                                            <div class="row">
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group">
-                                                                        <select class="select">
-                                                                            <option>
-                                                                                By month
-                                                                            </option>
-                                                                            <option>
-                                                                                March
-                                                                            </option>
-                                                                            <option>
-                                                                                April
-                                                                            </option>
-                                                                            <option>
-                                                                                May
-                                                                            </option>
-                                                                            <option>
-                                                                                June
-                                                                            </option>
-                                                                            <option>
-                                                                                July
-                                                                            </option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group">
-                                                                        <input class="form-control" type="text" placeholder="Enter Months">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                
                                             </div>
                                         </div>
                                         <div class="invoice-item">
                                             <div class="row">
                                                 <div class="col-xl-4 col-lg-6 col-md-6">
                                                     <div class="invoice-info">
-                                                        <strong class="customer-text">Invoice From <a class="small" href="edit-invoice.html">Edit Address</a></strong>
+                                                        <strong class="customer-text">Invoice From </strong>
                                                         <p class="invoice-details invoice-details-two">
                                                             Darren Elder
                                                             <br>
@@ -138,7 +83,7 @@
                                                         </p>
                                                     </div>
                                                 </div>
-                                                <div class="col-xl-4 col-lg-6 col-md-6">
+                                                <!-- <div class="col-xl-4 col-lg-6 col-md-6">
                                                     <div class="invoice-info">
                                                         <strong class="customer-text">Invoice To</strong>
                                                         <p class="invoice-details invoice-details-two">
@@ -150,7 +95,7 @@
                                                             <br>
                                                         </p>
                                                     </div>
-                                                </div>
+                                                </div> -->
                                             </div>
                                         </div>
                                         <div class="invoice-add-table">
@@ -223,10 +168,13 @@
                                                         <p>
                                                             Payment Details
                                                         </p>
-                                                        <a class="btn btn-primary"
-                                                           href="#"
-                                                           data-bs-toggle="modal"
-                                                           data-bs-target="#bank_details"><i class="fas fa-plus-circle me-2"></i>Add Bank Details</a>
+                                                        <select name="" id="" class="form-control">
+                                                            <option value="">SELECT</option>
+                                                            <option value="">CASH</option>
+                                                            <option value="">BANK 1</option>
+                                                            <option value="">BANK 2</option>
+                                                            <option value="">GOOGLE PAY</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="invoice-faq">
@@ -234,56 +182,7 @@
                                                          id="accordion"
                                                          role="tablist"
                                                          aria-multiselectable="true">
-                                                        <div class="faq-tab">
-                                                            <div class="panel panel-default">
-                                                                <div class="panel-heading" role="tab" id="headingTwo">
-                                                                    <p class="panel-title">
-                                                                        <a class="collapsed"
-                                                                           data-bs-toggle="collapse"
-                                                                           data-bs-parent="#accordion"
-                                                                           href="#collapseTwo"
-                                                                           aria-expanded="false"
-                                                                           aria-controls="collapseTwo">
-                                                                            <i class="fas fa-plus-circle me-1"></i> Add Terms & Conditions
-                                                                        </a>
-                                                                    </p>
-                                                                </div>
-                                                                <div id="collapseTwo"
-                                                                     class="panel-collapse collapse"
-                                                                     role="tabpanel"
-                                                                     aria-labelledby="headingTwo"
-                                                                     data-bs-parent="#accordion">
-                                                                    <div class="panel-body">
-                                                                        <textarea class="form-control"></textarea>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="faq-tab">
-                                                            <div class="panel panel-default">
-                                                                <div class="panel-heading" role="tab" id="headingThree">
-                                                                    <p class="panel-title">
-                                                                        <a class="collapsed"
-                                                                           data-bs-toggle="collapse"
-                                                                           data-bs-parent="#accordion"
-                                                                           href="#collapseThree"
-                                                                           aria-expanded="false"
-                                                                           aria-controls="collapseThree">
-                                                                            <i class="fas fa-plus-circle me-1"></i> Add Notes
-                                                                        </a>
-                                                                    </p>
-                                                                </div>
-                                                                <div id="collapseThree"
-                                                                     class="panel-collapse collapse"
-                                                                     role="tabpanel"
-                                                                     aria-labelledby="headingThree"
-                                                                     data-bs-parent="#accordion">
-                                                                    <div class="panel-body">
-                                                                        <textarea class="form-control"></textarea>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                        
                                                     </div>
                                                 </div>
                                             </div>
@@ -314,14 +213,9 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <a href="javascript:void(0);" class="add-links">
-                                                                <i class="fas fa-plus-circle me-1"></i> Additional Charges
-                                                            </a>
                                                             <div class="links-info-discount">
                                                                 <div class="links-cont-discount">
-                                                                    <a href="javascript:void(0);" class="add-links-one">
-                                                                        <i class="fas fa-plus-circle me-1"></i> Add more Discount
-                                                                    </a>
+                                                                    
                                                                     <a href="#" class="service-trash-one">
                                                                         <i class="feather-trash-2"></i>
                                                                     </a>
@@ -336,15 +230,6 @@
                                                     </div>
                                                 </div>
                                                 <div class="upload-sign">
-                                                    <div class="form-group service-upload">
-                                                        <span>Upload Sign</span>
-                                                        <input type="file" multiple>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <input type="text"
-                                                               class="form-control"
-                                                               placeholder="Name of the Signatuaory">
-                                                    </div>
                                                     <div class="form-group float-end mb-0">
                                                         <button class="btn btn-primary" type="submit">
                                                             Save Invoice

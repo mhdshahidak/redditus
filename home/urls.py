@@ -19,6 +19,10 @@ urlpatterns = [
     path('itemreturn', views.itemreturnlist,name='itemreturn'),
     path('additemreturn', views.itemreturn, name='additemreturn'),
 
+    # invoice 
+    
+    path('viewinvoice', views.viewInvoice, name='viewinvoice'),
+
     # stock
     path('stock', views.stock, name="stock"),
     path('stock_edit', views.stock_edit, name="stock_edit"),

@@ -60,6 +60,14 @@ def itemreturn(request):
     return render(request,'additemreturn.html',context)
 
 
+# invoice
+def viewInvoice(request):
+    context = {
+        "is_itemreturn":True,
+    }
+    return render(request,'viewinvoice.html',context)
+
+
 # stock
 def stock(request):
     context = {

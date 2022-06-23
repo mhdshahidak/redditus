@@ -1,6 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 
-from home.models import Catagory, Stock
+from home.models import Catagory, Stock,Client
+
+from django.views.decorators.csrf import csrf_exempt
+
+from django.http import JsonResponse
 
 # Create your views here.
 
@@ -18,23 +22,78 @@ def index(request):
 
 # billing
 def bill(request):
+    client = Client.objects.all()
+    stock = Stock.objects.all()
     context = {
         "is_bill":True,
+        'client':client,
+        'stock':stock,
     }
     return render(request,'invoice.html',context)
+
+
+# client_search for billing
+
+def client_search(request):
+    phone = request.GET['phone']
+    client_ex = Client.objects.filter(phone_no=phone).exists()
+    if client_ex:
+        client = Client.objects.get(phone_no=phone)
+        data = {
+            'name':client.client_name
+        }
+        return JsonResponse({'client':data})
+
+
+# itemsearch
+
+def itemsearch(request):
+    item = request.GET['itemname']
+    item_ex = Stock.objects.filter(item_name = item).exists()
+    if item_ex:
+        item_details = Stock.objects.get(item_name = item)
+        data = {
+            'item':item_details.item_catagory.cat_name,
+            'rentalprice':item_details.rental_price
+        }
+        print(data)
+        return JsonResponse(data)
 
 
 # client
 
 def client(request):
+    client_list = Client.objects.all()
     context = {
         "is_client":True,
+        'client_list':client_list,
     }
     return render(request,'client.html',context)
 
 def addclient(request):
+    if request.method == 'POST':
+        name = request.POST['name']
+        phone = request.POST['phone']
+        address = request.POST['address']
+
+        client_exist=Client.objects.filter(phone_no=phone).exists()
+        if not client_exist:
+            client = Client(client_name = name, phone_no = phone, address = address)
+            client.save()
+            context = {
+            "is_addclient":True,
+            "status":1,    
+            }
+            return render(request,'addclient.html',context)
+        else:
+            context = {
+            "is_addclient":True,
+            "status":2,    
+            }
+            return render(request,'addclient.html',context)
     context = {
         "is_addclient":True,
+        
     }
     return render(request,'addclient.html',context)
 
@@ -72,17 +131,19 @@ def viewInvoice(request):
 
 # stock
 def stock(request):
+    stock = Stock.objects.all()
     context = {
         "is_stock":True,
+        "stock":stock,
     }
     return render(request, 'stock.html',context)
     
 
 def addstock(request):
-    catagory = Catagory.objects.all()
+    allcatagory = Catagory.objects.all()
     if request.method == 'POST':
         name = request.POST['name']
-        category = request.POST['catagory']
+        category = request.POST['catagories']
         qty = request.POST['qty']
         missingPrice = request.POST['missing_price']
         rentalPrice = request.POST['rental_price']
@@ -97,7 +158,7 @@ def addstock(request):
             addStock.save()
             context = {
             "is_stock":True,
-            "catagory":catagory,
+            "allcatagory":allcatagory,
             "status":1
             }
             return render(request, 'addstock.html',context)
@@ -107,22 +168,39 @@ def addstock(request):
             addStock.save()
             context = {
             "is_stock":True,
-            "catagory":catagory,
+            "allcatagory":allcatagory,
             "status":1
             }
             return render(request, 'addstock.html',context)
-
     context = {
         "is_stock":True,
-        "catagory":catagory,
+        "allcatagory":allcatagory,
     }
     return render(request, 'addstock.html',context)
 
-def stock_edit(request):
+def stock_edit(request,id):
+    item = Stock.objects.get(id=id)
+    if request.method == 'POST':
+        name = request.POST['name']
+        qty = request.POST['qty']
+        priceperday = request.POST['priceperday']
+        damageprice = request.POST['damageprice']
+        missprice = request.POST['missprice']
+
+        Stock.objects.filter(id=id).update(item_name=name,quantity=qty,rental_price=priceperday,damage_price=damageprice,missing_price=missprice)
+        return redirect('home:stock')
+
     context = {
         "is_stock_edit":True,
+        "item":item,
     }
     return render(request, 'edit-stock.html',context)
+
+
+
+def deleteItem(request,id):
+    Stock.objects.get(id=id).delete()
+    return redirect('/stock')
 
 # expence
 

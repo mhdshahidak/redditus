@@ -8,7 +8,9 @@ urlpatterns = [
     path('', views.index, name="index"),
 
     # billing 
-    path('billing', views.bill, name="billing"),
+    path('billing/', views.bill, name="billing"),
+    path('clientsearch', views.client_search , name="clientsearch"),
+    path('itemsearch', views.itemsearch, name='itemsearch'),
 
     # client
     path('client', views.client,name='client'),
@@ -25,8 +27,9 @@ urlpatterns = [
 
     # stock
     path('stock', views.stock, name="stock"),
-    path('stock_edit', views.stock_edit, name="stock_edit"),
+    path('stockedit/<int:id>', views.stock_edit, name="stockedit"),
     path('addstock', views.addstock, name="addstock"),
+    path('deleteitem/<int:id>', views.deleteItem, name="deleteitem"),
 
     #expense
     path('expense', views.expense, name="expense"),
@@ -43,6 +46,6 @@ urlpatterns = [
     path('addbank', views.bank, name="addbank"),
 
     # login
-    path('login', views.login, name="login")
+    path('login', views.login, name="login"),
   
 ]

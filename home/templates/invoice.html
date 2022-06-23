@@ -31,14 +31,28 @@
                                                         <label>
                                                             Phone Number
                                                         </label>
-                                                        <input class="form-control" type="text" placeholder="Enter Reference Number">
+                                                         <input type="text"
+                                                                class="form-control"
+                                                                id="phone"
+                                                                name="phone"
+                                                                list="phones" placeholder="Enter Reference Number" required>
+                                                        <datalist id="phones">
+                                                            {% for client in client  %}
+                                                                <option value="{{client.phone_no}}">
+                                                                    {{client.phone_no}}
+                                                                </option>
+                                                            {% endfor %}
+                                                        </datalist> 
                                                     </div>
                                                     <div class="form-group">
                                                         <label>
                                                             Customer Name
                                                         </label>
                                                     
-                                                        <input class="form-control " type="text" placeholder="enter name">
+                                                        <input class="form-control"
+                                                         type="text"
+                                                         id="client_name"
+                                                          placeholder="enter name">
                                                     </div>
                                                 </div>
                                                 <div class="col-xl-5 col-md-6 col-sm-12 col-12">
@@ -80,22 +94,25 @@
                                                             <br>
                                                             Newyork, USA
                                                             <br>
+                                                            9987654567
                                                         </p>
                                                     </div>
                                                 </div>
-                                                <!-- <div class="col-xl-4 col-lg-6 col-md-6">
+                                                 <div class="col-xl-4 col-lg-6 col-md-6">
                                                     <div class="invoice-info">
                                                         <strong class="customer-text">Invoice To</strong>
-                                                        <p class="invoice-details invoice-details-two">
-                                                            Walter Roberson
+                                                        <p class="invoice-details invoice-details-two" >
+                                                            <span id="">Walter Roberson</span>
                                                             <br>
-                                                            299 Star Trek Drive, Panama City,
+                                                            <span id="client_phone">976543432527</span> 
                                                             <br>
-                                                            Florida, 32405, USA
+                                                           <span id="client_address"> 299 Star Trek Drive, Panama City,</span>
                                                             <br>
+                                                           
+                                                           
                                                         </p>
                                                     </div>
-                                                </div> -->
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="invoice-add-table">
@@ -107,7 +124,10 @@
                                                     <thead>
                                                         <tr>
                                                             <th>
-                                                                Items
+                                                                Sl no
+                                                            </th>
+                                                            <th>
+                                                                Item Name
                                                             </th>
                                                             <th>
                                                                 Category
@@ -116,44 +136,68 @@
                                                                 Quantity
                                                             </th>
                                                             <th>
-                                                                Price
+                                                                Price/Day
                                                             </th>
                                                             <th>
                                                                 Amount
                                                             </th>
-                                                            <th>
+                                                            <!-- <th>
                                                                 Discount
-                                                            </th>
+                                                            </th> -->
                                                             <th>
                                                                 Actions
                                                             </th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
+                                                       
+
+
+
+                                                        <!-- --------------------- -->
                                                         <tr class="add-row">
                                                             <td>
-                                                                <input type="text" class="form-control">
+                                                                <input type="text" value="1" class="form-control">
                                                             </td>
                                                             <td>
-                                                                <input type="text" class="form-control">
+                                                                <input type="text"
+                                                                  class="form-control"
+                                                                  name="item"
+                                                                  id="item1"
+                                                                  list="stock" required onchange=changedname(1)>
+                                                              <datalist id="stock">
+                                                                  {% for c in stock  %}
+                                                                      <option value="{{c.item_name}}">
+                                                                          {{c.item_name}}
+                                                                      </option>
+                                                                  {% endfor %}
+                                                              </datalist> 
+                                                              </td>
+                                                            
+                                                            <td>
+                                                                <input type="text" id="item_category1" class="form-control">
                                                             </td>
                                                             <td>
-                                                                <input type="text" class="form-control">
+                                                                <input type="text" id="qty1" class="form-control">
                                                             </td>
                                                             <td>
-                                                                <input type="text" class="form-control">
+                                                                <input type="text" id="item_price1" class="form-control">
                                                             </td>
                                                             <td>
-                                                                <input type="text" class="form-control">
+                                                                <input type="text" id="amount1" class="form-control">
                                                             </td>
-                                                            <td>
-                                                                <input type="text" class="form-control">
-                                                            </td>
+                                                            <!-- <td>
+                                                                    <input type="text" class="form-control" disabled>
+                                                                </td> -->
                                                             <td class="add-remove text-end">
-                                                                <a href="javascript:void(0);" class="add-btn me-2"><i class="fas fa-plus-circle"></i></a>
-                                                                <a href="#" class="copy-btn me-2"><i class="fe fe-copy"></i></a><a href="javascript:void(0);" class="remove-btn"><i class="fe fe-trash-2"></i></a>
+                                                                <a href="javascript:void(0);" id="add" class="add-btn me-2"><i
+                                                                        class="fas fa-plus-circle"></i></a>
+                                                                <a href="#" class="copy-btn me-2"><i class="fa fa-copy"></i></a><a
+                                                                    href="javascript:void(0);" class="remove-btn"><i
+                                                                        class="fa fa-trash"></i></a>
                                                             </td>
                                                         </tr>
+                                                        <!-- --------------------- -->
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -259,37 +303,40 @@
 		$(this).closest('.add-row').remove();
 		return false;
     });
+    
+   
+$(document).on("click", ".add-btn", function () {
+    var rowCount = $(".add-table-items tr").length;
+    var experiencecontent = '<tr class="add-row">' +
+        '<td>' +
+        '<input type="text" class="form-control" value="' + rowCount + '">' +
+        '</td>' +
+        '<td>' +
+        '<input type="text" list="stock" id="item' + rowCount + '" onChange="changedname(' + rowCount + ')" class="form-control productname">' +
+        '</td>' +
+        '<td>' +
+        '<input type="text" id="item_category' + rowCount + '" class="form-control">' +
+        '</td>' +
+        '<td>' +
+        '<input type="text" id="qty' + rowCount + '" onChange="changeqty(' + rowCount + ')" class="form-control">' +
+        '</td>' +
+        '<td>' +
+        '<input type="text" id="item_price' + rowCount + '" class="form-control">' +
+        '</td>' +
+        '<td>' +
+        '<input type="text" id="amount' + rowCount + '" class="form-control">' +
+        '</td>' +
+        '<td class="add-remove text-end">' +
+        '<a href="javascript:void(0);" class="add-btn me-2"><i class="fas fa-plus-circle"></i></a> ' +
+        '<a href="#" class="copy-btn me-2"><i class="fas fa-copy"></i></a>' +
+        '<a href="javascript:void(0);" onclick="DeleteRow(' + rowCount + ')" class="remove-btn"><i class="fas fa-trash"></i></a>' +
+        '</td>' +
+        '</tr>';
 
-    $(document).on("click",".add-btn",function () {
-		var experiencecontent = '<tr class="add-row">' +
-			'<td>' +
-				'<input type="text" class="form-control">' +
-			'</td>' +
-			'<td>' +
-				'<input type="text" class="form-control">' +
-			'</td>' +
-			'<td>' +
-				'<input type="text" class="form-control">' +
-			'</td>' +
-			'<td>' +
-				'<input type="text" class="form-control">' +
-			'</td>' +
-			'<td>' +
-				'<input type="text" class="form-control">' +
-			'</td>' +
-			'<td>' +
-				'<input type="text" class="form-control">' +
-			'</td>' +
-			'<td class="add-remove text-end">' +
-				'<a href="javascript:void(0);" class="add-btn me-2"><i class="fas fa-plus-circle"></i></a> ' +
-				'<a href="#" class="copy-btn me-2"><i class="fe fe-copy"></i></a>' +
-				'<a href="javascript:void(0);" class="remove-btn"><i class="fe fe-trash-2"></i></a>' +
-			'</td>' +
-		'</tr>';
-		
-        $(".add-table-items").append(experiencecontent);
-        return false;
-    });
+    $(".add-table-items").append(experiencecontent);
+
+    return false;
+});
 </script>
 
 <script>
@@ -332,5 +379,48 @@
 		}
 	});
 </script>
+<script>
+
+    // customer name and phone number
+
+        $(document).ready(function(){
+
+            $('#phone').change(function(){
+                // alert('hwllo')
+                $.ajax({
+                    url:'/clientsearch',
+                    type:'GET',
+                    data:{
+                        'phone':$(this).val()  
+                    },
+                    success:function(response){
+                        console.log(response)
+                        $('#client_name').val(response.client.name)
+                    }
+                })
+            })  
+        })
+
+
+        function changedname(id){
+       
+                $.ajax({
+                    url:'/itemsearch',
+                    type:'GET',
+                    data:{
+                        'itemname':$("#item" + id).val()  
+                    },
+                    success:function(response){
+                        console.log(response)
+                        $('#item_category'+id).val(response.item)
+                        $('#item_price'+id).val(response.rentalprice)
+                       
+                    }
+                })
+            
+
+            }
+        
+    </script>
 
 {% endblock  %}

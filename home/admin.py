@@ -13,3 +13,10 @@ class CatagoryAdmin(admin.ModelAdmin):
     search_fields=('cat_name',)
 admin.site.register(Catagory,CatagoryAdmin)
 
+
+class ClientAdmin(admin.ModelAdmin):
+    list_display = ('client_name','phone_no',)
+    search_fields = ('client_name',)
+admin.site.register(Client, ClientAdmin)
+
+

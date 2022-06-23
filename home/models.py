@@ -2,8 +2,7 @@ from enum import unique
 from msilib.schema import Class
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
-from phone_field import PhoneField
-
+from phonenumber_field.modelfields import PhoneNumberField
 # Create your models here.
 
 class UserManager(BaseUserManager):
@@ -45,7 +44,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class Client(models.Model):
     client_name = models.CharField(max_length=50,null=True)
-    phone_no =  PhoneField(unique=True)
+    phone_no =  PhoneNumberField(unique=True)
     address = models.CharField(max_length=500,null=True)
 
 

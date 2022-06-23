@@ -92,38 +92,36 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                {% for s in stock %}
                                     <tr>
                                         <td>
-                                           spoon
+                                           {{s.item_name}}
                                         </td>
                                         <td>
-                                           <h2 class="table-avatar">
-                                                            
-                                                            <a ></a>
-                                                        </h2>
+                                           {{s.item_catagory.cat_name}}
                                         </td>
                                         <td>
-                                            464
+                                            {{s.quantity}}
                                         </td>
                                         <td>
-                                            40
+                                            {{s.rental_price}}
                                         </td>
                                         <td>
-                                            60
+                                            {{s.damage_price}}
                                         </td>
                                         <td>
-                                           80
+                                           {{s.missing_price}}
                                         </td>
                                         <td class="text-end">
-                                            <a href="/stock_edit"
+                                            <a href="{% url 'home:stockedit' s.id %}"
                                                 class="btn btn-sm btn-white text-success me-2"><i
                                                     class="far fa-edit me-1"></i> Edit</a>
-                                            <a href="javascript:void(0);"
+                                            <a onclick="deleteitem('{{ s.id }}')"
                                                 class="btn btn-sm btn-white text-danger me-2"><i
                                                     class="far fa-trash-alt me-1"></i>Delete</a>
                                         </td>
                                     </tr>
-                                  
+                                {% endfor %}
                                 </tbody>
                             </table>
                             
@@ -180,6 +178,32 @@
 			return false;
 		}
 	});
+</script>
+
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+    function deleteitem(id) {
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this Item!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    swal("Poof! Your Item has been deleted!", {
+                        icon: "success",
+                    });
+                    setTimeout(function () {
+                        window.location.href = "/deleteitem/" + id
+                    }, 1000);
+                } else {
+                    swal("Your Item is safe!");
+                }
+            });
+    }
 </script>
 
 

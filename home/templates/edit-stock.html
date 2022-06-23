@@ -22,50 +22,43 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">Stock Edit</h4>
-                        <form action="#">
+                        <form action="#" method="POST">
+                            {% csrf_token %}
                             <div class="row text-capitalize">
                                 <div class="col-md-6">
-                                    {% comment %} <div class="form-group">
-                                        <label>item code</label>
-                                        <input type="text" class="form-control" value="Brian Johnson">
-                                    </div> {% endcomment %}
+                                    
                                     <div class="form-group">
                                         <label>item name</label>
-                                        <input type="email" class="form-control" >
+                                        <input type="text" value="{{item.item_name}}" class="form-control" name="name" required>
                                     </div>
                                     <div class="form-group">
                                         <label>category</label>
-                                        <select class="select form-control">
-                                            <option >USD- US Dollar</option>
-                                            <option>EUR Euro</option>
-                                            <option>INR Indoan Rupee</option>
-                                        </select>
+                                        <input type="text" value="{{item.item_catagory.cat_name}}" class="form-control" readonly >
                                     </div>
                                      <div class="form-group">
                                         <label>quantity</label>
-                                        <input type="number" class="form-control" value="Brian Johnson">
-                                    </div>
-                                    
+                                        <input type="number" class="form-control" value="{{item.quantity}}" name="qty" required >
+                                    </div>       
                                 </div>
                                 <div class="col-md-6">
-                                   
                                     <div class="form-group">
-                                        <label>price</label>
-                                        <input type="number" class="form-control" value="+1-252-444-7535">
+                                        <label>Price/Day</label>
+                                        <input type="number" class="form-control" value="{{item.rental_price}}" name="priceperday" required>
                                     </div>
                                      <div class="form-group">
                                         <label>Damage price</label>
-                                        <input type="number" class="form-control" value="+1-252-444-7535">
-                                    </div>
-                                   
-                                    
+                                        <input type="number" class="form-control" value="{{item.damage_price}}" name="damageprice" required>
+                                    </div>      
                                     <div class="form-group">
                                         <label>Missing price</label>
-                                        <input type="number" class="form-control" value="+1-252-444-7535">
+                                        <input type="number" class="form-control" value="{{item.missing_price}}" name="missprice" required>
                                     </div>
                                 </div>
-                                    
-                                </div>
+                                <div class="text-end mt-3">
+                                    <button type="submit" class="btn btn-primary">
+                                        Edit Stock
+                                    </button>
+                                </div>   
                             </div>
                         </form>
                        

@@ -34,49 +34,57 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>item name</label>
-                                        <input type="text" name="name" class="form-control">
+                                        <input type="text" name="name" class="form-control" required>
                                     </div>
                                     <div class="form-group">
                                         <label>category</label>
-                                        <!-- <select class="select form-control" name="category">
-                                            <option>USD- US Dollar</option>
-                                            <option>EUR Euro</option>
-                                            <option>INR Indoan Rupee</option>
-                                        </select> -->
-                                        <input type="text"
+                                        
+                                         <input type="text"
                                             class="form-control"
-                                            name="catagory"
-                                            id="catagory"
-                                            list="catagory">
+                                            name="catagories"
+                                            id="catagories"
+                                            list="catagory" required>
                                         <datalist id="catagory">
-                                            {% for c in catagory  %}
-                                                <option value="{{ c.cat_name }}">
-                                                    {{ c.cat_name }}
+                                            {% for c in allcatagory  %}
+                                                <option value="{{c.cat_name}}">
+                                                    {{c.cat_name}}
                                                 </option>
                                             {% endfor %}
-                                        </datalist>
+                                        </datalist> 
+                                        {% comment %} <input type="text"
+                                                class="form-control"
+                                                name="cphone"
+                                                id="cphone"
+                                                list="customerlist">
+                                        <datalist id="customerlist">
+                                            {% for c in allcatagory  %}
+                                                <option value="{{ c.cat_name }}">
+                                                    {{ c.phone }}
+                                                </option>
+                                            {% endfor %}
+                                        </datalist> {% endcomment %}
                                     </div>
                                     <div class="form-group">
                                         <label>Missing price</label>
-                                        <input type="number" name="missing_price" class="form-control">
+                                        <input type="number" name="missing_price" class="form-control" required>
                                     </div>
                                     <div class="form-group">
                                         <label>Rental price</label>
-                                        <input type="number" name="rental_price"  class="form-control">
+                                        <input type="number" name="rental_price"  class="form-control" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>quantity</label>
-                                        <input type="number" class="form-control" name="qty">
+                                        <input type="number" class="form-control" name="qty" required>
                                     </div>
                                     <div class="form-group">
                                         <label>price</label>
-                                        <input type="number" name="price" class="form-control">
+                                        <input type="number" name="price" class="form-control" required>
                                     </div>
                                     <div class="form-group">
                                         <label>Damage price</label>
-                                        <input type="number" name="damage_price" class="form-control" >
+                                        <input type="number" name="damage_price" class="form-control" required >
                                     </div>
 
 

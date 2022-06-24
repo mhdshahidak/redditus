@@ -8,9 +8,11 @@ urlpatterns = [
     path('', views.index, name="index"),
 
     # billing 
-    path('billing/', views.bill, name="billing"),
+    path('billing', views.bill, name="billing"),
     path('clientsearch', views.client_search , name="clientsearch"),
     path('itemsearch', views.itemsearch, name='itemsearch'),
+    # path('qtychange', views.qtychange, name='qtychange'),
+    # path('datadding',views.data_adding, name='datadding'),
 
     # client
     path('client', views.client,name='client'),

@@ -71,6 +71,7 @@ class Stock(models.Model):
 class Billing(models.Model):
     billing_no = models.CharField(max_length=50)
     client = models.ForeignKey(Client,on_delete=models.CASCADE,null=True)
+    billing_date = models.DateTimeField()
     
 
 #billing product

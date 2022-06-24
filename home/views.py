@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 
-from home.models import Catagory, Stock,Client
+from home.models import Billing, Catagory, Stock,Client
 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -24,10 +24,17 @@ def index(request):
 def bill(request):
     client = Client.objects.all()
     stock = Stock.objects.all()
+    if Billing.objects.exists():
+        bill = Billing.objects.last().id
+        bill_id = 'RDTS'+str(1000+bill)
+    else:
+        bill=0
+        bill_id = 'RDTS'+str(1000+bill)
     context = {
         "is_bill":True,
         'client':client,
         'stock':stock,
+        'billid':bill_id,
     }
     return render(request,'invoice.html',context)
 
@@ -56,8 +63,33 @@ def itemsearch(request):
             'item':item_details.item_catagory.cat_name,
             'rentalprice':item_details.rental_price
         }
-        print(data)
         return JsonResponse(data)
+
+
+# bill adding
+# @csrf_exempt
+# def data_adding(request):
+#     cust_phone = request.POST['customer_phone']
+#     inv_id = request.POST['invoiceId']
+#     gst = request.POST['gst']
+#     grand_total = request.POST['grand_total']
+#     med_name = request.POST['medicinename']
+#     qty = request.POST['qty']
+#     payment_type = request.POST['type']
+#     item_total = request.POST['itemtotal']
+#     # print(gst)
+
+#     cust_exists = Customers.objects.filter(phone=cust_phone).exists()
+#     if cust_exists:
+#         customer = Customers.objects.get(phone=cust_phone)
+#         product = BranchProducts.objects.get(product__name=med_name,branch=request.session['branch'])
+#         new_bill = Invoive(invoice_no=inv_id,customer=customer,product=product,quantity=qty,total=item_total,payment_methode=payment_type,gst=gst,grand_total=grand_total)
+#         # print(new_bill)
+#         new_bill.save()
+#         product.quantity = product.quantity - int(qty)
+#         product.save()
+#         return JsonResponse({'msg':'BILL GENERATED'})
+#     return JsonResponse({'msg':'BILL GENERATED'})
 
 
 # client

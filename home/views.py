@@ -1,6 +1,8 @@
+from ast import Return
+from datetime import datetime
 from django.shortcuts import redirect, render
 
-from home.models import Billing, Catagory, Stock,Client
+from home.models import Billing, BillingProducts, Catagory, Stock,Client
 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -50,7 +52,13 @@ def client_search(request):
             'name':client.client_name
         }
         return JsonResponse({'client':data})
-
+    # else:
+    #     new_client = Client(phone_no=phone)
+    #     new_client.save()
+    #     data = {
+    #         'name':"",
+    #     }
+    #     return JsonResponse({'client':data})
 
 # itemsearch
 
@@ -65,31 +73,60 @@ def itemsearch(request):
         }
         return JsonResponse(data)
 
+# add client in bill
+@csrf_exempt
+def clientadd(request):
+    if request.method == 'POST':
+        name = request.POST['name']
+        phone = request.POST['phone']
+        invId = request.POST['invId']
+        date= datetime.now()
+        phone_ex= Client.objects.filter(phone_no = phone).exists()
+        if not phone_ex:
+            client_obj = Client(client_name=name, phone_no=phone)
+            client_obj.save()
+            inv_obj = Billing(billing_no=invId, client=client_obj, billing_date=date)
+            inv_obj.save()
+            data ={
+                'invId':invId,
+                'invpk':inv_obj.id
+            }
+            return JsonResponse(data)
+        else:
+            client =  Client.objects.get(phone_no = phone)
+            inv_obj = Billing(billing_no=invId, client=client, billing_date=date)
+            inv_obj.save()
+            data = {
+                'invId':invId,
+                'invpk':inv_obj.id
+            }
+            return JsonResponse(data)
+
+            
+
 
 # bill adding
-# @csrf_exempt
-# def data_adding(request):
-#     cust_phone = request.POST['customer_phone']
-#     inv_id = request.POST['invoiceId']
-#     gst = request.POST['gst']
-#     grand_total = request.POST['grand_total']
-#     med_name = request.POST['medicinename']
-#     qty = request.POST['qty']
-#     payment_type = request.POST['type']
-#     item_total = request.POST['itemtotal']
-#     # print(gst)
-
-#     cust_exists = Customers.objects.filter(phone=cust_phone).exists()
-#     if cust_exists:
-#         customer = Customers.objects.get(phone=cust_phone)
-#         product = BranchProducts.objects.get(product__name=med_name,branch=request.session['branch'])
-#         new_bill = Invoive(invoice_no=inv_id,customer=customer,product=product,quantity=qty,total=item_total,payment_methode=payment_type,gst=gst,grand_total=grand_total)
-#         # print(new_bill)
-#         new_bill.save()
-#         product.quantity = product.quantity - int(qty)
-#         product.save()
-#         return JsonResponse({'msg':'BILL GENERATED'})
-#     return JsonResponse({'msg':'BILL GENERATED'})
+@csrf_exempt
+def bill_adding(request):
+    invid = request.POST['invid']
+    customer_phone = request.POST['customer_phone']
+    item = request.POST['item']
+    qty = request.POST['qty']
+ 
+    # print(gst)
+    inv_obj = Billing.objects.get(id=invid)
+    cust_exists = Client.objects.filter(phone_no=customer_phone).exists()
+    if cust_exists:
+        
+        item = Stock.objects.get(item_name=item)
+    
+        date = datetime.now()
+        # print(date)
+        new_item = BillingProducts(billing=inv_obj,item=item,qty=qty,billing_date=date)
+        new_item.save()
+       
+        return JsonResponse({'msg':'BILL GENERATED'})
+    return JsonResponse({'msg':'BILL GENERATED'})
 
 
 # client

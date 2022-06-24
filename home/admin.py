@@ -20,3 +20,15 @@ class ClientAdmin(admin.ModelAdmin):
 admin.site.register(Client, ClientAdmin)
 
 
+class BillingAdmin(admin.ModelAdmin):
+    list_display = ('billing_no','client','billing_date',)
+    search_fields = ('billing_no',)
+admin.site.register(Billing, BillingAdmin)
+
+
+class BillingProductsAdmin(admin.ModelAdmin):
+    list_display = ('item','qty','billing_date',)
+    search_fields = ('item',)
+admin.site.register(BillingProducts, BillingProductsAdmin)
+
+

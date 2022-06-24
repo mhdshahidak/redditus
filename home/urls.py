@@ -11,8 +11,9 @@ urlpatterns = [
     path('billing', views.bill, name="billing"),
     path('clientsearch', views.client_search , name="clientsearch"),
     path('itemsearch', views.itemsearch, name='itemsearch'),
-    # path('qtychange', views.qtychange, name='qtychange'),
-    # path('datadding',views.data_adding, name='datadding'),
+    path('clientadd', views.clientadd, name='clientadd'),
+    
+    path('billadding',views.bill_adding, name='billadding'),
 
     # client
     path('client', views.client,name='client'),

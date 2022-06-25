@@ -285,8 +285,10 @@ def deleteItem(request,id):
 # expence
 
 def expense(request):
+    expences = expence.objects.all()
     context = {
         "is_expense":True,
+        "expences":expences,
 
     }
     return render(request, 'expense.html', context)

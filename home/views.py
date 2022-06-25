@@ -69,7 +69,8 @@ def itemsearch(request):
         item_details = Stock.objects.get(item_name = item)
         data = {
             'item':item_details.item_catagory.cat_name,
-            'rentalprice':item_details.rental_price
+            'rentalprice':item_details.rental_price,
+            'max_qty':item_details.quantity
         }
         return JsonResponse(data)
 
@@ -120,6 +121,8 @@ def bill_adding(request):
     date = datetime.now()
     new_item = BillingProducts(billing=inv_obj,item=item,qty=qty,billing_date=date)
     new_item.save()
+    item.quantity = item.quantity - int(qty)
+    item.save()
     
     return JsonResponse({'msg':'BILL GENERATED'})
    

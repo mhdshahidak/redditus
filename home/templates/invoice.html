@@ -164,13 +164,13 @@
                                                                 <input type="text" id="invid" class="form-control" hidden > 
                                                             </td>
                                                             <td>
-                                                                <input type="text" id="qty1" class="form-control" onchange=changedqty(1) required min="1">
+                                                                <input type="number" id="qty1" class="form-control" onchange=changedqty(1) required min="1">
                                                             </td>
                                                             <td>
-                                                                <input type="text" id="item_price1" class="form-control"  readonly>
+                                                                <input type="number" id="item_price1" class="form-control"  readonly>
                                                             </td>
                                                             <td>
-                                                                <input type="text" id="amount1" class="form-control"  readonly>
+                                                                <input type="number" id="amount1" class="form-control"  readonly>
                                                             </td>
                                                             
                                                             <td class="add-remove text-end">
@@ -293,13 +293,13 @@ $(document).on("click", ".add-btn", function () {
         '<input type="text" id="item_category' + rowCount + '" class="form-control" readonly> <input type="text" id="invid" class="form-control" hidden>' +
         '</td>' +
         '<td>' +
-        '<input type="text" id="qty' + rowCount + '" onChange="changedqty(' + rowCount + ')" class="form-control">' +
+        '<input type="number" id="qty' + rowCount + '" onChange="changedqty(' + rowCount + ')" class="form-control" min="1" >' +
         '</td>' +
         '<td>' +
-        '<input type="text" id="item_price' + rowCount + '" class="form-control" readonly>' +
+        '<input type="number" id="item_price' + rowCount + '" class="form-control" readonly>' +
         '</td>' +
         '<td>' +
-        '<input type="text" id="amount' + rowCount + '" class="form-control" readonly>' +
+        '<input type="number" id="amount' + rowCount + '" class="form-control" readonly>' +
         '</td>' +
         '<td class="add-remove text-end">' +
         '<a href="javascript:void(0);" class="add-btn me-2"><i class="fas fa-plus-circle"></i></a> ' +
@@ -389,6 +389,7 @@ $(document).on("click", ".add-btn", function () {
                     success:function(response){
                         $('#item_category'+id).val(response.item)
                         $('#item_price'+id).val(response.rentalprice)
+                        $('#qty' +id).attr("max",response.max_qty)
                        
                     }
                 })

@@ -192,7 +192,7 @@ def itemreturnlist(request):
 
 
 def itemreturn(request, id):
-    bill = Billing.objects.get(billing_no=id)
+    bill = Billing.objects.get(id=id)
     items= BillingProducts.objects.filter(billing = bill)
     context = {
         "is_itemreturn":True,

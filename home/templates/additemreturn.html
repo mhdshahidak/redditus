@@ -20,7 +20,7 @@
                     </ul> {% endcomment %}
                 </div>
                 <div class="col-auto">
-                    <a href="{% url 'home:additemreturn' %}" class="btn btn-primary me-1">
+                    <a href="#" class="btn btn-primary me-1">
                         <i class="fas fa-plus"></i>
                     </a>
                 
@@ -89,17 +89,19 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    {% for items in items %}
                                     <tr>
                                         <td>
                                             <h2 class="table-avatar">  
-                                               16 Nov 2020
+                                               {{items.billing_date.date}}
                                             </h2>
                                         </td>
-                                        <td>
-                                            Spoon
+                                        <td class="text-capitalize">
+                                            
+                                           {{items.item.item_name}}
                                             </td>
                                         <td>
-                                            295
+                                            {{items.qty}}
                                         </td>
                                         <td>
                                             <input type="number" class="form-control">
@@ -111,181 +113,13 @@
                                             <input type="number" class="form-control">
                                         </td>
                                         <td class="text-end">
-                                            <a href="{% url 'home:additemreturn' %}"
+                                            <a href="#"
                                                class="btn btn-sm btn-white text-success me-2"><i class="far fa-edit me-1"></i> Return</a>
                                             <!-- <a href="javascript:void(0);"
                                                class="btn btn-sm btn-white text-danger me-2"><i class="far fa-trash-alt me-1"></i>Delete</a> -->
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>
-                                            <h2 class="table-avatar">  
-                                               16 Nov 2020
-                                            </h2>
-                                        </td>
-                                        <td>
-                                            Spoon
-                                            </td>
-                                        <td>
-                                            295
-                                        </td>
-                                        <td>
-                                            <input type="number" class="form-control">
-                                        </td>
-                                        <td>
-                                            <input type="number" class="form-control">
-                                        </td>
-                                        <td>
-                                            <input type="number" class="form-control">
-                                        </td>
-                                        <td class="text-end">
-                                            <a href="{% url 'home:additemreturn' %}"
-                                               class="btn btn-sm btn-white text-success me-2"><i class="far fa-edit me-1"></i> Return</a>
-                                            <!-- <a href="javascript:void(0);"
-                                               class="btn btn-sm btn-white text-danger me-2"><i class="far fa-trash-alt me-1"></i>Delete</a> -->
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h2 class="table-avatar">  
-                                               16 Nov 2020
-                                            </h2>
-                                        </td>
-                                        <td>
-                                            Spoon
-                                            </td>
-                                        <td>
-                                            295
-                                        </td>
-                                        <td>
-                                            <input type="number" class="form-control">
-                                        </td>
-                                        <td>
-                                            <input type="number" class="form-control">
-                                        </td>
-                                        <td>
-                                            <input type="number" class="form-control">
-                                        </td>
-                                        <td class="text-end">
-                                            <a href="{% url 'home:additemreturn' %}"
-                                               class="btn btn-sm btn-white text-success me-2"><i class="far fa-edit me-1"></i> Return</a>
-                                            <!-- <a href="javascript:void(0);"
-                                               class="btn btn-sm btn-white text-danger me-2"><i class="far fa-trash-alt me-1"></i>Delete</a> -->
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h2 class="table-avatar">  
-                                               16 Nov 2020
-                                            </h2>
-                                        </td>
-                                        <td>
-                                            Spoon
-                                            </td>
-                                        <td>
-                                            295
-                                        </td>
-                                        <td>
-                                            <input type="number" class="form-control">
-                                        </td>
-                                        <td>
-                                            <input type="number" class="form-control">
-                                        </td>
-                                        <td>
-                                            <input type="number" class="form-control">
-                                        </td>
-                                        <td class="text-end">
-                                            <a href="{% url 'home:additemreturn' %}"
-                                               class="btn btn-sm btn-white text-success me-2"><i class="far fa-edit me-1"></i> Return</a>
-                                            <!-- <a href="javascript:void(0);"
-                                               class="btn btn-sm btn-white text-danger me-2"><i class="far fa-trash-alt me-1"></i>Delete</a> -->
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h2 class="table-avatar">  
-                                               16 Nov 2020
-                                            </h2>
-                                        </td>
-                                        <td>
-                                            Spoon
-                                            </td>
-                                        <td>
-                                            295
-                                        </td>
-                                        <td>
-                                            <input type="number" class="form-control">
-                                        </td>
-                                        <td>
-                                            <input type="number" class="form-control">
-                                        </td>
-                                        <td>
-                                            <input type="number" class="form-control">
-                                        </td>
-                                        <td class="text-end">
-                                            <a href="{% url 'home:additemreturn' %}"
-                                               class="btn btn-sm btn-white text-success me-2"><i class="far fa-edit me-1"></i> Return</a>
-                                            <!-- <a href="javascript:void(0);"
-                                               class="btn btn-sm btn-white text-danger me-2"><i class="far fa-trash-alt me-1"></i>Delete</a> -->
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h2 class="table-avatar">  
-                                               16 Nov 2020
-                                            </h2>
-                                        </td>
-                                        <td>
-                                            Spoon
-                                            </td>
-                                        <td>
-                                            295
-                                        </td>
-                                        <td>
-                                            <input type="number" class="form-control">
-                                        </td>
-                                        <td>
-                                            <input type="number" class="form-control">
-                                        </td>
-                                        <td>
-                                            <input type="number" class="form-control">
-                                        </td>
-                                        <td class="text-end">
-                                            <a href="{% url 'home:additemreturn' %}"
-                                               class="btn btn-sm btn-white text-success me-2"><i class="far fa-edit me-1"></i> Return</a>
-                                            <!-- <a href="javascript:void(0);"
-                                               class="btn btn-sm btn-white text-danger me-2"><i class="far fa-trash-alt me-1"></i>Delete</a> -->
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>
-                                            <h2 class="table-avatar">  
-                                               16 Nov 2020
-                                            </h2>
-                                        </td>
-                                        <td>
-                                            Spoon
-                                            </td>
-                                        <td>
-                                            295
-                                        </td>
-                                        <td>
-                                            <input type="number" class="form-control">
-                                        </td>
-                                        <td>
-                                            <input type="number" class="form-control">
-                                        </td>
-                                        <td>
-                                            <input type="number" class="form-control">
-                                        </td>
-                                        <td class="text-end">
-                                            <a href="{% url 'home:additemreturn' %}"
-                                               class="btn btn-sm btn-white text-success me-2"><i class="far fa-edit me-1"></i> Return</a>
-                                            <!-- <a href="javascript:void(0);"
-                                               class="btn btn-sm btn-white text-danger me-2"><i class="far fa-trash-alt me-1"></i>Delete</a> -->
-                                        </td>
-                                    </tr>
+                                  {% endfor %}
                                 </tbody>
                                 
                             </table>

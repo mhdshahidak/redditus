@@ -75,48 +75,56 @@
                                        <th>
                                         Phone
                                        </th>
-                                        <th>
+                                        <!-- <th>
                                             Amount Due
-                                        </th>
+                                        </th> -->
                                         <th>
                                             Billed Date
                                         </th>
                                         <th>
-                                            Status
+                                            Bill Id
                                         </th>
+                                        <!-- <th>
+                                            Status
+                                        </th> -->
                                         <th class="text-end">
                                             Actions
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    {% for return in return %}
                                     <tr>
                                         <td>
-                                            <h2 class="table-avatar">
+                                            <h2 class="table-avatar text-capitalize">
                                                 
-                                                Brian Johnson
+                                                {{return.client__client_name}}
                                             </h2>
                                             </td>
                                             <td>
-                                                658487633
+                                               {{return.client__phone_no}}
                                             </td>
-                                        <td>
+                                        <!-- <td>
                                             $295
+                                        </td> -->
+                                        <td>
+                                            {{return.billing_date.date}}
                                         </td>
                                         <td>
-                                            16 Nov 2020
+                                            {{return.billing_no}}
                                         </td>
-                                        <td>
+                                        <!-- <td>
                                             <span class="badge badge-pill bg-success-light">Active</span>
-                                        </td>
+                                        </td> -->
                                         <td class="text-end">
-                                            <a href="{% url 'home:additemreturn' %}"
+                                            <a href="addeditemreturn/{{return.billing_no}}"
                                                class="btn btn-sm btn-white text-success me-2"><i class="far fa-edit me-1"></i> Return</a>
                                             <a href="javascript:void(0);"
                                                class="btn btn-sm btn-white text-danger me-2"><i class="far fa-trash-alt me-1"></i>Delete</a>
                                         </td>
                                     </tr>
-                                    <tr>
+                                    {% endfor %}
+                                    {% comment %} <tr>
                                         <td>
                                             <h2 class="table-avatar">
                                                 
@@ -193,7 +201,7 @@
                                             <a href="javascript:void(0);"
                                                class="btn btn-sm btn-white text-danger me-2"><i class="far fa-trash-alt me-1"></i>Delete</a>
                                         </td>
-                                    </tr>
+                                    </tr> {% endcomment %}
                                 </tbody>
                                 
                             </table>

@@ -122,40 +122,47 @@
                                             <thead class="thead-light">
                                                 <tr>
                                                     <th>
+                                                        Bill Id
+                                                    </th>
+                                                    <th>
                                                         Customer
                                                     </th>
                                                     <th>
-                                                        Amount
+                                                        No of Products
                                                     </th>
                                                     <th>
                                                         Due Date
                                                     </th>
-                                                    <th>
+                                                    <!-- <th>
                                                         Status
-                                                    </th>
+                                                    </th> -->
                                                     <th class="text-right">
                                                         Action
                                                     </th>
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                {% for bills in bills %}
                                                 <tr>
                                                     <td>
+                                                        {{bills.billing_no}}
+                                                    </td>
+                                                    <td>
                                                         <h2 class="table-avatar">
-                                                            <a href="profile.html">
+                                                            <a href="profile.html" class="text-capitalize">
                                                                 
-                                                            Barbara Moore</a>
+                                                            {{bills.client__client_name}}</a>
                                                         </h2>
                                                     </td>
                                                     <td>
-                                                        $118
+                                                       {{bills.itemCount}}
                                                     </td>
                                                     <td>
-                                                        23 Nov 2020
+                                                       {{bills.billing_date.date}}
                                                     </td>
-                                                    <td>
+                                                    <!-- <td>
                                                         <span class="badge bg-success-light">Paid</span>
-                                                    </td>
+                                                    </td> -->
                                                     <td class="text-right">
                                                         <div class="dropdown dropdown-action">
                                                             <a href="#"
@@ -173,7 +180,8 @@
                                                         </div>
                                                     </td>
                                                 </tr>
-                                                <tr>
+                                                {% endfor %}
+                                                <!-- <tr>
                                                     <td>
                                                         <h2 class="table-avatar">
                                                             <a href="profile.html">
@@ -308,7 +316,7 @@
                                                             </div>
                                                         </div>
                                                     </td>
-                                                </tr>
+                                                </tr> -->
                                             </tbody>
                                         </table>
                                     </div>

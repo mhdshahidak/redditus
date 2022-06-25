@@ -7,6 +7,8 @@ from home.models import Billing, BillingProducts, Catagory, Stock,Client, expenc
 from django.views.decorators.csrf import csrf_exempt
 
 from django.http import JsonResponse
+from django.db.models import Count
+
 
 # Create your views here.
 
@@ -16,8 +18,11 @@ def login(request):
 
 
 def index(request):
+    bills = Billing.objects.all().select_related('billingproducts__set').annotate(itemCount=Count('billingproducts')).values('id','itemCount','billing_no','billing_date','client__client_name')
+    print(bills)
     context = {
         "is_index":True,
+        'bills':bills,
     }
     return render(request,'home.html',context)
 
@@ -176,15 +181,22 @@ def editclient(request):
 # return
 
 def itemreturnlist(request):
+
+    bills = Billing.objects.all().select_related('billingproducts__set').annotate(itemCount=Count('billingproducts')).values('id','itemCount','billing_no','billing_date','client__client_name','client__phone_no')
+    
     context = {
         "is_itemreturn":True,
+        'return':bills,
     }
     return render(request,'itemreturn.html',context)
 
 
-def itemreturn(request):
+def itemreturn(request, id):
+    bill = Billing.objects.get(billing_no=id)
+    items= BillingProducts.objects.filter(billing = bill)
     context = {
         "is_itemreturn":True,
+        'items':items,
     }
     return render(request,'additemreturn.html',context)
 

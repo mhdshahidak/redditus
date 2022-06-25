@@ -1,5 +1,6 @@
 from enum import unique
 from msilib.schema import Class
+from trace import Trace
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from phonenumber_field.modelfields import PhoneNumberField
@@ -69,7 +70,7 @@ class Stock(models.Model):
 # billing 
 
 class Billing(models.Model):
-    billing_no = models.CharField(max_length=50)
+    billing_no = models.CharField(max_length=50,unique=True)
     client = models.ForeignKey(Client,on_delete=models.CASCADE,null=True)
     billing_date = models.DateTimeField(null=True)
     

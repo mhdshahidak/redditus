@@ -109,24 +109,20 @@ def clientadd(request):
 @csrf_exempt
 def bill_adding(request):
     invid = request.POST['invid']
-    customer_phone = request.POST['customer_phone']
+    # customer_phone = request.POST['customer_phone']
     item = request.POST['item']
     qty = request.POST['qty']
  
     # print(gst)
     inv_obj = Billing.objects.get(id=invid)
-    cust_exists = Client.objects.filter(phone_no=customer_phone).exists()
-    if cust_exists:
-        
-        item = Stock.objects.get(item_name=item)
+      
+    item = Stock.objects.get(item_name=item)
+    date = datetime.now()
+    new_item = BillingProducts(billing=inv_obj,item=item,qty=qty,billing_date=date)
+    new_item.save()
     
-        date = datetime.now()
-        # print(date)
-        new_item = BillingProducts(billing=inv_obj,item=item,qty=qty,billing_date=date)
-        new_item.save()
-       
-        return JsonResponse({'msg':'BILL GENERATED'})
     return JsonResponse({'msg':'BILL GENERATED'})
+   
 
 
 # client

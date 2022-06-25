@@ -454,9 +454,12 @@ $('#generatebutton').click(function () {
             type: 'POST',
             data: data,
             success: function (responce) {
-                alert(responce.msg)
+               
                 $(ducument).html(response)
 
+            },
+            error: function(jqXHR,error, errorThrown){
+               swal('Please add customer first')
             }
 
         })
@@ -464,6 +467,7 @@ $('#generatebutton').click(function () {
 
 
     }
+    swal('saved successfully')
     return false;
 })
 
@@ -480,11 +484,13 @@ $('#client_btn').click(function (){
             url: "clientadd",
             type: 'POST',
             data: data,
+            cache:false,
             success: function (responce) {
+                swal("Client Added Successfully")
                 $("#invid").val(responce.invpk)
 
-            }
-
+            },
+            
         })
 })
     </script>

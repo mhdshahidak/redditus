@@ -1,0 +1,138 @@
+{% extends 'index.html' %}
+{% block content %}
+{% load static %}
+
+<div class="page-wrapper">
+    <div class="content container-fluid">
+        {% if status == 1 %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Successfully</strong> add the Expense.
+            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                aria-label="Close"></button>
+        </div>
+        {% endif %}
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h3 class="page-title">
+                        Expenses
+                    </h3>
+                    <ul class="breadcrumb">
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <form action="#" method="POST">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>
+                                            Category:
+                                        </label>
+                                        <input type="text"
+                                            class="form-control"
+                                            id="catag"
+                                            name="catag"
+                                            list="catagory" placeholder="Enter Catagory" required>
+                                        <datalist id="catagorys">
+                                            {% for c in catagory  %}
+                                                <option value="{{c.catagory}}">
+                                                    {{c.catagory}}
+                                                </option>
+                                            {% endfor %}
+                                        </datalist>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Note:
+                                        </label>
+                                        <textarea rows="5" cols="5" class="form-control" name="note"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>
+                                            Date:
+                                        </label>
+                                        <div class="form-group">
+                                            <input class="form-control " type="date" name="date">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label>
+                                            Amount:
+                                        </label>
+                                        <input type="number" class="form-control" name="amount">
+                                    </div>
+                                    
+                                </div>
+                                <div class="text-end mt-1">
+                                        <button type="submit" class="btn btn-primary">
+                                            Add Expense +
+                                        </button>
+                                    </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+    $('body').append('<div class="sidebar-overlay"></div>');
+	$(document).on('click', '#mobile_btn', function () {
+		$wrapper.toggleClass('slide-nav');
+		$('.sidebar-overlay').toggleClass('opened');
+		$('html').toggleClass('menu-opened');
+		return false;
+	});
+</script>
+<script>
+    $(document).on('click', '#toggle_btn', function () {
+		if ($('body').hasClass('mini-sidebar')) {
+			$('body').removeClass('mini-sidebar');
+			$('.subdrop + ul').slideDown();
+		} else {
+			$('body').addClass('mini-sidebar');
+			$('.subdrop + ul').slideUp();
+		}
+		setTimeout(function () {
+			mA.redraw();
+			mL.redraw();
+		}, 300);
+		return false;
+	});
+	
+	$(document).on('mouseover', function (e) {
+		e.stopPropagation();
+		if ($('body').hasClass('mini-sidebar') && $('#toggle_btn').is(':visible')) {
+			var targ = $(e.target).closest('.sidebar').length;
+			if (targ) {
+				$('body').addClass('expand-menu');
+				$('.subdrop + ul').slideDown();
+			} else {
+				$('body').removeClass('expand-menu');
+				$('.subdrop + ul').slideUp();
+			}
+			return false;
+		}
+	});
+</script>
+
+
+{% endblock %}

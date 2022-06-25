@@ -22,7 +22,7 @@ urlpatterns = [
 
     # return
     path('itemreturn', views.itemreturnlist,name='itemreturn'),
-    path('addeditemreturn/<str:id>', views.itemreturn, name='additemreturn'),
+    path('addeditemreturn/<str:id>', views.itemreturn, name='addeditemreturn'),
 
     # invoice 
     

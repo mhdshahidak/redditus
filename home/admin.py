@@ -32,3 +32,13 @@ class BillingProductsAdmin(admin.ModelAdmin):
 admin.site.register(BillingProducts, BillingProductsAdmin)
 
 
+class expencecatagoryAdmin(admin.ModelAdmin):
+    list_display = ('catagory',)
+    search_fields = ('catagory',)
+admin.site.register(expencecatagory, expencecatagoryAdmin)
+
+
+class expenceAdmin(admin.ModelAdmin):
+    list_display = ('amount','date','catagory',)
+    search_fields = ('amount',)
+admin.site.register(expence, expenceAdmin)

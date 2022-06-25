@@ -4,6 +4,13 @@
 
 <div class="page-wrapper">
     <div class="content container-fluid">
+        {% if status == 1 %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Successfully</strong> add the Expense.
+            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                aria-label="Close"></button>
+        </div>
+        {% endif %}
         <div class="page-header">
             <div class="row">
                 <div class="col-sm-12">
@@ -20,36 +27,32 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        <form action="#">
+                        <form action="#" method="POST">
+                            {% csrf_token %}
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>
                                             Category:
                                         </label>
-                                        <select class="select form-control">
-                                            <option>
-                                                Select Category
-                                            </option>
-                                            <option>
-                                                Advertising
-                                            </option>
-                                            <option>
-                                                Marketing
-                                            </option>
-                                            <option>
-                                                Software
-                                            </option>
-                                            <option>
-                                                Travel
-                                            </option>
-                                        </select>
+                                        <input type="text"
+                                            class="form-control"
+                                            id="catag"
+                                            name="catag"
+                                            list="catagory" placeholder="Enter Catagory" required>
+                                        <datalist id="catagorys">
+                                            {% for c in catagory  %}
+                                                <option value="{{c.catagory}}">
+                                                    {{c.catagory}}
+                                                </option>
+                                            {% endfor %}
+                                        </datalist>
                                     </div>
                                     <div class="form-group">
                                         <label>
                                             Note:
                                         </label>
-                                        <textarea rows="5" cols="5" class="form-control"></textarea>
+                                        <textarea rows="5" cols="5" class="form-control" name="note"></textarea>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -57,28 +60,24 @@
                                         <label>
                                             Date:
                                         </label>
-                                        <div class="cal-icon">
-                                            <input class="form-control datetimepicker" type="text">
+                                        <div class="form-group">
+                                            <input class="form-control " type="date" name="date">
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label>
-                                            Customer:
-                                        </label>
-                                        <input type="text" class="form-control">
-                                    </div>
+                                    
                                     <div class="form-group">
                                         <label>
                                             Amount:
                                         </label>
-                                        <input type="text" class="form-control">
+                                        <input type="number" class="form-control" name="amount">
                                     </div>
-                                    <div class="text-end mt-4">
+                                    
+                                </div>
+                                <div class="text-end mt-1">
                                         <button type="submit" class="btn btn-primary">
-                                            Add Expenses
+                                            Add Expense +
                                         </button>
                                     </div>
-                                </div>
                             </div>
                         </form>
                     </div>

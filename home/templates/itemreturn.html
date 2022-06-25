@@ -1,18 +1,26 @@
 {% extends 'index.html' %}
 {% block content %}
 {% load static %}
+
 <div class="page-wrapper">
     <div class="content container-fluid">
         <div class="page-header">
             <div class="row align-items-center">
                 <div class="col">
                     <h3 class="page-title">
-                        Customers
+                     Return List
                     </h3>
-                    
+                    {% comment %} <ul class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="index.html">Dashboard</a>
+                        </li>
+                        <li class="breadcrumb-item active">
+                            Customers
+                        </li>
+                    </ul> {% endcomment %}
                 </div>
                 <div class="col-auto">
-                    <a href="{% url 'home:addclient' %}" class="btn btn-primary me-1">
+                    <a href="{% url 'home:additemreturn' %}" class="btn btn-primary me-1">
                         <i class="fas fa-plus"></i>
                     </a>
                     <a class="btn btn-primary filter-btn"
@@ -62,87 +70,73 @@
                                 <thead class="thead-light">
                                     <tr>
                                         <th>
-                                            Client Name
+                                            Customer
+                                        </th>
+                                       <th>
+                                        Phone
+                                       </th>
+                                        <!-- <th>
+                                            Amount Due
+                                        </th> -->
+                                        <th>
+                                            Billed Date
                                         </th>
                                         <th>
-                                          Phone
+                                            Bill Id
                                         </th>
-                                        <th>
-                                           Date
-                                        </th>
-                                       
-                                        <th>
+                                        <!-- <th>
                                             Status
-                                        </th>
+                                        </th> -->
                                         <th class="text-end">
                                             Actions
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    {% for return in return %}
                                     <tr>
                                         <td>
-                                            <h2 class="table-avatar">
-                                             
-                                                <a href="profile.html">Brian Johnson </a>
+                                            <h2 class="table-avatar text-capitalize">
+                                                
+                                                {{return.client__client_name}}
                                             </h2>
+                                            </td>
+                                            <td>
+                                               {{return.client__phone_no}}
+                                            </td>
+                                        <!-- <td>
+                                            $295
+                                        </td> -->
+                                        <td>
+                                            {{return.billing_date.date}}
                                         </td>
                                         <td>
-                                            fs
+                                            {{return.billing_no}}
                                         </td>
-                                      
-                                        <td>
-                                            16 Nov 2020
-                                        </td>
-                                        <td>
-                                            <span class="badge badge-pill bg-success-light">paid</span>
-                                        </td>
+                                        <!-- <td>
+                                            <span class="badge badge-pill bg-success-light">Active</span>
+                                        </td> -->
                                         <td class="text-end">
-                                            <a href="{% url 'home:editclient' %}"
-                                               class="btn btn-sm btn-white text-success me-2"><i class="far fa-edit me-1"></i> Edit</a>
-                                            <a href="{% url 'home:additemreturn' %}"
-                                               class="btn btn-sm btn-white text-dark me-2"><i class="far fa-circle me-2"></i> Return</a>
-                                               <a href="javascript:void(0);"
-                                               class="btn btn-sm btn-white text-primary me-2"><i class="fa fa-cart-plus me-1"></i>Add Items</a>
+                                            <a href="addeditemreturn/{{return.billing_no}}"
+                                               class="btn btn-sm btn-white text-success me-2"><i class="far fa-edit me-1"></i> Return</a>
+                                            <a href="javascript:void(0);"
+                                               class="btn btn-sm btn-white text-danger me-2"><i class="far fa-trash-alt me-1"></i>Delete</a>
                                         </td>
                                     </tr>
-                                    <tr>
+                                    {% endfor %}
+                                    {% comment %} <tr>
                                         <td>
                                             <h2 class="table-avatar">
                                                 
-                                                <a href="profile.html">Brian Johnson </a>
+                                                Brian Johnson
                                             </h2>
-                                        </td>
+                                            </td>
+                                            <td>
+                                                658487633
+                                            </td>
                                         <td>
-                                            fs
+                                            $295
                                         </td>
-                                       
-                                        <td>
-                                            16 Nov 2020
-                                        </td>
-                                        <td>
-                                            <span class="badge badge-pill bg-success-light">Return</span>
-                                        </td>
-                                        <td class="text-end">
-                                            <a href="{% url 'home:editclient' %}"
-                                               class="btn btn-sm btn-white text-success me-2"><i class="far fa-edit me-1"></i> Edit</a>
-                                            <a href="{% url 'home:additemreturn' %}"
-                                               class="btn btn-sm btn-white text-dark me-2"><i class="far fa-circle me-1"></i> Return</a>
-                                               <a href="javascript:void(0);"
-                                               class="btn btn-sm btn-white text-primary me-2"><i class="fa fa-cart-plus me-1"></i>Add Items</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h2 class="table-avatar">
-                                                
-                                                <a href="profile.html">Brian Johnson</a>
-                                            </h2>
-                                        </td>
-                                        <td>
-                                            fs
-                                        </td>
-                                       
                                         <td>
                                             16 Nov 2020
                                         </td>
@@ -150,53 +144,80 @@
                                             <span class="badge badge-pill bg-success-light">Active</span>
                                         </td>
                                         <td class="text-end">
-                                            <a href="{% url 'home:editclient' %}"
-                                               class="btn btn-sm btn-white text-success me-2"><i class="far fa-edit me-1"></i> Edit</a>
                                             <a href="{% url 'home:additemreturn' %}"
-                                               class="btn btn-sm btn-white text-dark me-2"><i class="far fa-circle me-1"></i> Return</a>
-                                               <a href="javascript:void(0);"
-                                               class="btn btn-sm btn-white text-primary me-2"><i class="fa fa-cart-plus me-1"></i>Add Items</a>
+                                               class="btn btn-sm btn-white text-success me-2"><i class="far fa-edit me-1"></i> Return</a>
+                                            <a href="javascript:void(0);"
+                                               class="btn btn-sm btn-white text-danger me-2"><i class="far fa-trash-alt me-1"></i>Delete</a>
+                                        </td>
+                                    </tr>
+                                      <tr>
+                                        <td>
+                                            <h2 class="table-avatar">
+                                                
+                                                Brian Johnson
+                                            </h2>
+                                            </td>
+                                            <td>
+                                                658487633
+                                            </td>
+                                        <td>
+                                            $295
+                                        </td>
+                                        <td>
+                                            16 Nov 2020
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-pill bg-success-light">Active</span>
+                                        </td>
+                                        <td class="text-end">
+                                            <a href="{% url 'home:additemreturn' %}"
+                                               class="btn btn-sm btn-white text-success me-2"><i class="far fa-edit me-1"></i> Return</a>
+                                            <a href="javascript:void(0);"
+                                               class="btn btn-sm btn-white text-danger me-2"><i class="far fa-trash-alt me-1"></i>Delete</a>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
                                             <h2 class="table-avatar">
                                                 
-                                                <a href="profile.html">Brian Johnson</a>
+                                                Arian Johnson
                                             </h2>
-                                        </td>
+                                            </td>
+                                            <td>
+                                                658487633
+                                            </td>
                                         <td>
-                                            fs
+                                            $295
                                         </td>
-                                        
                                         <td>
                                             16 Nov 2020
                                         </td>
                                         <td>
-                                            <span class="badge badge-pill bg-success-light">Paid</span>
+                                            <span class="badge badge-pill bg-success-light">Active</span>
                                         </td>
                                         <td class="text-end">
-                                            <a href="{% url 'home:editclient' %}"
-                                               class="btn btn-sm btn-white text-success me-2"><i class="far fa-edit me-1"></i> Edit</a>
                                             <a href="{% url 'home:additemreturn' %}"
-                                               class="btn btn-sm btn-white text-dark me-2"><i class="far fa-circle me-1"></i> Return</a>
+                                               class="btn btn-sm btn-white text-success me-2"><i class="far fa-edit me-1"></i> Return</a>
                                             <a href="javascript:void(0);"
-                                               class="btn btn-sm btn-white text-primary me-2"><i class="fa fa-cart-plus me-1"></i>Add Items</a>
+                                               class="btn btn-sm btn-white text-danger me-2"><i class="far fa-trash-alt me-1"></i>Delete</a>
                                         </td>
-                                    </tr>
-                                </tr>
-
+                                    </tr> {% endcomment %}
                                 </tbody>
+                                
                             </table>
+                            
                         </div>
+                        
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    
 </div>
 
 {% endblock %}
+
 
 {% block js %}
 

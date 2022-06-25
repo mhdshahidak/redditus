@@ -4,19 +4,6 @@
 
 <div class="page-wrapper">
     <div class="content container-fluid">
-    {% if status == 1 %}
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <strong>Successfully</strong> add the Client.
-            <button type="button" class="btn-close" data-bs-dismiss="alert"
-                aria-label="Close"></button>
-        </div>
-    {% elif status == 2 %}
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <strong>Client already Exists</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="alert"
-                aria-label="Close"></button>
-        </div>
-    {% endif %}
         <div class="page-header">
             <div class="row">
                 <div class="col-sm-12">
@@ -31,18 +18,17 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        {% comment %} <h4 class="card-title">
+                        <h4 class="card-title">
                             Basic Info
-                        </h4> {% endcomment %}
-                        <form action="#" method="post">
-                            {% csrf_token %}
+                        </h4>
+                        <form action="#">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>
                                             Name
                                         </label>
-                                        <input type="text" class="form-control" name="name">
+                                        <input type="text" class="form-control">
                                     </div>
                                     
                                     
@@ -53,7 +39,7 @@
                                         <label>
                                             Phone
                                         </label>
-                                        <input type="text" name="phone" class="form-control">
+                                        <input type="text" class="form-control">
                                     </div>
                                    
                                 </div>
@@ -66,14 +52,14 @@
                                         <label>
                                             Address
                                         </label>
-                                        <textarea rows="5" name="address" cols="5" class="form-control" placeholder="Enter Address"></textarea>
+                                        <textarea rows="5" cols="5" class="form-control" placeholder="Enter Address"></textarea>
                                     </div>
                                 </div>
                                 
                             </div>
                             <div class="text-end mt-4">
                                     <button type="submit" class="btn btn-primary">
-                                       Add <i class="fas fa-plus"></i>
+                                       Save
                                     </button>
                                 </div>
                         </form>

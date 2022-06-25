@@ -2,7 +2,7 @@ from ast import Return
 from datetime import datetime
 from django.shortcuts import redirect, render
 
-from home.models import Billing, BillingProducts, Catagory, Stock,Client
+from home.models import Billing, BillingProducts, Catagory, Stock,Client, expence, expencecatagory
 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -281,8 +281,40 @@ def expense(request):
 
 
 def addexpense(request):
+    catagory = expencecatagory.objects.all()
+    if request.method == 'POST':
+        catagory = request.POST['catag']
+        note = request.POST['note']
+        date = request.POST['date']
+        amount = request.POST['amount']
+
+        catagory_exists = expencecatagory.objects.filter(catagory=catagory).exists()
+
+        if catagory_exists:
+            catagorys = expencecatagory.objects.get(catagory=catagory)
+            new_expence = expence(date=date,catagory=catagorys,note=note,amount=amount)
+            new_expence.save()
+            context = {
+                "is_expense":True,
+                "catagory":catagory,
+                "status":1,
+            }
+            return render(request, 'addexpense.html', context)
+
+        else:
+            new_catagory = expencecatagory(catagory=catagory)
+            new_catagory.save()
+            new_expence = expence(date=date,catagory=new_catagory,note=note,amount=amount)
+            new_expence.save()
+            context = {
+                "is_expense":True,
+                "catagory":catagory,
+                "status":1,
+            }
+            return render(request, 'addexpense.html', context)
     context = {
         "is_expense":True,
+        "catagory":catagory,
 
     }
     return render(request, 'addexpense.html', context)

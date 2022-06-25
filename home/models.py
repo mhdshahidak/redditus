@@ -83,3 +83,12 @@ class BillingProducts(models.Model):
     billing_date = models.DateTimeField(auto_now_add=True)
 
 
+class expencecatagory(models.Model):
+    catagory = models.CharField(max_length=50)
+
+
+class expence(models.Model):
+    date = models.DateTimeField(null=True)
+    catagory = models.ForeignKey(expencecatagory,on_delete=models.CASCADE,null=True)
+    note = models.CharField(max_length=500,null=True)
+    amount = models.FloatField()

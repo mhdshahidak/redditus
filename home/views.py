@@ -2,7 +2,7 @@ from ast import Return
 from datetime import datetime
 from django.shortcuts import redirect, render
 
-from home.models import Billing, BillingProducts, Catagory, Stock,Client, expence, expencecatagory
+from home.models import Bank, Billing, BillingProducts, Catagory, Stock,Client, expence, expencecatagory
 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -400,6 +400,25 @@ def payments(request):
 
 
 def bank(request):
+    if request.method == 'POST':
+        bank_name = request.POST['bank_name']
+        ifsc= request.POST['ifsc']
+        acc_no = request.POST['acc_no']
+        conf_acc_no = request.POST['conf_acc_no']
+        acc_holder_name = request.POST['acc_holder_name']
+        branch = request.POST['branch']
+        district = request.POST['district']
+        address = request.POST['address']
+        if conf_acc_no == acc_no:
+            bank_ex = Bank.objects.filter(bank_name=bank_name, acc_number=acc_no).exists()
+            if not bank_ex:
+                add_bank = Bank(bank_name=bank_name, acc_holder_name=acc_holder_name, ifsc_code=ifsc, acc_number=acc_no, branch=branch, district=district, address=address)
+                add_bank.save()
+                return render(request, 'addbank.html',{'status':1})
+            else:
+                return render(request, 'addbank.html',{'success':3})
+        else:
+            return render(request, 'addbank.html',{'status':2})
     context = {
         "is_payments":True,
     }

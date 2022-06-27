@@ -19,7 +19,6 @@ def login(request):
 
 def index(request):
     bills = Billing.objects.all().select_related('billingproducts__set').annotate(itemCount=Count('billingproducts')).values('id','itemCount','billing_no','billing_date','client__client_name')
-    print(bills)
     context = {
         "is_index":True,
         'bills':bills,

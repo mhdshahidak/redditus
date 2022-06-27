@@ -93,3 +93,6 @@ class expence(models.Model):
     catagory = models.ForeignKey(expencecatagory,on_delete=models.CASCADE,null=True)
     note = models.CharField(max_length=500,null=True)
     amount = models.FloatField()
+
+
+# class bank

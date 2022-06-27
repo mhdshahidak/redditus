@@ -21,14 +21,15 @@
                         <h4 class="card-title">
                             Basic Info
                         </h4>
-                        <form action="#">
+                        <form action="#" method="POST">
+                            {% csrf_token %}
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>
                                             Name
                                         </label>
-                                        <input type="text" class="form-control">
+                                        <input type="text" class="form-control" value="{{client.client_name}}" required name="name">
                                     </div>
                                     
                                     
@@ -39,20 +40,19 @@
                                         <label>
                                             Phone
                                         </label>
-                                        <input type="text" class="form-control">
+                                        <input type="number" class="form-control" value="{{client.phone_no}}" name="phone" required>
+                                        <input type="number" class="form-control" value="{{client.id}}" name="cid" hidden >
                                     </div>
                                    
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
-                                   
-                                    
+                                <div class="col-md-6">     
                                     <div class="form-group">
                                         <label>
                                             Address
                                         </label>
-                                        <textarea rows="5" cols="5" class="form-control" placeholder="Enter Address"></textarea>
+                                        <textarea rows="5" cols="5" class="form-control" name="address"  >{{client.address}}</textarea>
                                     </div>
                                 </div>
                                 

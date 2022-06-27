@@ -135,10 +135,14 @@ def bill_adding(request):
 # client
 
 def client(request):
+    bills = Billing.objects.all().select_related('billingproducts__set').annotate(itemCount=Count('billingproducts')).values('id','itemCount','billing_no','billing_date','client__client_name','client__phone_no')
+    
+    # print(5*"*")
     client_list = Client.objects.all()
     context = {
         "is_client":True,
         'client_list':client_list,
+        "bills":bills,
     }
     return render(request,'client.html',context)
 
@@ -170,9 +174,19 @@ def addclient(request):
     return render(request,'addclient.html',context)
 
 
-def editclient(request):
+def editclient(request, id):
+    # print(id)
+    client = Client.objects.get(phone_no=id)
+    if request.method == 'POST':
+        cid = request.POST['cid']
+        name = request.POST['name']
+        phone = request.POST['phone']
+        address = request.POST['address']
+        Client.objects.filter(id=cid).update(client_name=name,phone_no=phone,address=address)
+        return redirect('home:client')
     context = {
         "is_editclient":True,
+        "client":client,
     }
     return render(request,'editclient.html',context)
 
@@ -182,6 +196,7 @@ def editclient(request):
 def itemreturnlist(request):
 
     bills = Billing.objects.all().select_related('billingproducts__set').annotate(itemCount=Count('billingproducts')).values('id','itemCount','billing_no','billing_date','client__client_name','client__phone_no')
+    
     
     context = {
         "is_itemreturn":True,

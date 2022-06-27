@@ -361,6 +361,10 @@ def editexpense(request, id):
     return render(request, 'editexpense.html', context)
 
 
+def deleteExpense(request, id):
+    delete_expence = expence.objects.filter(id=id).delete()
+    return redirect('home:expense')
+
 # income
 def income(request):
     context = {

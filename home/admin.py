@@ -42,3 +42,10 @@ class expenceAdmin(admin.ModelAdmin):
     list_display = ('amount','date','catagory',)
     search_fields = ('amount',)
 admin.site.register(expence, expenceAdmin)
+
+
+
+class BankAdmin(admin.ModelAdmin):
+    list_display = ('bank_name','acc_holder_name','acc_number',)
+    search_fields = ('bank_name',)
+admin.site.register(Bank, BankAdmin)

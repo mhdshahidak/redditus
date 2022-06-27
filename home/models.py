@@ -94,6 +94,7 @@ class expence(models.Model):
     note = models.CharField(max_length=500,null=True)
     amount = models.FloatField()
 
+
 class Bank(models.Model):
     bank_name = models.CharField(max_length=100)
     acc_holder_name = models.CharField(max_length=100)
@@ -102,3 +103,5 @@ class Bank(models.Model):
     branch = models.CharField(max_length=100)
     district = models.CharField(max_length=100)
     address = models.CharField(max_length=100)
+
+

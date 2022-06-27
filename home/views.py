@@ -197,7 +197,6 @@ def itemreturnlist(request):
 
     bills = Billing.objects.all().select_related('billingproducts__set').annotate(itemCount=Count('billingproducts')).values('id','itemCount','billing_no','billing_date','client__client_name','client__phone_no')
     
-    
     context = {
         "is_itemreturn":True,
         'return':bills,

@@ -37,7 +37,7 @@ urlpatterns = [
     #expense
     path('expense', views.expense, name="expense"),
     path('addexpense', views.addexpense, name="addexpense"),
-    path('editexpense', views.editexpense, name="editexpense"),
+    path('editexpense/<int:id>', views.editexpense, name="editexpense"),
 
     # income
     path('income', views.income, name="income"),

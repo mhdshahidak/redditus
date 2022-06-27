@@ -11,7 +11,7 @@
                         Expenses
                     </h3>
                     <ul class="breadcrumb">
-                        
+
                     </ul>
                 </div>
             </div>
@@ -20,36 +20,32 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        <form action="#">
+                        <form action="" method="post">
+                            {% csrf_token %}
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>
                                             Category:
                                         </label>
-                                        <select class="select form-control">
-                                            <option>
-                                                Select Category
+                                        <input type="text"
+                                                class="form-control" 
+                                                id="category_input" name="category" list="category"
+                                            placeholder="Enter Reference Number"
+                                             required value="{{expence.catagory.catagory}}">
+                                        <datalist id="category">
+                                            {% for category in category %}
+                                            <option value="{{category.catagory}}">
+                                                {{category.catagory}}
                                             </option>
-                                            <option>
-                                                Advertising
-                                            </option>
-                                            <option>
-                                                Marketing
-                                            </option>
-                                            <option>
-                                                Software
-                                            </option>
-                                            <option>
-                                                Travel
-                                            </option>
-                                        </select>
+                                            {% endfor %}
+                                        </datalist>
                                     </div>
                                     <div class="form-group">
                                         <label>
                                             Note:
                                         </label>
-                                        <textarea rows="5" cols="5" class="form-control"></textarea>
+                                        <textarea rows="5" cols="5" class="form-control" name="note">{{expence.note}}</textarea>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -58,22 +54,23 @@
                                             Date:
                                         </label>
                                         <div class="cal-icon">
-                                            <input class="form-control datetimepicker" type="text">
+                                            <input class="form-control datetimepicker" name="date" required type="datetime" value='{{expence.date|date:"Y-m-d"}}'>
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <!-- <div class="form-group">
                                         <label>
                                             Customer:
                                         </label>
                                         <input type="text" class="form-control" readonly>
-                                    </div>
+                                    </div> -->
                                     <div class="form-group">
                                         <label>
                                             Amount:
                                         </label>
-                                        <input type="text" class="form-control">
+                                        <input type="number" class="form-control" name="amount" value="{{expence.amount}}" required>
                                     </div>
-                                    <div class="text-end mt-4">
+                                    
+                                    <div class="text-end mt-4 pt-lg-5">
                                         <button type="submit" class="btn btn-primary">
                                             Edit Expense
                                         </button>
@@ -96,43 +93,43 @@
 
 <script>
     $('body').append('<div class="sidebar-overlay"></div>');
-	$(document).on('click', '#mobile_btn', function () {
-		$wrapper.toggleClass('slide-nav');
-		$('.sidebar-overlay').toggleClass('opened');
-		$('html').toggleClass('menu-opened');
-		return false;
-	});
+    $(document).on('click', '#mobile_btn', function () {
+        $wrapper.toggleClass('slide-nav');
+        $('.sidebar-overlay').toggleClass('opened');
+        $('html').toggleClass('menu-opened');
+        return false;
+    });
 </script>
 <script>
     $(document).on('click', '#toggle_btn', function () {
-		if ($('body').hasClass('mini-sidebar')) {
-			$('body').removeClass('mini-sidebar');
-			$('.subdrop + ul').slideDown();
-		} else {
-			$('body').addClass('mini-sidebar');
-			$('.subdrop + ul').slideUp();
-		}
-		setTimeout(function () {
-			mA.redraw();
-			mL.redraw();
-		}, 300);
-		return false;
-	});
-	
-	$(document).on('mouseover', function (e) {
-		e.stopPropagation();
-		if ($('body').hasClass('mini-sidebar') && $('#toggle_btn').is(':visible')) {
-			var targ = $(e.target).closest('.sidebar').length;
-			if (targ) {
-				$('body').addClass('expand-menu');
-				$('.subdrop + ul').slideDown();
-			} else {
-				$('body').removeClass('expand-menu');
-				$('.subdrop + ul').slideUp();
-			}
-			return false;
-		}
-	});
+        if ($('body').hasClass('mini-sidebar')) {
+            $('body').removeClass('mini-sidebar');
+            $('.subdrop + ul').slideDown();
+        } else {
+            $('body').addClass('mini-sidebar');
+            $('.subdrop + ul').slideUp();
+        }
+        setTimeout(function () {
+            mA.redraw();
+            mL.redraw();
+        }, 300);
+        return false;
+    });
+
+    $(document).on('mouseover', function (e) {
+        e.stopPropagation();
+        if ($('body').hasClass('mini-sidebar') && $('#toggle_btn').is(':visible')) {
+            var targ = $(e.target).closest('.sidebar').length;
+            if (targ) {
+                $('body').addClass('expand-menu');
+                $('.subdrop + ul').slideDown();
+            } else {
+                $('body').removeClass('expand-menu');
+                $('.subdrop + ul').slideUp();
+            }
+            return false;
+        }
+    });
 </script>
 
 

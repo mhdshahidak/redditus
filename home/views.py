@@ -191,7 +191,7 @@ def itemreturnlist(request):
 
 
 def itemreturn(request, id):
-    bill = Billing.objects.get(id=id)
+    bill = Billing.objects.get(billing_no=id)
     items= BillingProducts.objects.filter(billing = bill)
     context = {
         "is_itemreturn":True,
@@ -333,9 +333,29 @@ def addexpense(request):
     return render(request, 'addexpense.html', context)
 
 
-def editexpense(request):
+def editexpense(request, id):
+    expences = expence.objects.get(id=id)
+    category = expencecatagory.objects.all()
+    if request.method == 'POST':
+        category_in = request.POST['category']
+        date = request.POST['date']
+        note = request.POST['note']
+        amount= request.POST['amount']
+
+        category_ex = expencecatagory.objects.filter(catagory=category_in).exists()
+        if not category_ex:
+            cat = expencecatagory(catagory=category_in)
+            cat.save()
+            cat_in =expencecatagory.objects.get(catagory=category_in)
+            expense_obj=expence.objects.filter(id=id).update(date=date, catagory=cat_in, note=note, amount=amount)
+        else:
+            cat_in =expencecatagory.objects.get(catagory=category_in)
+            expense_obj=expence.objects.filter(id=id).update(date=date, catagory=cat_in, note=note, amount=amount)
+        return redirect('home:expense')
     context = {
         "is_expense":True,
+        'category':category,
+        'expence':expences,
 
     }
     return render(request, 'editexpense.html', context)

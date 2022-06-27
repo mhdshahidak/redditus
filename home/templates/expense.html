@@ -73,28 +73,24 @@
                                         <thead class="thead-light">
                                             <tr>
                                                 <th>Category</th>
-                                                <th>Customer</th>
+                                                
                                                 <th>Expense Date</th>
                                                 <th>Notes</th>
                                                 <th>Amount</th>
-                                                <th>Status</th>
+                                                
                                                 <th class="text-end">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            {% for expences in expences %}
                                             <tr>
-                                                <td>Advertising</td>
-                                                <td>
-                                                    <h2 class="table-avatar">
-                                                        agg
-                                                    </h2>
-                                                </td>
-                                                <td>15 Nov 2020</td>
-                                                <td>Lorem ipsum dollar...</td>
-                                                <td>$145</td>
-                                                <td><span class="badge badge-pill bg-success-light">Approved</span></td>
+                                                <td>{{expences.catagory.catagory}}</td>
+                                                
+                                                <td>{{expences.date|date}}</td>
+                                                <td>{{expences.note}}</td>
+                                                <td>{{expences.amount}}</td>
                                                 <td class="text-end">
-                                                    <a href="{% url 'home:editexpense' %}"
+                                                    <a href="/editexpense/{{expences.id}}"
                                                         class="btn btn-sm btn-white text-success me-2"><i
                                                             class="far fa-edit me-1"></i> Edit</a>
                                                     <a href="javascript:void(0);"
@@ -102,65 +98,7 @@
                                                             class="far fa-trash-alt me-1"></i>Delete</a>
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td>Advertising</td>
-                                                <td>
-                                                    <h2 class="table-avatar">
-                                                        agg
-                                                    </h2>
-                                                </td>
-                                                <td>15 Nov 2020</td>
-                                                <td>Lorem ipsum dollar...</td>
-                                                <td>$145</td>
-                                                <td><span class="badge badge-pill bg-success-light">Approved</span></td>
-                                                <td class="text-end">
-                                                    <a href="{% url 'home:editexpense' %}"
-                                                        class="btn btn-sm btn-white text-success me-2"><i
-                                                            class="far fa-edit me-1"></i> Edit</a>
-                                                    <a href="javascript:void(0);"
-                                                        class="btn btn-sm btn-white text-danger"><i
-                                                            class="far fa-trash-alt me-1"></i>Delete</a>
-                                                </td>
-                                            </tr>
-                                          <tr>
-                                                <td>Advertising</td>
-                                                <td>
-                                                    <h2 class="table-avatar">
-                                                        agg
-                                                    </h2>
-                                                </td>
-                                                <td>15 Nov 2020</td>
-                                                <td>Lorem ipsum dollar...</td>
-                                                <td>$145</td>
-                                                <td><span class="badge badge-pill bg-success-light">Approved</span></td>
-                                                <td class="text-end">
-                                                    <a href="{% url 'home:editexpense' %}"
-                                                        class="btn btn-sm btn-white text-success me-2"><i
-                                                            class="far fa-edit me-1"></i> Edit</a>
-                                                    <a href="javascript:void(0);"
-                                                        class="btn btn-sm btn-white text-danger"><i
-                                                            class="far fa-trash-alt me-1"></i>Delete</a>
-                                                </td>
-                                            </tr>
-                                                <td>Advertising</td>
-                                                <td>
-                                                    <h2 class="table-avatar">
-                                                        agg
-                                                    </h2>
-                                                </td>
-                                                <td>15 Nov 2020</td>
-                                                <td>Lorem ipsum dollar...</td>
-                                                <td>$145</td>
-                                                <td><span class="badge badge-pill bg-success-light">Approved</span></td>
-                                                <td class="text-end">
-                                                    <a href="{% url 'home:editexpense' %}"
-                                                        class="btn btn-sm btn-white text-success me-2"><i
-                                                            class="far fa-edit me-1"></i> Edit</a>
-                                                    <a href="javascript:void(0);"
-                                                        class="btn btn-sm btn-white text-danger"><i
-                                                            class="far fa-trash-alt me-1"></i>Delete</a>
-                                                </td>
-                                            </tr> 
+                                           {% endfor %}
                                         </tbody>
                                     </table>
                                 </div>

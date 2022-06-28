@@ -9,10 +9,12 @@ urlpatterns = [
 
     # billing 
     path('billing', views.bill, name="billing"),
+    path('addinbilling/<int:id>', views.addinbilling, name="addinbilling"),
+    
+    # bill ajax
     path('clientsearch', views.client_search , name="clientsearch"),
     path('itemsearch', views.itemsearch, name='itemsearch'),
     path('clientadd', views.clientadd, name='clientadd'),
-    
     path('billadding',views.bill_adding, name='billadding'),
 
     # client

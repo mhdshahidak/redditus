@@ -45,6 +45,24 @@ def bill(request):
     return render(request,'invoice.html',context)
 
 
+# New items Adding in billing
+
+def addinbilling(request,id):
+    
+    bill_no = Billing.objects.get(id=id)
+    items = BillingProducts.objects.filter(billing=bill_no)
+    stock = Stock.objects.all()
+    
+    context = {
+        "is_client":True,
+        "bill":bill_no,
+        "items":items,
+        "stock":stock,
+        
+    }
+    return render(request,'billediting.html',context)
+
+
 # client_search for billing
 
 def client_search(request):
@@ -56,14 +74,7 @@ def client_search(request):
             'name':client.client_name
         }
         return JsonResponse({'client':data})
-    # else:
-    #     new_client = Client(phone_no=phone)
-    #     new_client.save()
-    #     data = {
-    #         'name':"",
-    #     }
-    #     return JsonResponse({'client':data})
-
+    
 # itemsearch
 
 def itemsearch(request):

@@ -138,8 +138,8 @@
                                                                   name="item"
                                                                   id="item1"
                                                                   readonly
-                                                                  value="{{i.item.item_name}}"
-                                                                  list="stock">
+                                                                  value="{{i.item.item_name}}">
+                                                                  
                                                                 <datalist id="stock">
                                                                     {% for c in stock  %}
                                                                         <option value="{{c.item_name}}">
@@ -148,13 +148,7 @@
                                                                     {% endfor %}
                                                                 </datalist>
                                                               </td>
-                                                              <input type="text"
-                                                                  class="form-control"
-                                                                  name="item"
-                                                                  id="item1"
-                                                                  list="stock" >
-                                                              
-                                                            
+                                                 
                                                             <td>
                                                                 <input type="text" id="item_category1" class="form-control" readonly value="{{i.item.item_catagory.cat_name}}">
                                                                 <!-- <input type="text" id="invid" class="form-control" hidden >  -->
@@ -346,9 +340,6 @@ $(document).on("click", ".add-btn", function () {
             })
 
         }
-
-
-
 
     function changedqty(rowCount){
         var qty = parseInt($('#qty'+rowCount).val())

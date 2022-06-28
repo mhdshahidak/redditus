@@ -43,7 +43,8 @@ urlpatterns = [
     # income
     path('income', views.income, name="income"),
     path('addincome', views.addincome, name="addincome"),
-    path('editincome', views.editincome, name="editincome"),
+    path('editincome/<int:id>', views.editincome, name="editincome"),
+    path('deleteincome/<int:id>', views.deleteIncome,name='deleteincome'),
 
     # payments
     path('payments', views.payments, name="payments"),

@@ -11,45 +11,45 @@
                         Income
                     </h3>
                     <ul class="breadcrumb">
-                        
+
                     </ul>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
+                {% if status == 1 %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>Successfully</strong> add the Income.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                        aria-label="Close"></button>
+                </div>
+                {% endif %}
                 <div class="card">
                     <div class="card-body">
-                        <form action="#">
+                        <form action="" method="post">
+                            {% csrf_token %}
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>
                                             Category:
                                         </label>
-                                        <select class="select form-control">
-                                            <option>
-                                                Select Category
-                                            </option>
-                                            <option>
-                                                Advertising
-                                            </option>
-                                            <option>
-                                                Marketing
-                                            </option>
-                                            <option>
-                                                Software
-                                            </option>
-                                            <option>
-                                                Travel
-                                            </option>
-                                        </select>
+                                        <input type="text" class="form-control" id="income_category" name="category"
+                                            placeholder="Enter Income Category"  list="incomecatagory" autofocus autocomplete="off" required>
+                                            <datalist id="incomecatagory">
+                                                {% for c in category  %}
+                                                    <option value="{{c.category}}">
+                                                        {{c.category}}
+                                                    </option>
+                                                {% endfor %}
+                                            </datalist>
                                     </div>
                                     <div class="form-group">
                                         <label>
                                             Note:
                                         </label>
-                                        <textarea rows="5" cols="5" class="form-control"></textarea>
+                                        <textarea rows="5" cols="5" class="form-control" name="note"></textarea>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -57,21 +57,16 @@
                                         <label>
                                             Date:
                                         </label>
-                                        <div class="cal-icon">
-                                            <input class="form-control datetimepicker" type="text">
+                                        <div class="">
+                                            <input type="Date" class="form-control" name="date" required>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label>
-                                            Customer:
-                                        </label>
-                                        <input type="text" class="form-control">
-                                    </div>
+
                                     <div class="form-group">
                                         <label>
                                             Amount:
                                         </label>
-                                        <input type="text" class="form-control">
+                                        <input type="number" class="form-control" name="amount" required>
                                     </div>
                                     <div class="text-end mt-4">
                                         <button type="submit" class="btn btn-primary">
@@ -97,43 +92,43 @@
 
 <script>
     $('body').append('<div class="sidebar-overlay"></div>');
-	$(document).on('click', '#mobile_btn', function () {
-		$wrapper.toggleClass('slide-nav');
-		$('.sidebar-overlay').toggleClass('opened');
-		$('html').toggleClass('menu-opened');
-		return false;
-	});
+    $(document).on('click', '#mobile_btn', function () {
+        $wrapper.toggleClass('slide-nav');
+        $('.sidebar-overlay').toggleClass('opened');
+        $('html').toggleClass('menu-opened');
+        return false;
+    });
 </script>
 <script>
     $(document).on('click', '#toggle_btn', function () {
-		if ($('body').hasClass('mini-sidebar')) {
-			$('body').removeClass('mini-sidebar');
-			$('.subdrop + ul').slideDown();
-		} else {
-			$('body').addClass('mini-sidebar');
-			$('.subdrop + ul').slideUp();
-		}
-		setTimeout(function () {
-			mA.redraw();
-			mL.redraw();
-		}, 300);
-		return false;
-	});
-	
-	$(document).on('mouseover', function (e) {
-		e.stopPropagation();
-		if ($('body').hasClass('mini-sidebar') && $('#toggle_btn').is(':visible')) {
-			var targ = $(e.target).closest('.sidebar').length;
-			if (targ) {
-				$('body').addClass('expand-menu');
-				$('.subdrop + ul').slideDown();
-			} else {
-				$('body').removeClass('expand-menu');
-				$('.subdrop + ul').slideUp();
-			}
-			return false;
-		}
-	});
+        if ($('body').hasClass('mini-sidebar')) {
+            $('body').removeClass('mini-sidebar');
+            $('.subdrop + ul').slideDown();
+        } else {
+            $('body').addClass('mini-sidebar');
+            $('.subdrop + ul').slideUp();
+        }
+        setTimeout(function () {
+            mA.redraw();
+            mL.redraw();
+        }, 300);
+        return false;
+    });
+
+    $(document).on('mouseover', function (e) {
+        e.stopPropagation();
+        if ($('body').hasClass('mini-sidebar') && $('#toggle_btn').is(':visible')) {
+            var targ = $(e.target).closest('.sidebar').length;
+            if (targ) {
+                $('body').addClass('expand-menu');
+                $('.subdrop + ul').slideDown();
+            } else {
+                $('body').removeClass('expand-menu');
+                $('.subdrop + ul').slideUp();
+            }
+            return false;
+        }
+    });
 </script>
 
 

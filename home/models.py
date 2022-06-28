@@ -105,3 +105,12 @@ class Bank(models.Model):
     address = models.CharField(max_length=100)
 
 
+class IncomeCategory(models.Model):
+    category = models.CharField(max_length=100)
+
+
+class Income(models.Model):
+    category = models.ForeignKey(IncomeCategory, on_delete=models.CASCADE,null=True)
+    date = models.DateTimeField(null=True)
+    amount = models.FloatField()
+    note = models.CharField(max_length=500,null=True)

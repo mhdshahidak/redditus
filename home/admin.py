@@ -49,3 +49,15 @@ class BankAdmin(admin.ModelAdmin):
     list_display = ('bank_name','acc_holder_name','acc_number',)
     search_fields = ('bank_name',)
 admin.site.register(Bank, BankAdmin)
+
+
+class incomecatagoryAdmin(admin.ModelAdmin):
+    list_display = ('category',)
+    search_fields = ('category',)
+admin.site.register(IncomeCategory, incomecatagoryAdmin)
+
+
+class incomeAdmin(admin.ModelAdmin):
+    list_display = ('category','date','amount','note',)
+    search_fields = ('category',)
+admin.site.register(Income, incomeAdmin)

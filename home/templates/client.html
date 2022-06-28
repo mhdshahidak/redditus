@@ -83,21 +83,23 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                {% for b in bills %}
-                                  
+                                {% for b in bills %}  
                                 <tr>
                                     <td>
                                         <p>
                                             {{b.billing_no}}
                                         </p> 
                                     </td>
+                        
                                     <td>
-                                        fs
-                                    </td>
-                                    
-                                    <td>
-                                        16 Nov 2020
+                                        {{b.client__client_name}}
 
+                                    </td>
+                                    <td>
+                                        {{b.client__phone_no}}
+
+                                    </td>
+                                    <td>
                                         {{b.billing_date.date}}
 
                                     </td>
@@ -110,7 +112,6 @@
                                         <a href="{% url 'home:addeditemreturn' b.id %}"
                                             class="btn btn-sm btn-white text-dark me-2"><i class="far fa-circle me-2"></i> Return</a>
                                         <a href="javascript:void(0);"
-
                                             class="btn btn-sm btn-white text-primary me-2"><i class="fa fa-cart-plus me-1"></i>Add Items</a>
                                     </td>
                                 </tr>

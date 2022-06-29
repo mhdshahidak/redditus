@@ -162,7 +162,7 @@
                                                             </td>
                                                             <td>
                                                                 <input type="text" id="" class="form-control"  readonly value="{{i.billing_date}}">
-                                                                <input type="number" id="" class="form-control"  readonly value="{{i.aggregate}}" hidden>
+                                                                <input type="number" id="amount{{forloop.counter}}" class="form-control"  readonly value="{{i.aggregate}}" hidden >
                                                                 <!-- <input type="number" id="existrow" class="form-control"  readonly value="{{forloop.counter}}" hidden> -->
                                                                 
                                                             </td>
@@ -253,7 +253,7 @@
    
 $(document).on("click", ".add-btn", function () {
     var rowCount = $(".add-table-items tr").length;
-    console.log(rowCount)
+    
     var experiencecontent = '<tr class="add-row">' +
         '<td>' +
         '<input type="text" list="stock" id="item' + rowCount + '" onChange="changedname(' + rowCount + ')" class="form-control productname">' +
@@ -263,14 +263,14 @@ $(document).on("click", ".add-btn", function () {
         '<input type="number" list="stock" id="invid"  class="form-control productname" value="{{bill.id}}" hidden>' +
         '</td>' +
         '<td>' +
-        '<input type="number" id="qty' + rowCount + '" onChange="changedqty(' + rowCount + ')" class="form-control" min="1" >' +
+        '<input type="number" id="qty' + rowCount + '" onChange="changedqty(' + rowCount + ')" class="form-control qty' + rowCount + '" min="1" >' +
         '</td>' +
         '<td>' +
         '<input type="number" id="item_price' + rowCount + '" class="form-control" readonly>' +
         '</td>' +
         '<td>' +
         '<input type="text" id="datenow' + rowCount + '" class="form-control" readonly >' +
-        '<input type="number" id="amount' + rowCount + '" class="form-control" hidden  >' +
+        '<input type="number" id="amount' + rowCount + '" class="form-control"  hidden >' +
         '</td>' +
         '<td class="add-remove text-end">' +
         '<a href="javascript:void(0);" onclick="addate(' + rowCount + ')" class="add-btn me-2"><i class="fas fa-plus-circle"></i></a> ' +
@@ -351,14 +351,16 @@ $(document).on("click", ".add-btn", function () {
         }
 
     function changedqty(rowCount){
-        var qty = parseInt($('#qty'+rowCount).val())
+        var qty = parseInt($('.qty'+rowCount).val())
         var price = parseInt($('#item_price'+rowCount).val())
-        // console.log(qty,price)
+        // print('qty',qty)
+
         var amount = qty*price
-        // console.log(amount)
-        
 
         $('#amount'+ rowCount).val(amount)
+
+        amount_vrb = $('#amount'+ rowCount).val(amount)
+
         var Available_rowCount = $(".add-table-items tr ").length;
         var sum = 0
         for(var i=1;i<Available_rowCount;i++){
@@ -397,7 +399,6 @@ $('#generatebuttonadd').click(function () {
         var item = $('#item' + i).val()
         var qty = $('#qty' + i).val()
         var dates = $('#dates' + i).val()
-        console.log('i',i)
 
         var data = {
             "invid": invid,
@@ -406,7 +407,6 @@ $('#generatebuttonadd').click(function () {
             "dates":dates,
             
         }
-        console.log('data',data)
         
         $.ajax({
             url: "/newbilladding",

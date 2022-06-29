@@ -56,7 +56,7 @@
                                                     </h4>
                                                     <div class="invoice-details-box">
                                                         <div class="invoice-inner-head">
-                                                            <span>Invoice No. {{bill.billing_no}}</span>
+                                                            Invoice No.<span > {{bill.billing_no}}</span>
                                                         </div>
                                                         <div class="invoice-inner-footer">
                                                             <div class="row align-items-center">
@@ -134,9 +134,9 @@
                                                         <tr class="add-row">
                                                             <td>
                                                                 <input type="text"
-                                                                  class="form-control"
+                                                                  class="form-control invid{{forloop.counter}} "
                                                                   name="item"
-                                                                  id="item1"
+                                                                  id=""
                                                                   readonly
                                                                   value="{{i.item_name}}">
                                                                   
@@ -150,18 +150,21 @@
                                                               </td>
                                                  
                                                             <td>
-                                                                <input type="text" id="item_category1" class="form-control" readonly value="{{i.category}}">
-                                                                <!-- <input type="text" id="invid" class="form-control" hidden >  -->
+                                                                <input type="text" id="" class="form-control " readonly value="{{i.category}}">
+                                                                <input type="text" id="" class="form-control" value="{{bill.id}}" hidden > 
                                                             </td>
                                                             <td>
-                                                                <input type="number" id="qty" class="form-control"  readonly value="{{i.qty}}">
+                                                                <input type="number" id="" class="form-control qty{{forloop.counter}}"  readonly value="{{i.qty}}">
+                                                                <!-- <input type="number" id="qty{{forloop.counter}}" class="form-control"  readonly value="{{i.qty}}"> -->
                                                             </td>
                                                             <td>
                                                                 <input type="number" id="item_price" class="form-control"  readonly value="{{i.rental_price}}">
                                                             </td>
                                                             <td>
-                                                                <input type="text" id="dates" class="form-control"  readonly value="{{i.billing_date}}">
-                                                                <input type="number" id="amount + {{forloop.counter}}" class="form-control"  readonly value="{{i.aggregate}}" hidden>
+                                                                <input type="text" id="" class="form-control"  readonly value="{{i.billing_date}}">
+                                                                <input type="number" id="" class="form-control"  readonly value="{{i.aggregate}}" hidden>
+                                                                <!-- <input type="number" id="existrow" class="form-control"  readonly value="{{forloop.counter}}" hidden> -->
+                                                                
                                                             </td>
                                                             
                                                             <td class="add-remove text-end">
@@ -218,7 +221,7 @@
                                                 </div>
                                                 <div class="upload-sign">
                                                     <div class="form-group float-end mb-0">
-                                                        <button class="btn btn-primary" id="generatebutton" type="submit">
+                                                        <button class="btn btn-primary" id="generatebuttonadd" type="submit">
                                                             Save Invoice
                                                         </button>
                                                     </div>
@@ -250,12 +253,14 @@
    
 $(document).on("click", ".add-btn", function () {
     var rowCount = $(".add-table-items tr").length;
+    console.log(rowCount)
     var experiencecontent = '<tr class="add-row">' +
         '<td>' +
         '<input type="text" list="stock" id="item' + rowCount + '" onChange="changedname(' + rowCount + ')" class="form-control productname">' +
         '</td>' +
         '<td>' +
-        '<input type="text" id="item_category' + rowCount + '" class="form-control" readonly> <input type="text" id="invid" class="form-control" hidden>' +
+        '<input type="text" id="item_category' + rowCount + '" class="form-control" readonly>' +
+        '<input type="number" list="stock" id="invid"  class="form-control productname" value="{{bill.id}}" hidden>' +
         '</td>' +
         '<td>' +
         '<input type="number" id="qty' + rowCount + '" onChange="changedqty(' + rowCount + ')" class="form-control" min="1" >' +
@@ -382,7 +387,8 @@ $(document).on("click", ".add-btn", function () {
 
 //multilple adding
 
-$('#generatebutton').click(function () {
+
+$('#generatebuttonadd').click(function () {
     var invid = $('#invid').val()
      
     var rowCount = $(".add-table-items tr").length;
@@ -390,57 +396,44 @@ $('#generatebutton').click(function () {
     for (var i = 1; i < rowCount; i++) {
         var item = $('#item' + i).val()
         var qty = $('#qty' + i).val()
-
-        
+        var dates = $('#dates' + i).val()
+        console.log('i',i)
 
         var data = {
             "invid": invid,
             "item": item,
             "qty": qty,
+            "dates":dates,
             
         }
+        console.log('data',data)
         
         $.ajax({
-            url: "billadding",
+            url: "/newbilladding",
             type: 'POST',
             data: data,
             success: function (responce) {
-               
-                $(ducument).html(response)
+                
+                swal('saved successfully')
 
             },
             error: function(jqXHR,error, errorThrown){
-               swal('Please add customer first')
+               swal('Error')
             }
 
         })
 
-
     }
-    swal('saved successfully')
+    
     return false;
 })
 
-// $(document).ready(function(){
-//     let today = new Date().toISOString().slice(0, 10)
-//     console.log(today)
-//     $("#")
 
-
-// })
-// function(){
-//     alert("haii")
-//     let today = new Date().toISOString().slice(0, 10)
-    
-//     $("#datenow").val(today)
-// })
 
 function addate(id){
-    let today = new Date().toISOString().slice(0, 10)
-    console.log(today)
+    let today = new Date().toISOString().slice(0, 10)   
     var date=$("#datenow"+ id).val(today)
- 
-    console.log(date)
+   
 }
 
     </script>

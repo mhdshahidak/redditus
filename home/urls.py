@@ -9,8 +9,13 @@ urlpatterns = [
 
     # billing 
     path('billing', views.bill, name="billing"),
+
+    # add new product in bill
     path('addinbilling/<int:id>', views.addinbilling, name="addinbilling"),
     
+    # add new product in bill Ajax
+    path('newbilladding',views.new_bill_adding, name='newbilladding'),
+
     # bill ajax
     path('clientsearch', views.client_search , name="clientsearch"),
     path('itemsearch', views.itemsearch, name='itemsearch'),

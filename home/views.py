@@ -141,17 +141,43 @@ def bill_adding(request):
     # customer_phone = request.POST['customer_phone']
     item = request.POST['item']
     qty = request.POST['qty']
+    dates = request.POSR['dates']
  
     # print(gst)
     inv_obj = Billing.objects.get(id=invid)
       
     item = Stock.objects.get(item_name=item)
     date = datetime.now()
-    new_item = BillingProducts(billing=inv_obj,item=item,qty=qty,billing_date=date)
-    new_item.save()
-    item.quantity = item.quantity - int(qty)
-    item.save()
+    item_exists = BillingProducts.objects.filter(item=item,billing_date=dates).exists()
+    if not item_exists:
+
+        new_item = BillingProducts(billing=inv_obj,item=item,qty=qty,billing_date=date)
+        new_item.save()
+        item.quantity = item.quantity - int(qty)
+        item.save()
+        
+        return JsonResponse({'msg':'BILL GENERATED'})
     
+
+
+# New bill adding
+@csrf_exempt
+def new_bill_adding(request):
+    if 'item' in request.POST:
+        if request.POST['item'] != '':
+            invid = request.POST['invid']
+        # customer_phone = request.POST['customer_phone']
+            item = request.POST['item']
+            qty = request.POST['qty']
+            inv_obj = Billing.objects.get(id=invid)
+            
+            item = Stock.objects.get(item_name=item)
+            date = datetime.now()
+            new_item = BillingProducts(billing=inv_obj,item=item,qty=qty,billing_date=date)
+            # print(new_item.query)
+            new_item.save()
+            item.quantity = item.quantity - int(qty)
+            item.save()
     return JsonResponse({'msg':'BILL GENERATED'})
    
 

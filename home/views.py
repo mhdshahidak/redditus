@@ -8,7 +8,8 @@ from django.views.decorators.csrf import csrf_exempt
 
 from django.http import JsonResponse
 from django.db.models import Count
-
+from django import template
+register = template.Library()
 
 # Create your views here.
 
@@ -45,6 +46,34 @@ def bill(request):
     return render(request,'invoice.html',context)
 
 
+# New items Adding in billing
+
+def addinbilling(request,id):
+    
+    bill_no = Billing.objects.get(id=id)
+    items = BillingProducts.objects.filter(billing=bill_no)
+    stock = Stock.objects.all()
+    itemsList = []
+    for i in items:
+        data = {
+            'billing_date':i.billing_date,
+            'item_name':i.item.item_name,
+            'category':i.item.item_catagory.cat_name,
+            'rental_price':i.item.rental_price,
+            'qty':i.qty,
+            'aggregate':i.qty * i.item.rental_price
+        }
+        itemsList.append(data)
+    context = {
+        "is_client":True,
+        "bill":bill_no,
+        "items":itemsList,
+        "stock":stock,
+        
+    }
+    return render(request,'billediting.html',context)
+
+
 # client_search for billing
 
 def client_search(request):
@@ -56,14 +85,7 @@ def client_search(request):
             'name':client.client_name
         }
         return JsonResponse({'client':data})
-    # else:
-    #     new_client = Client(phone_no=phone)
-    #     new_client.save()
-    #     data = {
-    #         'name':"",
-    #     }
-    #     return JsonResponse({'client':data})
-
+    
 # itemsearch
 
 def itemsearch(request):
@@ -71,11 +93,13 @@ def itemsearch(request):
     item_ex = Stock.objects.filter(item_name = item).exists()
     if item_ex:
         item_details = Stock.objects.get(item_name = item)
+        # date = datetime.now()
         data = {
             'item':item_details.item_catagory.cat_name,
             'rentalprice':item_details.rental_price,
-            'max_qty':item_details.quantity
+            'max_qty':item_details.quantity,          
         }
+     
         return JsonResponse(data)
 
 # add client in bill
@@ -117,17 +141,43 @@ def bill_adding(request):
     # customer_phone = request.POST['customer_phone']
     item = request.POST['item']
     qty = request.POST['qty']
+    dates = request.POSR['dates']
  
     # print(gst)
     inv_obj = Billing.objects.get(id=invid)
       
     item = Stock.objects.get(item_name=item)
     date = datetime.now()
-    new_item = BillingProducts(billing=inv_obj,item=item,qty=qty,billing_date=date)
-    new_item.save()
-    item.quantity = item.quantity - int(qty)
-    item.save()
+    item_exists = BillingProducts.objects.filter(item=item,billing_date=dates).exists()
+    if not item_exists:
+
+        new_item = BillingProducts(billing=inv_obj,item=item,qty=qty,billing_date=date)
+        new_item.save()
+        item.quantity = item.quantity - int(qty)
+        item.save()
+        
+        return JsonResponse({'msg':'BILL GENERATED'})
     
+
+
+# New bill adding
+@csrf_exempt
+def new_bill_adding(request):
+    if 'item' in request.POST:
+        if request.POST['item'] != '':
+            invid = request.POST['invid']
+        # customer_phone = request.POST['customer_phone']
+            item = request.POST['item']
+            qty = request.POST['qty']
+            inv_obj = Billing.objects.get(id=invid)
+            
+            item = Stock.objects.get(item_name=item)
+            date = datetime.now()
+            new_item = BillingProducts(billing=inv_obj,item=item,qty=qty,billing_date=date)
+            # print(new_item.query)
+            new_item.save()
+            item.quantity = item.quantity - int(qty)
+            item.save()
     return JsonResponse({'msg':'BILL GENERATED'})
    
 
@@ -500,3 +550,6 @@ def bank(request):
         "is_payments":True,
     }
     return render(request, 'addbank.html', context)
+
+
+

@@ -8,7 +8,8 @@ from django.views.decorators.csrf import csrf_exempt
 
 from django.http import JsonResponse
 from django.db.models import Count
-
+from django import template
+register = template.Library()
 
 # Create your views here.
 
@@ -52,11 +53,21 @@ def addinbilling(request,id):
     bill_no = Billing.objects.get(id=id)
     items = BillingProducts.objects.filter(billing=bill_no)
     stock = Stock.objects.all()
-    
+    itemsList = []
+    for i in items:
+        data = {
+            'billing_date':i.billing_date,
+            'item_name':i.item.item_name,
+            'category':i.item.item_catagory.cat_name,
+            'rental_price':i.item.rental_price,
+            'qty':i.qty,
+            'aggregate':i.qty * i.item.rental_price
+        }
+        itemsList.append(data)
     context = {
         "is_client":True,
         "bill":bill_no,
-        "items":items,
+        "items":itemsList,
         "stock":stock,
         
     }
@@ -82,11 +93,13 @@ def itemsearch(request):
     item_ex = Stock.objects.filter(item_name = item).exists()
     if item_ex:
         item_details = Stock.objects.get(item_name = item)
+        # date = datetime.now()
         data = {
             'item':item_details.item_catagory.cat_name,
             'rentalprice':item_details.rental_price,
-            'max_qty':item_details.quantity
+            'max_qty':item_details.quantity,          
         }
+     
         return JsonResponse(data)
 
 # add client in bill
@@ -448,3 +461,6 @@ def bank(request):
         "is_payments":True,
     }
     return render(request, 'addbank.html', context)
+
+
+

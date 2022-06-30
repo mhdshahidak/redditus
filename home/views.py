@@ -2,7 +2,7 @@ from ast import Return
 from datetime import datetime
 from django.shortcuts import redirect, render
 
-from home.models import Bank, Billing, BillingProducts, Catagory, Stock,Client, expence, expencecatagory
+from home.models import Bank, Billing, BillingProducts, Catagory, Income, IncomeCategory, Stock,Client, expence, expencecatagory
 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -429,27 +429,90 @@ def deleteExpense(request, id):
 
 # income
 def income(request):
+    incomes = Income.objects.all()
     context = {
         "is_income":True,
+        'incomes':incomes,
 
     }
     return render(request, 'income.html', context)
 
 
 def addincome(request):
+    category = IncomeCategory.objects.all()
+    if request.method == 'POST':
+        cat = request.POST['category']
+        note = request.POST['note']
+        date = request.POST['date']
+        amount = request.POST['amount']
+
+        category_ex = IncomeCategory.objects.filter(category = cat).exists()
+        
+        if category_ex:
+            cat = IncomeCategory.objects.get(category = cat)
+            income_obj = Income(category=cat, date=date, note=note, amount=amount)
+            income_obj.save()
+
+            context = {
+                "is_income":True,
+                'category':category,
+                'status':1,
+            }
+            return render(request, 'addincome.html', context)
+        
+        else:
+            new_cat = IncomeCategory(category = cat)
+            new_cat.save()
+            new_cat = IncomeCategory.objects.get(category = cat)
+            income_obj = Income(category=new_cat, date=date, note=note, amount=amount)
+            income_obj.save()
+
+            context = {
+                "is_income":True,
+                'category':category,
+                'status':1,
+            }
+            return render(request, 'addincome.html', context)
     context = {
         "is_income":True,
+        'category':category
 
     }
     return render(request, 'addincome.html', context)
 
 
-def editincome(request):
+def editincome(request, id):
+    income = Income.objects.get(id= id)
+    category= IncomeCategory.objects.all()
+    if request.method == 'POST':
+        category_in = request.POST['category']
+        note= request.POST['note']
+        date = request.POST['date']
+        amount = request.POST['amount']
+
+        category_ex = IncomeCategory.objects.filter(category=category_in).exists()
+        if category_ex:
+            cat = IncomeCategory.objects.get(category=category_in)
+            Income.objects.filter(id=id).update(category=cat, date=date, amount=amount, note=note)
+            return redirect('home:income')
+        else:
+            new_cat = IncomeCategory(category=category_in)
+            new_cat.save()
+            cat = IncomeCategory.objects.get(category=category_in)
+            Income.objects.filter(id=id).update(category=cat, date=date, amount=amount, note=note)
+            return redirect('home:income')
     context = {
         "is_income":True,
+        'income':income,
+        'category':category,
 
     }
     return render(request, 'editincome.html', context)
+
+
+def deleteIncome(request, id):
+    Income.objects.filter(id=id).delete()
+    return redirect('home:income')
 
 
 # payments

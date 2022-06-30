@@ -132,8 +132,6 @@ def clientadd(request):
             return JsonResponse(data)
 
             
-
-
 # bill adding
 @csrf_exempt
 def bill_adding(request):

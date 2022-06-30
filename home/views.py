@@ -2,7 +2,7 @@ from ast import Return
 from datetime import datetime
 from django.shortcuts import redirect, render
 
-from home.models import Bank, Billing, BillingProducts, Catagory, Income, IncomeCategory, Stock,Client, expence, expencecatagory
+from home.models import Bank, Billing, BillingProducts, Catagory, Income, IncomeCategory, Stock,Client, expence, expencecatagory, returnitems
 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -185,7 +185,7 @@ def new_bill_adding(request):
 def client(request):
     bills = Billing.objects.all().select_related('billingproducts__set').annotate(itemCount=Count('billingproducts')).values('id','itemCount','billing_no','billing_date','client__client_name','client__phone_no')
     
-    # print(5*"*")
+
     client_list = Client.objects.all()
     context = {
         "is_client":True,
@@ -223,7 +223,7 @@ def addclient(request):
 
 
 def editclient(request, id):
-    # print(id)
+
     client = Client.objects.get(phone_no=id)
     if request.method == 'POST':
         cid = request.POST['cid']
@@ -258,8 +258,46 @@ def itemreturn(request, id):
     context = {
         "is_itemreturn":True,
         'items':items,
+        'bill':bill,
     }
     return render(request,'additemreturn.html',context)
+
+
+# return ajax
+
+@csrf_exempt
+def returningEachItems(request):
+    return_qty = request.POST['return_qty']
+    bill_id = request.POST['bill_id']
+    item_id = request.POST['item_id']
+    damage_qty = request.POST['damage_qty']
+    missed_qty = request.POST['missed_qty']
+
+    bill = Billing.objects.get(id=bill_id)
+    item = BillingProducts.objects.get(id=item_id)
+
+    date_now = datetime.now()
+
+    billed_date = bill.billing_date
+
+    print('billed date',billed_date)
+    print('now date',date_now)
+
+    print(type(billed_date))
+    # total_time = date_now - billed_date
+
+    # total_time = int(billed_date) - int(date_now)
+
+    # print(type(total_time))
+
+    total = datetime.combine(date_now) - datetime.combine(billed_date)
+    print(total)
+
+    new_item_return = returnitems(billing_no=bill,item=item,return_date=date_now,returned_qty=return_qty,damage_qty=damage_qty,missing_qty=missed_qty)
+    new_item_return.save()
+
+    return JsonResponse({'mgs':'Succesfully added'})
+
 
 
 # invoice

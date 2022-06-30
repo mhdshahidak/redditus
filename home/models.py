@@ -1,8 +1,10 @@
+from email.policy import default
 from enum import unique
 from msilib.schema import Class
 from trace import Trace
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.forms import IntegerField
 from phonenumber_field.modelfields import PhoneNumberField
 # Create your models here.
 
@@ -70,9 +72,12 @@ class Stock(models.Model):
 # billing 
 
 class Billing(models.Model):
+    status_choices = (('not returned','not returned'),('returned','returned'),('other','other'))
     billing_no = models.CharField(max_length=50,unique=True)
     client = models.ForeignKey(Client,on_delete=models.CASCADE,null=True)
     billing_date = models.DateTimeField(null=True)
+    status = models.CharField(max_length=20,default="not returned",choices=status_choices)
+
     
 
 #billing product
@@ -114,3 +119,14 @@ class Income(models.Model):
     date = models.DateTimeField(null=True)
     amount = models.FloatField()
     note = models.CharField(max_length=500,null=True)
+
+
+# Return Items 
+
+class returnitems(models.Model):
+    billing_no = models.ForeignKey(Billing, on_delete=models.CASCADE, null=True)
+    item = models.ForeignKey(BillingProducts, on_delete=models.CASCADE, null=True)
+    return_date = models.DateField(null=True)
+    returned_qty = models.IntegerField(default=0)
+    damage_qty  = models.IntegerField(default=0)
+    missing_qty = models.IntegerField(default=0)

@@ -100,22 +100,18 @@
                                                 
                                                 {{return.client__client_name}}
                                             </h2>
-                                            </td>
-                                            <td>
-                                               {{return.client__phone_no}}
-                                            </td>
-                                        <!-- <td>
-                                            $295
-                                        </td> -->
+                                        </td>
+                                        <td>
+                                            {{return.client__phone_no}}
+                                        </td>
+                                        
                                         <td>
                                             {{return.billing_date.date}}
                                         </td>
                                         <td>
                                             {{return.billing_no}}
                                         </td>
-                                        <!-- <td>
-                                            <span class="badge badge-pill bg-success-light">Active</span>
-                                        </td> -->
+                                        
                                         <td class="text-end">
                                             <a href="addeditemreturn/{{return.id}}"
                                                class="btn btn-sm btn-white text-success me-2"><i class="far fa-edit me-1"></i> Return</a>
@@ -123,85 +119,7 @@
                                                class="btn btn-sm btn-white text-danger me-2"><i class="far fa-trash-alt me-1"></i>Delete</a>
                                         </td>
                                     </tr>
-                                    {% endfor %}
-                                    {% comment %} <tr>
-                                        <td>
-                                            <h2 class="table-avatar">
-                                                
-                                                Brian Johnson
-                                            </h2>
-                                            </td>
-                                            <td>
-                                                658487633
-                                            </td>
-                                        <td>
-                                            $295
-                                        </td>
-                                        <td>
-                                            16 Nov 2020
-                                        </td>
-                                        <td>
-                                            <span class="badge badge-pill bg-success-light">Active</span>
-                                        </td>
-                                        <td class="text-end">
-                                            <a href="{% url 'home:additemreturn' %}"
-                                               class="btn btn-sm btn-white text-success me-2"><i class="far fa-edit me-1"></i> Return</a>
-                                            <a href="javascript:void(0);"
-                                               class="btn btn-sm btn-white text-danger me-2"><i class="far fa-trash-alt me-1"></i>Delete</a>
-                                        </td>
-                                    </tr>
-                                      <tr>
-                                        <td>
-                                            <h2 class="table-avatar">
-                                                
-                                                Brian Johnson
-                                            </h2>
-                                            </td>
-                                            <td>
-                                                658487633
-                                            </td>
-                                        <td>
-                                            $295
-                                        </td>
-                                        <td>
-                                            16 Nov 2020
-                                        </td>
-                                        <td>
-                                            <span class="badge badge-pill bg-success-light">Active</span>
-                                        </td>
-                                        <td class="text-end">
-                                            <a href="{% url 'home:additemreturn' %}"
-                                               class="btn btn-sm btn-white text-success me-2"><i class="far fa-edit me-1"></i> Return</a>
-                                            <a href="javascript:void(0);"
-                                               class="btn btn-sm btn-white text-danger me-2"><i class="far fa-trash-alt me-1"></i>Delete</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h2 class="table-avatar">
-                                                
-                                                Arian Johnson
-                                            </h2>
-                                            </td>
-                                            <td>
-                                                658487633
-                                            </td>
-                                        <td>
-                                            $295
-                                        </td>
-                                        <td>
-                                            16 Nov 2020
-                                        </td>
-                                        <td>
-                                            <span class="badge badge-pill bg-success-light">Active</span>
-                                        </td>
-                                        <td class="text-end">
-                                            <a href="{% url 'home:additemreturn' %}"
-                                               class="btn btn-sm btn-white text-success me-2"><i class="far fa-edit me-1"></i> Return</a>
-                                            <a href="javascript:void(0);"
-                                               class="btn btn-sm btn-white text-danger me-2"><i class="far fa-trash-alt me-1"></i>Delete</a>
-                                        </td>
-                                    </tr> {% endcomment %}
+                                    {% endfor %}                                   
                                 </tbody>
                                 
                             </table>

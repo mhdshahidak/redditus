@@ -92,7 +92,7 @@
                                     {% for items in items %}
                                     <tr>
                                         <td>
-                                            <h2 class="table-avatar">  
+                                            <h2 class="table-avatar" id="item_date">  
                                                {{items.billing_date.date}}
                                             </h2>
                                         </td>
@@ -104,19 +104,22 @@
                                             {{items.qty}}
                                         </td>
                                         <td>
-                                            <input type="number" class="form-control">
+                                            <input type="number" class="form-control" id="returnQty{{items.id}}" min="0" max="{{items.qty}}" required >
+                                            <input type="number" class="form-control"  id="billId{{items.id}}" value="{{bill.id}}"  hidden >
+                                            <input type="number" class="form-control" id="itemId{{items.id}}" value="{{items.id}}" hidden >
                                         </td>
                                         <td>
-                                            <input type="number" class="form-control">
+                                            <input type="number" class="form-control" id="damageqty{{items.id}}" min="0" max="{{items.qty}}">
                                         </td>
                                         <td>
-                                            <input type="number" class="form-control">
+                                            <input type="number" id="missingQty{{items.id}}" class="form-control" min="0" max="{{items.qty}}">
+                                            
                                         </td>
                                         <td class="text-end">
                                             <a href="#"
-                                               class="btn btn-sm btn-white text-success me-2"><i class="far fa-edit me-1"></i> Return</a>
-                                            <!-- <a href="javascript:void(0);"
-                                               class="btn btn-sm btn-white text-danger me-2"><i class="far fa-trash-alt me-1"></i>Delete</a> -->
+                                               class="btn btn-sm btn-white text-success me-2" id="return" onclick ="returnItems('{{items.id}}')" ><i class="far fa-edit me-1"></i> Return</a>
+                                            <a href="javascript:void(0);"
+                                               class="btn btn-sm btn-white text-danger me-2" hidden><i class="fa fa-pen me-1"></i>Edit</a>
                                         </td>
                                     </tr>
                                   {% endfor %}
@@ -138,3 +141,66 @@
 </div>
 
 {% endblock %}
+
+
+{% block js %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="{% static 'plugins/select2/js/select2.min.js' %}"></script>
+<script src="{% static 'plugins/moment/moment.min.js' %}"></script>
+<script src="{% static 'js/bootstrap-datetimepicker.min.js' %}"></script>
+        
+
+<script>
+    $(document).on('click', '#toggle_btn', function () {
+		if ($('body').hasClass('mini-sidebar')) {
+			$('body').removeClass('mini-sidebar');
+			$('.subdrop + ul').slideDown();
+		} else {
+			$('body').addClass('mini-sidebar');
+			$('.subdrop + ul').slideUp();
+		}
+		setTimeout(function () {
+			mA.redraw();
+			mL.redraw();
+		}, 300);
+		return false;
+	});
+	
+
+</script>
+<script>
+
+
+
+function returnItems(id){
+    var return_qty = $("#returnQty"+id).val()
+    var bill_id = $("#billId"+id).val()
+    var item_id = $("#itemId"+id).val()
+    var damage_qty = $("#damageqty"+id).val()
+    var missed_qty = $("#missingQty"+id).val()
+
+    console.log(return_qty,bill_id,item_id,damage_qty,missed_qty)
+
+    $.ajax({
+        url : "/returningitems",
+        type : 'POST',
+        data : {
+            'return_qty':return_qty,
+            'bill_id':bill_id,
+            'item_id':item_id,
+            'damage_qty':damage_qty,
+            'missed_qty':missed_qty,
+        },
+        success:function(){
+            alert(response.msg)
+        }
+    })
+
+
+}
+
+
+</script>
+
+{% endblock  %}

@@ -61,3 +61,9 @@ class incomeAdmin(admin.ModelAdmin):
     list_display = ('category','date','amount','note',)
     search_fields = ('category',)
 admin.site.register(Income, incomeAdmin)
+
+
+class returnitemsAdmin(admin.ModelAdmin):
+    list_display = ('billing_no','item','return_date','returned_qty',)
+    search_fields = ('billing_no',)
+admin.site.register(returnitems, returnitemsAdmin)

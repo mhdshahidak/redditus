@@ -1,5 +1,6 @@
 from ast import Return
-from datetime import datetime
+from asyncio.windows_events import NULL
+import datetime
 from django.shortcuts import redirect, render
 
 from home.models import Bank, Billing, BillingProducts, Catagory, Income, IncomeCategory, Stock,Client, expence, expencecatagory, returnitems
@@ -9,8 +10,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.db.models import Count
 from django import template
-register = template.Library()
-
 # Create your views here.
 
 
@@ -276,22 +275,59 @@ def returningEachItems(request):
     bill = Billing.objects.get(id=bill_id)
     item = BillingProducts.objects.get(id=item_id)
 
-    date_now = datetime.now()
+    date_now = datetime.datetime.now()
 
-    billed_date = bill.billing_date
+    billed_date = bill.billing_date.date()
+    todays = datetime.date.today() 
+    billingDate = billed_date
+    diff = todays - billingDate
+    print(diff)
+    rental_amount = item.item.rental_price
+    damage_amount = item.item.damage_price
+    missing_amount = item.item.missing_price
+    qty_taken = item.qty
+    
+    rq = int(return_qty)
+    
+    per_day_price = int(rental_amount) * int(return_qty)
+    
+    print(per_day_price)
+    # damage_price = int(damage_amount) * int(damage_qty)
 
-    print('billed date',billed_date)
-    print('now date',date_now)
+    # missings 
+    
+    if missed_qty == '' :
+       
+        a = int(return_qty)
+        b = int(damage_qty)
 
-    print(type(billed_date))
-    # total_time = date_now - billed_date
+        # print(type(a))
+        # print(type(b))
 
-    # total_time = int(billed_date) - int(date_now)
+        missed_qty = int(return_qty) - damage_qty
 
-    # print(type(total_time))
+        missing_quantity = qty_taken - missed_qty 
 
-    total = datetime.combine(date_now) - datetime.combine(billed_date)
-    print(total)
+        missing_qty_amt = missing_quantity * int(missing_amount)
+
+        print("null",missing_qty_amt)
+        
+
+    else:
+ 
+        missing_qty_amt = int(missing_amount) * int(missed_qty)
+
+        print(missing_qty_amt)
+    
+    # if damage_qty == '' :
+    #     damage_qty_amt = 0
+        
+    # else :
+    #     damage_qty_amt = int(damage_amount) * int(damage_qty)
+
+    
+    print("missing_qty_amt",missing_qty_amt)
+    # print("damage_qty_amt",damage_qty_amt)
 
     new_item_return = returnitems(billing_no=bill,item=item,return_date=date_now,returned_qty=return_qty,damage_qty=damage_qty,missing_qty=missed_qty)
     new_item_return.save()

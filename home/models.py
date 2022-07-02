@@ -130,3 +130,4 @@ class returnitems(models.Model):
     returned_qty = models.IntegerField(default=0)
     damage_qty  = models.IntegerField(default=0)
     missing_qty = models.IntegerField(default=0)
+    

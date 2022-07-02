@@ -294,40 +294,47 @@ def returningEachItems(request):
     print(per_day_price)
     # damage_price = int(damage_amount) * int(damage_qty)
 
+
+    #damage
+
+    if damage_qty == '' :
+
+        damage_qty = 0
+        damage_qty_amt = 0
+
+         
+    else :
+        
+        damage_qty_amt = int(damage_amount) * int(damage_qty)
+
+    
     # missings 
     
     if missed_qty == '' :
+        
+        # print('#'*10,damage_qty,return_qty)
        
-        a = int(return_qty)
-        b = int(damage_qty)
-
-        # print(type(a))
-        # print(type(b))
-
-        missed_qty = int(return_qty) - damage_qty
+        missed_qty = int(return_qty) - int(damage_qty)
 
         missing_quantity = qty_taken - missed_qty 
 
         missing_qty_amt = missing_quantity * int(missing_amount)
 
-        print("null",missing_qty_amt)
+        # print("null",missing_qty_amt)
         
 
     else:
  
         missing_qty_amt = int(missing_amount) * int(missed_qty)
 
-        print(missing_qty_amt)
+        # print(missing_qty_amt)
     
-    # if damage_qty == '' :
-    #     damage_qty_amt = 0
-        
-    # else :
-    #     damage_qty_amt = int(damage_amount) * int(damage_qty)
 
+    # print("missing_qty_amt",missing_qty_amt)
     
-    print("missing_qty_amt",missing_qty_amt)
-    # print("damage_qty_amt",damage_qty_amt)
+    total_amount = per_day_price + damage_qty_amt + missing_qty_amt
+
+    # print("total:",total_amount)
 
     new_item_return = returnitems(billing_no=bill,item=item,return_date=date_now,returned_qty=return_qty,damage_qty=damage_qty,missing_qty=missed_qty)
     new_item_return.save()

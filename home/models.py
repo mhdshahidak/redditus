@@ -83,10 +83,13 @@ class Billing(models.Model):
 #billing product
 
 class BillingProducts(models.Model):
+    status_choices = (('not returned','not returned'),('returned','returned'),('other','other'))
     billing = models.ForeignKey(Billing,on_delete=models.CASCADE,null=True)
     item = models.ForeignKey(Stock,on_delete=models.CASCADE,null=True)
     qty = models.IntegerField(default=0)
     billing_date = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=20,default="not returned",choices=status_choices)
+
 
 
 class expencecatagory(models.Model):
@@ -130,4 +133,5 @@ class returnitems(models.Model):
     returned_qty = models.IntegerField(default=0)
     damage_qty  = models.IntegerField(default=0)
     missing_qty = models.IntegerField(default=0)
+    total_amount = models.FloatField(null=True)
     

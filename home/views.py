@@ -281,19 +281,18 @@ def returningEachItems(request):
     todays = datetime.date.today() 
     billingDate = billed_date
     diff = todays - billingDate
-    print(diff)
+    # print(type(diff.days))
+    no_days = diff.days
     rental_amount = item.item.rental_price
     damage_amount = item.item.damage_price
     missing_amount = item.item.missing_price
     qty_taken = item.qty
     
-    rq = int(return_qty)
     
     per_day_price = int(rental_amount) * int(return_qty)
+    rental_price_item = per_day_price * int(no_days)
+    # print("###################",rental_price_item)
     
-    print(per_day_price)
-    # damage_price = int(damage_amount) * int(damage_qty)
-
 
     #damage
 
@@ -311,42 +310,52 @@ def returningEachItems(request):
     # missings 
     
     if missed_qty == '' :
-        
-        # print('#'*10,damage_qty,return_qty)
-       
+            
         missed_qty = int(return_qty) - int(damage_qty)
 
         missing_quantity = qty_taken - missed_qty 
 
         missing_qty_amt = missing_quantity * int(missing_amount)
 
-        # print("null",missing_qty_amt)
-        
+      
 
     else:
  
         missing_qty_amt = int(missing_amount) * int(missed_qty)
 
-        # print(missing_qty_amt)
+
+    
+    total_amount = rental_price_item + damage_qty_amt + missing_qty_amt
+
     
 
-    # print("missing_qty_amt",missing_qty_amt)
-    
-    total_amount = per_day_price + damage_qty_amt + missing_qty_amt
-
-    # print("total:",total_amount)
-
-    new_item_return = returnitems(billing_no=bill,item=item,return_date=date_now,returned_qty=return_qty,damage_qty=damage_qty,missing_qty=missed_qty)
+    new_item_return = returnitems(billing_no=bill,item=item,return_date=date_now,returned_qty=return_qty,damage_qty=damage_qty,missing_qty=missed_qty,total_amount=total_amount)
     new_item_return.save()
+    BillingProducts.objects.filter(id=item_id).update(status="returned")
 
-    return JsonResponse({'mgs':'Succesfully added'})
+
+
+
+    data = {
+        'total':total_amount,
+        'status':"returned",
+    }
+
+    return JsonResponse(data)
 
 
 
 # invoice
-def viewInvoice(request):
+def viewInvoice(request,id):
+    invoice = Billing.objects.get(id=id)
+    returned_items =  returnitems.objects.filter(billing_no=invoice)
+    date_now = datetime.datetime.now()
+
     context = {
         "is_itemreturn":True,
+        "returned_items":returned_items,
+        "invoice":invoice,
+        "date_now":date_now,
     }
     return render(request,'viewinvoice.html',context)
 

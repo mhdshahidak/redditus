@@ -83,8 +83,12 @@
                                         <th>
                                             Missing
                                         </th>
+                                        
                                         <th class="text-center">
                                             Actions
+                                        </th>
+                                        <th id="rentalAmount" hidden>
+                                            Rental Amount
                                         </th>
                                     </tr>
                                 </thead>
@@ -112,14 +116,17 @@
                                             <input type="number" class="form-control" id="damageqty{{items.id}}" min="0" max="{{items.qty}}">
                                         </td>
                                         <td>
-                                            <input type="number" id="missingQty{{items.id}}" class="form-control" min="0" max="{{items.qty}}">
-                                            
+                                            <input type="number" id="missingQty{{items.id}}" class="form-control" min="0" max="{{items.qty}}">     
                                         </td>
-                                        <td class="text-end">
+                                        
+                                        <td class="text-center">
                                             <a href="#"
-                                               class="btn btn-sm btn-white text-success me-2" id="return" onclick ="returnItems('{{items.id}}')" ><i class="far fa-edit me-1"></i> Return</a>
+                                               class="btn btn-sm btn-white text-success me-2" id="returnbtn{{items.id}}" onclick ="returnItems('{{items.id}}')" ><i class="far fa-edit me-1"></i> Return</a>
                                             <a href="javascript:void(0);"
-                                               class="btn btn-sm btn-white text-danger me-2" hidden><i class="fa fa-pen me-1"></i>Edit</a>
+                                               class="btn btn-sm btn-white text-danger me-2" hidden ><i class="fa fa-pen me-1"></i>Edit</a>
+                                        </td>
+                                        <td id="totalTd{{items.id}}" hidden>
+                                            <input type="number" id="rentalAmountValue{{items.id}}" class="form-control"  readonly >     
                                         </td>
                                     </tr>
                                   {% endfor %}
@@ -127,7 +134,7 @@
                                 
                             </table>
                             <div class="text-end mt-2">
-                                <a href="{% url 'home:viewinvoice' %}" type="submit" class="btn btn-primary">
+                                <a href="{% url 'home:viewinvoice' bill.id %}" type="submit" class="btn btn-primary">
                                     BILL
                                 </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             </div>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -192,8 +199,20 @@ function returnItems(id){
             'damage_qty':damage_qty,
             'missed_qty':missed_qty,
         },
-        success:function(){
-            alert(response.msg)
+        success:function(response){
+            console.log(response)
+            $("#returnbtn"+id).removeClass('text-success')
+            $("#returnbtn"+id).addClass('text-danger')
+            // $("#returnbtn"+id).prop("disabled", true)
+            $("#returnbtn"+id).html(response.status)
+            $("#rentalAmount").attr('hidden',false)
+            $("#totalTd"+id).attr('hidden',false)
+            $("#rentalAmountValue"+id).val(response.total)
+            $("#returnQty"+id).attr('readonly',true)
+            $("#damageqty"+id).attr('readonly',true)
+            $("#missingQty"+id).attr('readonly',true)
+            
+            
         }
     })
 

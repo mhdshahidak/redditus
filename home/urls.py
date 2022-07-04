@@ -36,7 +36,7 @@ urlpatterns = [
 
     # invoice 
     
-    path('viewinvoice', views.viewInvoice, name='viewinvoice'),
+    path('viewinvoice/<str:id>', views.viewInvoice, name='viewinvoice'),
 
     # stock
     path('stock', views.stock, name="stock"),

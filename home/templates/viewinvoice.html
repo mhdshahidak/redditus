@@ -16,7 +16,7 @@
                                             </div>
                                             <div class="invoice-head">
                                                 <h2>Invoice</h2>
-                                                <p>Invoice Number : In983248782</p>
+                                                <p>Invoice Number : {{invoice.billing_no}}</p>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -38,11 +38,11 @@
                                         <div class="col-md-6">
                                             <div class="invoice-info">
                                                 <strong class="customer-text-one">Billed to</strong>
-                                                <h6 class="invoice-name">Customer Name</h6>
+                                                <h6 class="invoice-name">{{invoice.client.client_name}}</h6>
                                                 <p class="invoice-details invoice-details-two">
-                                                    9087484288 <br>
-                                                    Address line 1, <br>
-                                                    Address line 2 <br>
+                                                    {{invoice.client.phone_no}} <br>
+                                                    {{invoice.client.address}} <br>
+                                                   
                                                     Zip code ,City - Country
                                                 </p>
                                             </div>
@@ -65,19 +65,10 @@
                                     <div class="row">
                                         <div class="col-lg-12 col-md-12">
                                             <div class="invoice-issues-date">
-                                                <p>Issue Date : 27 Jul 2022</p>
+                                                <p>Issue Date : {{date_now}}</p>
                                             </div>
                                         </div>
-                                        <!-- <div class="col-lg-4 col-md-4">
-                                            <div class="invoice-issues-date">
-                                                <p>Due Date : 27 Aug 2022</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-4">
-                                            <div class="invoice-issues-date">
-                                                <p>Due Amount : ₹ 1,54,22 </p>
-                                            </div>
-                                        </div> -->
+                                        
                                     </div>
                                 </div>
 
@@ -100,6 +91,7 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
+                                                    {% for i in returned_items %}
                                                         <tr>
                                                             <td>1</td>
                                                             <td>Dell Laptop</td>
@@ -110,6 +102,7 @@
                                                             
                                                             <td class="text-end">$400</td>
                                                         </tr>
+                                                    {% endfor %}
                                                         <tr>
                                                             <td>2</td>
                                                             <td>HP Laptop</td>

@@ -4,6 +4,7 @@
 <div class="page-wrapper">
                 <div class="content container-fluid">
                     <div class="row">
+                    {% for b in bank %}
                         <div class="col-xl-3 col-sm-6 col-12">
                             <div class="card">
                                 <div class="card-body">
@@ -13,7 +14,7 @@
                                         </span>
                                         <div class="dash-count">
                                             <div class="dash-title">
-                                               Bank 1
+                                               {{b.bank_name}}
                                             </div>
                                             <div class="dash-counts">
                                                 <p>
@@ -27,29 +28,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-3 col-sm-6 col-12">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="dash-widget-header">
-                                        <span class="dash-widget-icon bg-2">
-                                            <i class="fas fa-university"></i>
-                                        </span>
-                                        <div class="dash-count">
-                                            <div class="dash-title">
-                                               Bank 2
-                                            </div>
-                                            <div class="dash-counts">
-                                                <p>
-                                                    2,150
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                  
-                                   
-                                </div>
-                            </div>
-                        </div>
+                    {% endfor %}
                         <div class="col-xl-3 col-sm-6 col-12">
                             <div class="card">
                                 <div class="card-body">
@@ -131,7 +110,7 @@
                                                         No of Products
                                                     </th>
                                                     <th>
-                                                        Due Date
+                                                        Billed Date
                                                     </th>
                                                     <!-- <th>
                                                         Status
@@ -170,12 +149,12 @@
                                                                data-bs-toggle="dropdown"
                                                                aria-expanded="false"><i class="fas fa-ellipsis-h"></i></a>
                                                             <div class="dropdown-menu dropdown-menu-right">
-                                                                <a class="dropdown-item" href="edit-invoice.html"><i class="far fa-edit me-2"></i>Edit</a>
+                                                                <a class="dropdown-item" href=""><i class="far fa-edit me-2"></i>Edit</a>
+                                                                {% comment %} <a class="dropdown-item" href="{% url 'home:addinbilling' bills.client__phone_no  %}"><i class="far fa-edit me-2"></i>Edit</a> {% endcomment %}
                                                                 <a class="dropdown-item" href="view-invoice.html"><i class="far fa-eye me-2"></i>View</a>
-                                                                <a class="dropdown-item" href="javascript:void(0);"><i class="far fa-trash-alt me-2"></i>Delete</a>
+                                                                <!-- <a class="dropdown-item" href="javascript:void(0);"><i class="far fa-trash-alt me-2"></i>Delete</a> -->
                                                                 <a class="dropdown-item" href="{% url 'home:addeditemreturn' bills.id %}"><i class="far fa-check-circle me-2"></i>Return</a>
-                                                                <a class="dropdown-item" href="javascript:void(0);"><i class="far fa-paper-plane me-2"></i>Send Invoice</a>
-                                                                <a class="dropdown-item" href="javascript:void(0);"><i class="far fa-copy me-2"></i>Clone Invoice</a>
+                                                               
                                                             </div>
                                                         </div>
                                                     </td>

@@ -185,21 +185,21 @@
     function deleteitem(id) {
         swal({
             title: "Are you sure?",
-            text: "Once deleted, you will not be able to recover this Item!",
+            text: "Once deleted, you will not be able to recover the Details!",
             icon: "warning",
             buttons: true,
             dangerMode: true,
         })
             .then((willDelete) => {
                 if (willDelete) {
-                    swal("Poof! Your Item has been deleted!", {
+                    swal("Poof! Bank has been deleted!", {
                         icon: "success",
                     });
                     setTimeout(function () {
-                        window.location.href = "/deleteitem/" + id
+                        window.location.href = "/deletebank/" + id
                     }, 1000);
                 } else {
-                    swal("Your Item is safe!");
+                    swal("Bank is safe!");
                 }
             });
     }

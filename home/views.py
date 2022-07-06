@@ -20,10 +20,12 @@ def login(request):
 
 
 def index(request):
+    bank = Bank.objects.all()
     bills = Billing.objects.all().select_related('billingproducts__set').annotate(itemCount=Count('billingproducts')).values('id','itemCount','billing_no','billing_date','client__client_name')
     context = {
         "is_index":True,
         'bills':bills,
+        'bank':bank,
     }
     return render(request,'home.html',context)
 
@@ -184,7 +186,8 @@ def new_bill_adding(request):
 # client
 
 def client(request):
-    bills = Billing.objects.all().select_related('billingproducts__set').annotate(itemCount=Count('billingproducts')).values('id','itemCount','billing_no','billing_date','client__client_name','client__phone_no')
+    # bills = Billing.objects.all().select_related('billingproducts__set').annotate(itemCount=Count('billingproducts')).values('id','itemCount','billing_no','billing_date','client__client_name','client__phone_no')
+    bills = Billing.objects.filter(status="not returned").select_related('billingproducts__set').annotate(itemCount=Count('billingproducts')).values('id','itemCount','billing_no','billing_date','client__client_name','client__phone_no')
     
 
     client_list = Client.objects.all()
@@ -619,8 +622,10 @@ def deleteIncome(request, id):
 # payments
 
 def payments(request):
+    banks = Bank.objects.all()
     context = {
         "is_payments":True,
+        "bank":banks,
     }
     return render(request, 'payments.html', context)
 
@@ -628,7 +633,7 @@ def payments(request):
 def bank(request):
     if request.method == 'POST':
         bank_name = request.POST['bank_name']
-        ifsc= request.POST['ifsc']
+        ifsc = request.POST['ifsc']
         acc_no = request.POST['acc_no']
         conf_acc_no = request.POST['conf_acc_no']
         acc_holder_name = request.POST['acc_holder_name']
@@ -640,15 +645,31 @@ def bank(request):
             if not bank_ex:
                 add_bank = Bank(bank_name=bank_name, acc_holder_name=acc_holder_name, ifsc_code=ifsc, acc_number=acc_no, branch=branch, district=district, address=address)
                 add_bank.save()
-                return render(request, 'addbank.html',{'status':1})
+                context = {
+                    "is_payments":True,
+                    'status':1,
+                }
+                return render(request, 'addbank.html',context )
             else:
-                return render(request, 'addbank.html',{'success':3})
+                context = {
+                    "is_payments":True,
+                    'success':3,
+                }
+                return render(request, 'addbank.html',context )
         else:
-            return render(request, 'addbank.html',{'status':2})
+            context = {
+                "is_payments":True,
+                'status':2,
+            }
+            return render(request, 'addbank.html',context )
     context = {
         "is_payments":True,
     }
     return render(request, 'addbank.html', context)
 
 
+
+def deletebank(request,id):
+    Bank.objects.get(id=id).delete()
+    return redirect('home:payments')
 

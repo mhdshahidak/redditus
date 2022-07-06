@@ -60,6 +60,9 @@ urlpatterns = [
     path('payments', views.payments, name="payments"),
     path('addbank', views.bank, name="addbank"),
 
+    #payment ajax
+    path('deletebank/<int:id>', views.deletebank, name="deletebank"),
+
     # login
     path('login', views.login, name="login"),
   

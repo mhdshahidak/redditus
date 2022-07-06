@@ -10,6 +10,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.db.models import Count
 from django import template
+
+from django.db.models import Sum
 # Create your views here.
 
 
@@ -291,7 +293,7 @@ def returningEachItems(request):
     
     per_day_price = int(rental_amount) * int(return_qty)
     rental_price_item = per_day_price * int(no_days)
-    # print("###################",rental_price_item)
+   
     
 
     #damage
@@ -328,12 +330,16 @@ def returningEachItems(request):
     total_amount = rental_price_item + damage_qty_amt + missing_qty_amt
 
     
+    sid = item.item.id
+    balance_item = item.item.quantity
+    
+    new_balance_item = balance_item + int(return_qty)
+
+    Stock.objects.filter(id=sid).update(quantity=new_balance_item)
 
     new_item_return = returnitems(billing_no=bill,item=item,return_date=date_now,returned_qty=return_qty,damage_qty=damage_qty,missing_qty=missed_qty,total_amount=total_amount)
     new_item_return.save()
     BillingProducts.objects.filter(id=item_id).update(status="returned")
-
-
 
 
     data = {
@@ -348,7 +354,11 @@ def returningEachItems(request):
 # invoice
 def viewInvoice(request,id):
     invoice = Billing.objects.get(id=id)
+    Billing.objects.filter(id=id).update(status="returned")
+
     returned_items =  returnitems.objects.filter(billing_no=invoice)
+    total = returned_items.aggregate(Sum('total_amount'))
+
     date_now = datetime.datetime.now()
 
     context = {
@@ -356,6 +366,7 @@ def viewInvoice(request,id):
         "returned_items":returned_items,
         "invoice":invoice,
         "date_now":date_now,
+        "total":total,
     }
     return render(request,'viewinvoice.html',context)
 

@@ -20,7 +20,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-6">
-                                            <div class="invoice-info">
+                                            <!-- <div class="invoice-info">
                                                 <strong class="customer-text-one">Invoice From</strong>
                                                 <h6 class="invoice-name">Company Name</h6>
                                                 <p class="invoice-details">
@@ -28,7 +28,7 @@
                                                     Address line 1, Address line 2<br>
                                                     Zip code ,City - Country
                                                 </p>
-                                            </div>
+                                            </div> -->
                                         </div>
                                     </div>
                                 </div>
@@ -83,46 +83,27 @@
                                                             <th>Sl No</th>
                                                             <th>Item Name</th>
                                                             <th>Category</th>
-                                                            <th>Rate/Item</th>
                                                             <th>Quantity</th>
                                                             <th>Damage</th>
-                                                            
+                                                            <th>Missing</th>
+
                                                             <th class="text-end">Amount</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                     {% for i in returned_items %}
                                                         <tr>
-                                                            <td>1</td>
-                                                            <td>Dell Laptop</td>
-                                                            <td>Laptop</td>
-                                                            <td>$1,110</td>
-                                                            <th>2</th>
-                                                            <th>2</th>
-                                                            
-                                                            <td class="text-end">$400</td>
+                                                            <td>{{ forloop.counter }}</td>
+                                                            <td>{{i.item.item.item_name}}</td>
+                                                            <td>{{i.item.item.item_catagory.cat_name}}</td>
+                                                            <!-- <td></td> -->
+                                                            <td>{{i.returned_qty}}</td>
+                                                            <td>{{i.damage_qty}}</td>
+                                                            <td>{{i.missing_qty}}</td>  
+                                                            <td class="text-end">{{i.total_amount}}</td>
                                                         </tr>
                                                     {% endfor %}
-                                                        <tr>
-                                                            <td>2</td>
-                                                            <td>HP Laptop</td>
-                                                            <td>Laptop</td>
-                                                            <td>$1,500</td>
-                                                            <th>3</th>
-                                                            <th>3</th>
-                                                            
-                                                            <td class="text-end">$3,000</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>3</td>
-                                                            <td>Apple Ipad</td>
-                                                            <td>Ipad</td>
-                                                            <td>$11,500</td>
-                                                            <th>1</th>
-                                                            <th>1</th>
-                                                            
-                                                            <td class="text-end">$11,000</td>
-                                                        </tr>
+                                                        
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -139,12 +120,12 @@
                                             <div class="invoice-total-box">
                                                 <div class="invoice-total-inner">
                                                     
-                                                    <p>Additional Charges <span>$6,660.00</span></p>
+                                                    <!-- <p>Additional Charges <span>$6,660.00</span></p> -->
                                                     <!-- <p>Discount <span>$3,300.00</span></p> -->
-                                                    <p class="mb-0">Sub total <span>$3,300.00</span></p>
+                                                    <p class="mb-0">Sub total <span>{{total.total_amount__sum}}</span></p>
                                                 </div>
                                                 <div class="invoice-total-footer">
-                                                    <h4>Total Amount <span>$143,300.00</span></h4>
+                                                    <h4>Total Amount <span>{{total.total_amount__sum}}</span></h4>
                                                 </div>
                                             </div>
                                         </div>

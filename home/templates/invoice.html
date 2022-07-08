@@ -68,10 +68,10 @@
                                                                 <div class="col-lg-12 col-md-12">
                                                                     <div class="invoice-inner-date">
                                                                         <span>
-                                                                            Date
-                                                                            <input class="form-control datetimepicker"
-                                                                                   type="date"
-                                                                                   placeholder="15/02/2022">
+                                                                            Date : {{date_now}}
+                                                                            <input class="form-control "
+                                                                                   type="text"
+                                                                                   >
                                                                         </span>
                                                                     </div>
                                                                     
@@ -427,8 +427,8 @@ $('#generatebutton').click(function () {
             type: 'POST',
             data: data,
             success: function (responce) {
-               
-                $(ducument).html(response)
+                              
+                window.location.reload();
 
             },
             error: function(jqXHR,error, errorThrown){

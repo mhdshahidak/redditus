@@ -1,6 +1,7 @@
 from ast import Return
 from asyncio.windows_events import NULL
 import datetime
+from multiprocessing import context
 from django.shortcuts import redirect, render
 
 from home.models import Bank, Billing, BillingProducts, Catagory, Income, IncomeCategory, Stock,Client, expence, expencecatagory, returnitems
@@ -12,28 +13,60 @@ from django.db.models import Count
 from django import template
 
 from django.db.models import Sum
+
+# autthantication
+
+from django.contrib.auth import get_user_model
+# from abc_academy.decorators import auth_admin
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
+from django.contrib.auth import authenticate, login
 # Create your views here.
 
 
-def login(request):
+def loginpage(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+        password = request.POST['password']
+
+        user = authenticate(email=email, password=password)
+        if user is not None:
+            login(request, user)
+            if user.is_superuser == True:
+                return redirect('home:index')
+        else:
+            msg = "* Incorrect email or password *"
+            return render(request,'login.html',{'msg':msg,})
     return render(request, 'login.html')
 
+def logout_view(request):
+    logout(request)
+    return redirect('home:loginpage')
 
+
+@login_required(login_url='/loginpage')
 def index(request):
     bank = Bank.objects.all()
-    bills = Billing.objects.all().select_related('billingproducts__set').annotate(itemCount=Count('billingproducts')).values('id','itemCount','billing_no','billing_date','client__client_name')
+    bills = Billing.objects.filter(status="not returned").select_related('billingproducts__set').annotate(itemCount=Count('billingproducts')).values('id','itemCount','billing_no','billing_date','client__client_name')
+    billed = Billing.objects.filter(status="returned").select_related('billingproducts__set').annotate(itemCount=Count('billingproducts')).values('id','itemCount','billing_no','billing_date','client__client_name','client__phone_no')
+
     context = {
         "is_index":True,
         'bills':bills,
         'bank':bank,
+        'billed':billed,
     }
     return render(request,'home.html',context)
 
 
 # billing
+@login_required(login_url='/loginpage')
 def bill(request):
     client = Client.objects.all()
     stock = Stock.objects.all()
+    to_date = datetime.datetime.now()
+    dd = to_date.date()
+    
     if Billing.objects.exists():
         bill = Billing.objects.last().id
         bill_id = 'RDTS'+str(1000+bill)
@@ -45,8 +78,19 @@ def bill(request):
         'client':client,
         'stock':stock,
         'billid':bill_id,
+        "date_now":dd,
     }
     return render(request,'invoice.html',context)
+
+
+def view_bill(request,id):
+    bill = Billing.objects.get(id=id)
+    bills = BillingProducts.objects.filter(billing=bill)
+    context = {
+        "is_bill":True,
+        "bills":bills,
+    }
+    return render(request,'view_billed_items.html', context)
 
 
 # New items Adding in billing
@@ -112,7 +156,8 @@ def clientadd(request):
         name = request.POST['name']
         phone = request.POST['phone']
         invId = request.POST['invId']
-        date= datetime.now()
+        date = datetime.datetime.now()
+        print(date)
         phone_ex= Client.objects.filter(phone_no = phone).exists()
         if not phone_ex:
             client_obj = Client(client_name=name, phone_no=phone)
@@ -142,17 +187,17 @@ def bill_adding(request):
     # customer_phone = request.POST['customer_phone']
     item = request.POST['item']
     qty = request.POST['qty']
-    dates = request.POSR['dates']
+    # dates = request.POST['dates']
  
     # print(gst)
     inv_obj = Billing.objects.get(id=invid)
       
     item = Stock.objects.get(item_name=item)
-    date = datetime.now()
-    item_exists = BillingProducts.objects.filter(item=item,billing_date=dates).exists()
+    date_crnt = datetime.datetime.now()
+    item_exists = BillingProducts.objects.filter(item=item,billing_date=date_crnt).exists()
     if not item_exists:
 
-        new_item = BillingProducts(billing=inv_obj,item=item,qty=qty,billing_date=date)
+        new_item = BillingProducts(billing=inv_obj,item=item,qty=qty,billing_date=date_crnt)
         new_item.save()
         item.quantity = item.quantity - int(qty)
         item.save()
@@ -173,7 +218,7 @@ def new_bill_adding(request):
             inv_obj = Billing.objects.get(id=invid)
             
             item = Stock.objects.get(item_name=item)
-            date = datetime.now()
+            date = datetime.datetime.now()
             new_item = BillingProducts(billing=inv_obj,item=item,qty=qty,billing_date=date)
             # print(new_item.query)
             new_item.save()
@@ -182,9 +227,9 @@ def new_bill_adding(request):
     return JsonResponse({'msg':'BILL GENERATED'})
    
 
-
 # client
 
+@login_required(login_url='/loginpage')
 def client(request):
     # bills = Billing.objects.all().select_related('billingproducts__set').annotate(itemCount=Count('billingproducts')).values('id','itemCount','billing_no','billing_date','client__client_name','client__phone_no')
     bills = Billing.objects.filter(status="not returned").select_related('billingproducts__set').annotate(itemCount=Count('billingproducts')).values('id','itemCount','billing_no','billing_date','client__client_name','client__phone_no')
@@ -198,6 +243,7 @@ def client(request):
     }
     return render(request,'client.html',context)
 
+@login_required(login_url='/loginpage')
 def addclient(request):
     if request.method == 'POST':
         name = request.POST['name']
@@ -226,6 +272,7 @@ def addclient(request):
     return render(request,'addclient.html',context)
 
 
+@login_required(login_url='/loginpage')
 def editclient(request, id):
 
     client = Client.objects.get(phone_no=id)
@@ -237,7 +284,7 @@ def editclient(request, id):
         Client.objects.filter(id=cid).update(client_name=name,phone_no=phone,address=address)
         return redirect('home:client')
     context = {
-        "is_editclient":True,
+        "is_client":True,
         "client":client,
     }
     return render(request,'editclient.html',context)
@@ -245,9 +292,10 @@ def editclient(request, id):
 
 # return
 
+@login_required(login_url='/loginpage')
 def itemreturnlist(request):
 
-    bills = Billing.objects.all().select_related('billingproducts__set').annotate(itemCount=Count('billingproducts')).values('id','itemCount','billing_no','billing_date','client__client_name','client__phone_no')
+    bills = Billing.objects.filter(status="not returned").select_related('billingproducts__set').annotate(itemCount=Count('billingproducts')).values('id','itemCount','billing_no','billing_date','client__client_name','client__phone_no')
     
     context = {
         "is_itemreturn":True,
@@ -256,6 +304,7 @@ def itemreturnlist(request):
     return render(request,'itemreturn.html',context)
 
 
+@login_required(login_url='/loginpage')
 def itemreturn(request, id):
     bill = Billing.objects.get(id=id)
     items= BillingProducts.objects.filter(billing = bill)
@@ -355,14 +404,24 @@ def returningEachItems(request):
 
 
 # invoice
+@login_required(login_url='/loginpage')
 def viewInvoice(request,id):
     invoice = Billing.objects.get(id=id)
     Billing.objects.filter(id=id).update(status="returned")
 
     returned_items =  returnitems.objects.filter(billing_no=invoice)
-    total = returned_items.aggregate(Sum('total_amount'))
-
+    total = returned_items.aggregate(Sum('total_amount'))   
     date_now = datetime.datetime.now()
+
+    # catagory = "Billing"
+    # category_new = IncomeCategory(category = catagory)
+    # category_new.save()
+    # print(total.has_key('total_amount__sum'))
+
+    # new_income = Income(category=category_new,date=date_now,amount=total_amount__sum)
+    # new_income.save()
+
+
 
     context = {
         "is_itemreturn":True,
@@ -375,6 +434,7 @@ def viewInvoice(request,id):
 
 
 # stock
+@login_required(login_url='/loginpage')
 def stock(request):
     stock = Stock.objects.all()
     context = {
@@ -384,6 +444,7 @@ def stock(request):
     return render(request, 'stock.html',context)
     
 
+@login_required(login_url='/loginpage')
 def addstock(request):
     allcatagory = Catagory.objects.all()
     if request.method == 'POST':
@@ -423,6 +484,8 @@ def addstock(request):
     }
     return render(request, 'addstock.html',context)
 
+
+@login_required(login_url='loginpage')
 def stock_edit(request,id):
     item = Stock.objects.get(id=id)
     if request.method == 'POST':
@@ -449,6 +512,7 @@ def deleteItem(request,id):
 
 # expence
 
+@login_required(login_url='loginpage')
 def expense(request):
     expences = expence.objects.all()
     context = {
@@ -459,6 +523,7 @@ def expense(request):
     return render(request, 'expense.html', context)
 
 
+@login_required(login_url='loginpage')
 def addexpense(request):
     catagory = expencecatagory.objects.all()
     if request.method == 'POST':
@@ -499,6 +564,7 @@ def addexpense(request):
     return render(request, 'addexpense.html', context)
 
 
+@login_required(login_url='loginpage')
 def editexpense(request, id):
     expences = expence.objects.get(id=id)
     category = expencecatagory.objects.all()
@@ -542,6 +608,7 @@ def income(request):
     return render(request, 'income.html', context)
 
 
+@login_required(login_url='loginpage')
 def addincome(request):
     category = IncomeCategory.objects.all()
     if request.method == 'POST':
@@ -585,6 +652,7 @@ def addincome(request):
     return render(request, 'addincome.html', context)
 
 
+@login_required(login_url='loginpage')
 def editincome(request, id):
     income = Income.objects.get(id= id)
     category= IncomeCategory.objects.all()
@@ -621,6 +689,7 @@ def deleteIncome(request, id):
 
 # payments
 
+@login_required(login_url='loginpage')
 def payments(request):
     banks = Bank.objects.all()
     context = {
@@ -630,6 +699,7 @@ def payments(request):
     return render(request, 'payments.html', context)
 
 
+@login_required(login_url='loginpage')
 def bank(request):
     if request.method == 'POST':
         bank_name = request.POST['bank_name']

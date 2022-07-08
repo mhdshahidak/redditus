@@ -85,7 +85,7 @@
                                             </h5>
                                         </div>
                                         <div class="col-auto">
-                                            <a href="invoices.html" class="btn-right btn btn-sm btn-outline-primary">
+                                            <a href="{% url 'home:itemreturn' %}" class="btn-right btn btn-sm btn-outline-primary">
                                                 View All
                                             </a>
                                         </div>
@@ -149,18 +149,17 @@
                                                                data-bs-toggle="dropdown"
                                                                aria-expanded="false"><i class="fas fa-ellipsis-h"></i></a>
                                                             <div class="dropdown-menu dropdown-menu-right">
-                                                                <a class="dropdown-item" href=""><i class="far fa-edit me-2"></i>Edit</a>
-                                                                {% comment %} <a class="dropdown-item" href="{% url 'home:addinbilling' bills.client__phone_no  %}"><i class="far fa-edit me-2"></i>Edit</a> {% endcomment %}
-                                                                <a class="dropdown-item" href="view-invoice.html"><i class="far fa-eye me-2"></i>View</a>
-                                                                <!-- <a class="dropdown-item" href="javascript:void(0);"><i class="far fa-trash-alt me-2"></i>Delete</a> -->
+                                                                <a class="dropdown-item" href="{% url 'home:addinbilling' bills.id %}"><i class="far fa-edit me-2"></i>Add Items</a>
+                                                               
+                                                                <a class="dropdown-item" href="{% url 'home:viewbill' bills.id %}"><i class="far fa-eye me-2"></i>View</a>
+                                            
                                                                 <a class="dropdown-item" href="{% url 'home:addeditemreturn' bills.id %}"><i class="far fa-check-circle me-2"></i>Return</a>
                                                                
                                                             </div>
                                                         </div>
                                                     </td>
                                                 </tr>
-                                                {% endfor %}
-                                                
+                                                {% endfor %}    
                                             </tbody>
                                         </table>
                                     </div>
@@ -177,7 +176,7 @@
                                             </h5>
                                         </div>
                                         <div class="col-auto">
-                                            <a href="invoices.html" class="btn-right btn btn-sm btn-outline-primary">
+                                            <a href="{% url 'home:itemreturn' %}" class="btn-right btn btn-sm btn-outline-primary">
                                                 View All
                                             </a>
                                         </div>
@@ -188,45 +187,50 @@
                                         
                                         
                                     </div>
-                                    <div class="table-responsive">
-                                        <table class="table table-stripped table-hover">
+                                   <div class="table-responsive">
+                                        <table class="table table-stripped table-hover datatable ">
                                             <thead class="thead-light">
                                                 <tr>
+                                                    <th>
+                                                        Bill Id
+                                                    </th>
                                                     <th>
                                                         Customer
                                                     </th>
                                                     <th>
-                                                        Amount
+                                                        No of Products
                                                     </th>
                                                     <th>
-                                                        Due Date
+                                                        Billed Date
                                                     </th>
-                                                    <th>
+                                                    <!-- <th>
                                                         Status
-                                                    </th>
+                                                    </th> -->
                                                     <th class="text-right">
                                                         Action
                                                     </th>
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                {% for billed in billed %}
                                                 <tr>
                                                     <td>
+                                                        {{billed.billing_no}}
+                                                    </td>
+                                                    <td>
                                                         <h2 class="table-avatar">
-                                                            <a href="profile.html">
-                                                               
-                                                            Barbara Moore</a>
+                                                            <a href="profile.html" class="text-capitalize">
+                                                                
+                                                            {{billed.client__client_name}}</a>
                                                         </h2>
                                                     </td>
                                                     <td>
-                                                        $118
+                                                       {{billed.itemCount}}
                                                     </td>
                                                     <td>
-                                                        23 Nov 2020
+                                                       {{billed.billing_date.date}}
                                                     </td>
-                                                    <td>
-                                                        <span class="badge bg-success-light">Paid</span>
-                                                    </td>
+                                                    
                                                     <td class="text-right">
                                                         <div class="dropdown dropdown-action">
                                                             <a href="#"
@@ -234,16 +238,15 @@
                                                                data-bs-toggle="dropdown"
                                                                aria-expanded="false"><i class="fas fa-ellipsis-h"></i></a>
                                                             <div class="dropdown-menu dropdown-menu-right">
-                                                                <a class="dropdown-item" href="edit-invoice.html"><i class="far fa-edit me-2"></i>Edit</a>
-                                                                <a class="dropdown-item" href="view-invoice.html"><i class="far fa-eye me-2"></i>View</a>
-                                                                <a class="dropdown-item" href="javascript:void(0);"><i class="far fa-trash-alt me-2"></i>Delete</a>
-                                                                <a class="dropdown-item" href=""><i class="far fa-check-circle me-2"></i>Return</a>
-                                                                <a class="dropdown-item" href="javascript:void(0);"><i class="far fa-paper-plane me-2"></i>Send Invoice</a>
-                                                                <a class="dropdown-item" href="javascript:void(0);"><i class="far fa-copy me-2"></i>Clone Invoice</a>
+
+                                                                <a class="dropdown-item" href="{% url 'home:viewbill' billed.id %}"><i class="far fa-eye me-2"></i>View</a>
+                                            
+    
                                                             </div>
                                                         </div>
                                                     </td>
-                                                </tr>   
+                                                </tr>
+                                                {% endfor %}    
                                             </tbody>
                                         </table>
                                     </div>
@@ -255,5 +258,49 @@
             </div>
         {% endblock %}
         {% block js %}
-       
-        {% endblock %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+    $('body').append('<div class="sidebar-overlay"></div>');
+	$(document).on('click', '#mobile_btn', function () {
+		$wrapper.toggleClass('slide-nav');
+		$('.sidebar-overlay').toggleClass('opened');
+		$('html').toggleClass('menu-opened');
+		return false;
+	});
+</script>
+<script>
+    $(document).on('click', '#toggle_btn', function () {
+		if ($('body').hasClass('mini-sidebar')) {
+			$('body').removeClass('mini-sidebar');
+			$('.subdrop + ul').slideDown();
+		} else {
+			$('body').addClass('mini-sidebar');
+			$('.subdrop + ul').slideUp();
+		}
+		setTimeout(function () {
+			mA.redraw();
+			mL.redraw();
+		}, 300);
+		return false;
+	});
+	
+	$(document).on('mouseover', function (e) {
+		e.stopPropagation();
+		if ($('body').hasClass('mini-sidebar') && $('#toggle_btn').is(':visible')) {
+			var targ = $(e.target).closest('.sidebar').length;
+			if (targ) {
+				$('body').addClass('expand-menu');
+				$('.subdrop + ul').slideDown();
+			} else {
+				$('body').removeClass('expand-menu');
+				$('.subdrop + ul').slideUp();
+			}
+			return false;
+		}
+	});
+</script>
+
+
+{% endblock %}

@@ -9,6 +9,8 @@ urlpatterns = [
 
     # billing 
     path('billing', views.bill, name="billing"),
+    path('viewbill/<int:id>', views.view_bill, name="viewbill"),
+
 
     # add new product in bill
     path('addinbilling/<int:id>', views.addinbilling, name="addinbilling"),
@@ -64,6 +66,7 @@ urlpatterns = [
     path('deletebank/<int:id>', views.deletebank, name="deletebank"),
 
     # login
-    path('login', views.login, name="login"),
+    path('loginpage', views.loginpage, name="loginpage"),
+    path('logout_view', views.logout_view,name="logout_view"),
   
 ]

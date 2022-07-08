@@ -413,13 +413,15 @@ def viewInvoice(request,id):
     total = returned_items.aggregate(Sum('total_amount'))   
     date_now = datetime.datetime.now()
 
-    # catagory = "Billing"
-    # category_new = IncomeCategory(category = catagory)
-    # category_new.save()
-    # print(total.has_key('total_amount__sum'))
-
-    # new_income = Income(category=category_new,date=date_now,amount=total_amount__sum)
-    # new_income.save()
+    catagory = "Billing"
+    category_new = IncomeCategory(category = catagory)
+    category_new.save()
+    
+    
+    total_amout = total["total_amount__sum"]
+    
+    new_income = Income(category=category_new,date=date_now,amount=total_amout)
+    new_income.save()
 
 
 

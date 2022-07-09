@@ -20,12 +20,10 @@
                     </ul> -->
                 </div>
                 <div class="col-auto">
-                    <a href="{% url 'home:addstock' %}" class="btn btn-primary me-1">
+                    <a href="{% url 'home:addstock' %}" class="btn btn-primary me-1">Add
                         <i class="fas fa-plus"></i>
                     </a>
-                    <a class="btn btn-primary filter-btn" href="javascript:void(0);" id="filter_search">
-                        <i class="fas fa-filter"></i>
-                    </a>
+                    
                 </div>
             </div>
         </div>
@@ -139,15 +137,7 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-<script>
-    $('body').append('<div class="sidebar-overlay"></div>');
-	$(document).on('click', '#mobile_btn', function () {
-		$wrapper.toggleClass('slide-nav');
-		$('.sidebar-overlay').toggleClass('opened');
-		$('html').toggleClass('menu-opened');
-		return false;
-	});
-</script>
+
 <script>
     $(document).on('click', '#toggle_btn', function () {
 		if ($('body').hasClass('mini-sidebar')) {

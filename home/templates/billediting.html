@@ -170,8 +170,8 @@
                                                             <td class="add-remove text-end">
                                                                 <a href="javascript:void(0);" id="add" onclick="addate()" class="add-btn me-2"><i
                                                                         class="fas fa-plus-circle"></i></a>                        
-                                                                <a href="javascript:void(0);" class="remove-btn"><i
-                                                                        class="fa fa-trash"></i></a>
+                                                                <!-- <a href="javascript:void(0);" class="remove-btn"><i
+                                                                        class="fa fa-trash"></i></a> -->
 
                                                             </td>
                                                         </tr>
@@ -269,7 +269,7 @@ $(document).on("click", ".add-btn", function () {
         '<input type="number" id="item_price' + rowCount + '" class="form-control" readonly>' +
         '</td>' +
         '<td>' +
-        '<input type="text" id="datenow' + rowCount + '" class="form-control" readonly >' +
+        '<input type="text"  class="form-control" readonly value="{{date}}" >' +
         '<input type="number" id="amount' + rowCount + '" class="form-control"  hidden >' +
         '</td>' +
         '<td class="add-remove text-end">' +
@@ -343,7 +343,7 @@ $(document).on("click", ".add-btn", function () {
                     $('#item_category'+id).val(response.item)
                     $('#item_price'+id).val(response.rentalprice)
                     $('#qty' +id).attr("max",response.max_qty)
-                    $('#datenow' ).val(response.date)
+                    // $('#datenow' ).val(response.date)
   
                 }
             })

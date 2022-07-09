@@ -67,6 +67,7 @@ def bill(request):
     to_date = datetime.datetime.now()
     dd = to_date.date()
     
+    
     if Billing.objects.exists():
         bill = Billing.objects.last().id
         bill_id = 'RDTS'+str(1000+bill)
@@ -100,6 +101,8 @@ def addinbilling(request,id):
     bill_no = Billing.objects.get(id=id)
     items = BillingProducts.objects.filter(billing=bill_no)
     stock = Stock.objects.all()
+    to_date = datetime.datetime.now()
+    dd = to_date.date()
     itemsList = []
     for i in items:
         data = {
@@ -116,6 +119,7 @@ def addinbilling(request,id):
         "bill":bill_no,
         "items":itemsList,
         "stock":stock,
+        "date":dd,
         
     }
     return render(request,'billediting.html',context)

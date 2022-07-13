@@ -113,6 +113,7 @@ class Bank(models.Model):
     branch = models.CharField(max_length=100)
     district = models.CharField(max_length=100)
     address = models.CharField(max_length=100)
+    amount = models.FloatField(default=0)
 
 
 class IncomeCategory(models.Model):
@@ -136,4 +137,11 @@ class returnitems(models.Model):
     damage_qty  = models.IntegerField(default=0)
     missing_qty = models.IntegerField(default=0)
     total_amount = models.FloatField(null=True)
+
+
+class invoicepaymethode(models.Model):
+    bill = models.ForeignKey(Billing, on_delete=models.CASCADE, null=True)
+    pay_type = models.CharField(max_length=30,null=True)
+    amount = models.FloatField()
+    date = models.DateField(null=True)
     

@@ -67,3 +67,9 @@ class returnitemsAdmin(admin.ModelAdmin):
     list_display = ('billing_no','item','return_date','returned_qty',)
     search_fields = ('billing_no',)
 admin.site.register(returnitems, returnitemsAdmin)
+
+
+class invoicepaymethodeAdmin(admin.ModelAdmin):
+    list_display = ('bill','pay_type',)
+    search_fields = ('bill',)
+admin.site.register(invoicepaymethode, invoicepaymethodeAdmin)

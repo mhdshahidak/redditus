@@ -40,6 +40,9 @@ urlpatterns = [
     
     path('viewinvoice/<str:id>', views.viewInvoice, name='viewinvoice'),
 
+    # payment ajax
+    path('paynow', views.paymentMethod, name='paynow'),
+
     # stock
     path('stock', views.stock, name="stock"),
     path('stockedit/<int:id>', views.stock_edit, name="stockedit"),

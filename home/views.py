@@ -4,7 +4,7 @@ import datetime
 from multiprocessing import context
 from django.shortcuts import redirect, render
 
-from home.models import Bank, Billing, BillingProducts, Catagory, Income, IncomeCategory, Stock,Client, expence, expencecatagory, returnitems
+from home.models import Bank, Billing, BillingProducts, Catagory, Income, IncomeCategory, Stock,Client, expence, expencecatagory, invoicepaymethode, returnitems
 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -49,12 +49,17 @@ def index(request):
     bank = Bank.objects.all()
     bills = Billing.objects.filter(status="not returned").select_related('billingproducts__set').annotate(itemCount=Count('billingproducts')).values('id','itemCount','billing_no','billing_date','client__client_name')
     billed = Billing.objects.filter(status="returned").select_related('billingproducts__set').annotate(itemCount=Count('billingproducts')).values('id','itemCount','billing_no','billing_date','client__client_name','client__phone_no')
+    Gpay = invoicepaymethode.objects.filter(pay_type="Google Pay").aggregate(Sum('amount'))
+    cash = invoicepaymethode.objects.filter(pay_type="Cash").aggregate(Sum('amount'))
 
+    # print(Gpay)
     context = {
         "is_index":True,
         'bills':bills,
         'bank':bank,
         'billed':billed,
+        'gpay':Gpay,
+        'cash':cash,
     }
     return render(request,'home.html',context)
 
@@ -426,8 +431,9 @@ def viewInvoice(request,id):
     
     new_income = Income(category=category_new,date=date_now,amount=total_amout)
     new_income.save()
+    banks = Bank.objects.all()
 
-
+    
 
     context = {
         "is_itemreturn":True,
@@ -435,8 +441,42 @@ def viewInvoice(request,id):
         "invoice":invoice,
         "date_now":date_now,
         "total":total,
+        "bank":banks,
     }
     return render(request,'viewinvoice.html',context)
+
+
+# pay now
+
+def paymentMethod(request):
+    invid = request.GET['billid']
+    total = request.GET['total']
+    paytype = request.GET['paytype']
+    
+    
+
+    invoice = Billing.objects.get(billing_no = invid)
+
+    try:
+        bank_exists = Bank.objects.filter(id=paytype).exists()
+        if bank_exists :
+
+            bank = Bank.objects.get(id=paytype)       
+            bank.amount = float(total) + bank.amount
+            Bank.objects.filter(id=paytype).update(amount=bank.amount)
+    except :
+        
+        payment_type = str(paytype) 
+        date_now = datetime.datetime.now()
+        new_pay_obj = invoicepaymethode(bill=invoice,pay_type=payment_type,amount=total,date=date_now)
+        new_pay_obj.save()
+            
+        data = {
+            'msg':"got it", 
+        }
+
+        return JsonResponse(data)
+
 
 
 # stock

@@ -229,7 +229,7 @@ def new_bill_adding(request):
             item = Stock.objects.get(item_name=item)
             date = datetime.datetime.now()
             new_item = BillingProducts(billing=inv_obj,item=item,qty=qty,billing_date=date)
-            # print(new_item.query)
+
             new_item.save()
             item.quantity = item.quantity - int(qty)
             item.save()
@@ -240,10 +240,9 @@ def new_bill_adding(request):
 
 @login_required(login_url='/loginpage')
 def client(request):
-    # bills = Billing.objects.all().select_related('billingproducts__set').annotate(itemCount=Count('billingproducts')).values('id','itemCount','billing_no','billing_date','client__client_name','client__phone_no')
+    
     bills = Billing.objects.filter(status="not returned").select_related('billingproducts__set').annotate(itemCount=Count('billingproducts')).values('id','itemCount','billing_no','billing_date','client__client_name','client__phone_no')
     
-
     client_list = Client.objects.all()
     context = {
         "is_client":True,

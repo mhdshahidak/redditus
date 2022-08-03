@@ -1,9 +1,13 @@
+from email.policy import default
 from enum import unique
 from msilib.schema import Class
 from trace import Trace
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.forms import IntegerField
 from phonenumber_field.modelfields import PhoneNumberField
+
+
 # Create your models here.
 
 class UserManager(BaseUserManager):
@@ -70,18 +74,24 @@ class Stock(models.Model):
 # billing 
 
 class Billing(models.Model):
+    status_choices = (('not returned','not returned'),('returned','returned'),('other','other'))
     billing_no = models.CharField(max_length=50,unique=True)
     client = models.ForeignKey(Client,on_delete=models.CASCADE,null=True)
     billing_date = models.DateTimeField(null=True)
+    status = models.CharField(max_length=20,default="not returned",choices=status_choices)
+
     
 
 #billing product
 
 class BillingProducts(models.Model):
+    status_choices = (('not returned','not returned'),('returned','returned'),('other','other'))
     billing = models.ForeignKey(Billing,on_delete=models.CASCADE,null=True)
     item = models.ForeignKey(Stock,on_delete=models.CASCADE,null=True)
     qty = models.IntegerField(default=0)
     billing_date = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=20,default="not returned",choices=status_choices)
+
 
 
 class expencecatagory(models.Model):
@@ -93,3 +103,45 @@ class expence(models.Model):
     catagory = models.ForeignKey(expencecatagory,on_delete=models.CASCADE,null=True)
     note = models.CharField(max_length=500,null=True)
     amount = models.FloatField()
+
+
+class Bank(models.Model):
+    bank_name = models.CharField(max_length=100)
+    acc_holder_name = models.CharField(max_length=100)
+    ifsc_code = models.CharField(max_length=50)
+    acc_number = models.BigIntegerField()
+    branch = models.CharField(max_length=100)
+    district = models.CharField(max_length=100)
+    address = models.CharField(max_length=100)
+    amount = models.FloatField(default=0)
+
+
+class IncomeCategory(models.Model):
+    category = models.CharField(max_length=100)
+
+
+class Income(models.Model):
+    category = models.ForeignKey(IncomeCategory, on_delete=models.CASCADE,null=True)
+    date = models.DateTimeField(null=True)
+    amount = models.FloatField()
+    note = models.CharField(max_length=500,null=True)
+
+
+# Return Items 
+
+class returnitems(models.Model):
+    billing_no = models.ForeignKey(Billing, on_delete=models.CASCADE, null=True)
+    item = models.ForeignKey(BillingProducts, on_delete=models.CASCADE, null=True)
+    return_date = models.DateField(null=True)
+    returned_qty = models.IntegerField(default=0)
+    damage_qty  = models.IntegerField(default=0)
+    missing_qty = models.IntegerField(default=0)
+    total_amount = models.FloatField(null=True)
+
+
+class invoicepaymethode(models.Model):
+    bill = models.ForeignKey(Billing, on_delete=models.CASCADE, null=True)
+    pay_type = models.CharField(max_length=30,null=True)
+    amount = models.FloatField()
+    date = models.DateField(null=True)
+    

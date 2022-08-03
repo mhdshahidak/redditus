@@ -42,7 +42,7 @@
                                         <label>
                                             Name
                                         </label>
-                                        <input type="text" class="form-control" name="name">
+                                        <input type="text" class="form-control" name="name" required>
                                     </div>
                                     
                                     
@@ -53,20 +53,18 @@
                                         <label>
                                             Phone
                                         </label>
-                                        <input type="text" name="phone" class="form-control">
+                                        <input type="number" onkeypress="if(this.value.length==13  ) return false;" name="phone" class="form-control" required>
                                     </div>
                                    
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
-                                   
-                                    
+                                <div class="col-md-6"> 
                                     <div class="form-group">
                                         <label>
                                             Address
                                         </label>
-                                        <textarea rows="5" name="address" cols="5" class="form-control" placeholder="Enter Address"></textarea>
+                                        <textarea rows="5" name="address" cols="5" class="form-control" placeholder="Enter Address" required></textarea>
                                     </div>
                                 </div>
                                 
@@ -86,10 +84,46 @@
 </div>
 
 
-
 {% endblock %}
 
 
 
+{% block js %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 
+<script>
+    $(document).on('click', '#toggle_btn', function () {
+		if ($('body').hasClass('mini-sidebar')) {
+			$('body').removeClass('mini-sidebar');
+			$('.subdrop + ul').slideDown();
+		} else {
+			$('body').addClass('mini-sidebar');
+			$('.subdrop + ul').slideUp();
+		}
+		setTimeout(function () {
+			mA.redraw();
+			mL.redraw();
+		}, 300);
+		return false;
+	});
+	
+	$(document).on('mouseover', function (e) {
+		e.stopPropagation();
+		if ($('body').hasClass('mini-sidebar') && $('#toggle_btn').is(':visible')) {
+			var targ = $(e.target).closest('.sidebar').length;
+			if (targ) {
+				$('body').addClass('expand-menu');
+				$('.subdrop + ul').slideDown();
+			} else {
+				$('body').removeClass('expand-menu');
+				$('.subdrop + ul').slideUp();
+			}
+			return false;
+		}
+	});
+</script>
+
+
+{% endblock %}

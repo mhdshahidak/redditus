@@ -42,3 +42,34 @@ class expenceAdmin(admin.ModelAdmin):
     list_display = ('amount','date','catagory',)
     search_fields = ('amount',)
 admin.site.register(expence, expenceAdmin)
+
+
+
+class BankAdmin(admin.ModelAdmin):
+    list_display = ('bank_name','acc_holder_name','acc_number',)
+    search_fields = ('bank_name',)
+admin.site.register(Bank, BankAdmin)
+
+
+class incomecatagoryAdmin(admin.ModelAdmin):
+    list_display = ('category',)
+    search_fields = ('category',)
+admin.site.register(IncomeCategory, incomecatagoryAdmin)
+
+
+class incomeAdmin(admin.ModelAdmin):
+    list_display = ('category','date','amount','note',)
+    search_fields = ('category',)
+admin.site.register(Income, incomeAdmin)
+
+
+class returnitemsAdmin(admin.ModelAdmin):
+    list_display = ('billing_no','item','return_date','returned_qty',)
+    search_fields = ('billing_no',)
+admin.site.register(returnitems, returnitemsAdmin)
+
+
+class invoicepaymethodeAdmin(admin.ModelAdmin):
+    list_display = ('bill','pay_type',)
+    search_fields = ('bill',)
+admin.site.register(invoicepaymethode, invoicepaymethodeAdmin)

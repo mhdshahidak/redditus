@@ -57,9 +57,9 @@
                             <span>Admin</span>
                         </a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="profile.html"><i data-feather="user" class="me-1"></i> Profile</a>
-                            <a class="dropdown-item" href="settings.html"><i data-feather="settings" class="me-1"></i> Settings</a>
-                            <a class="dropdown-item" href="login.html"><i data-feather="log-out" class="me-1"></i> Logout</a>
+                            <!-- <a class="dropdown-item" href="profile.html"><i data-feather="user" class="me-1"></i> Profile</a> -->
+                            
+                            <a class="dropdown-item" href="{% url 'home:logout_view' %}"><i data-feather="log-out" class="me-1"></i> Logout</a>
                         </div>
                     </li>
                 </ul>
@@ -108,7 +108,7 @@
         </div>
             {% block js %}
             {% endblock  %}
-        <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+        {% comment %} <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script> {% endcomment %}
         <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
         <script src="{% static 'js/feather.min.js' %}"></script>
         <script src="{% static 'plugins/slimscroll/jquery.slimscroll.min.js' %}"></script>
